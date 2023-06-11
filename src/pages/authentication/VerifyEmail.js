@@ -35,10 +35,6 @@ const VerifyEmail = () => {
   useEffect(() => {
     dispatch(verifyEmailAccount({ userId, token }));
     setReady(true);
-
-    //   return () => {
-    //     second
-    //   }
   }, []);
 
   return (

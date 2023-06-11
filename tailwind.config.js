@@ -11,7 +11,9 @@ module.exports = {
         violet: "#7F5F7B",
         greenLame: "#1DD8A2",
         blueLame: "#4c99d3",
-        red: "#ff3333",
+        red: {
+          800: "#C62828",
+        },
       },
       fontFamily: {
         inter: ["Inter", "sans-serif"],

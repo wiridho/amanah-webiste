@@ -15,8 +15,8 @@ import Login from "./pages/authentication/Login";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
-  console.log(is_auth);
-  console.log(roles);
+  // console.log(is_auth);
+  // console.log(roles);
   let is_public = is_auth ? false : true;
   return (
     <BrowserRouter>
@@ -90,7 +90,7 @@ function App() {
             <ProtectRoute valid={is_public} children={<VerifyEmail />} />
           }
         />
-        {/* <Route
+        <Route
           path="/register/success"
           element={
             <ProtectRoute
@@ -98,7 +98,7 @@ function App() {
               children={<RegisterVerifySucess />}
             />
           }
-        /> */}
+        />
         <Route
           path="/login"
           element={<ProtectRoute valid={is_public} children={<Login />} />}

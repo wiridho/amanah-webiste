@@ -34,10 +34,12 @@ const InputField = ({ type, name, errors, register, message, label }) => {
         </div>
 
         {errors?.type === "required" && (
-          <span className="text-xs text-red block">{name} is required.</span>
+          <span className="text-xs text-red-500 block">
+            {name} is required.
+          </span>
         )}
         {errors?.type === "pattern" && (
-          <span className="text-xs text-red block">{message}</span>
+          <span className="text-xs text-red-500 block">{message}</span>
         )}
       </div>
     </div>

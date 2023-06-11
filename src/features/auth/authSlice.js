@@ -71,6 +71,7 @@ const authSlice = createSlice({
         state.success = true;
       })
       .addCase(handleLogin.rejected, (state, action) => {
+        console.log("payload", action.payload);
         state.success = false;
         state.load = false;
         state.error = true;
