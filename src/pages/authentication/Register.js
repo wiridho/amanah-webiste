@@ -1,7 +1,6 @@
 import { useState } from "react";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
-// import { handleRegister } from "../../features/auth/authSlice";
-// import { handleRegister } from "../../service/authService";
+
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -10,18 +9,20 @@ import BackgroundAuth from "../../assets/img/background/login.svg";
 import ErrorMessage from "../../components/error_message/ErrorMessage";
 import { Button, Label } from "../../components/atom";
 import InputField from "../../components/molekul/input_field/InputField";
+import { handleRegister } from "../../service/authentication/authService";
 const Register = () => {
   const [visible, setVisible] = useState(false);
 
   const { roles } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // const { message_error } = useSelector((state) => state.auth);
+  const { message_error } = useSelector((state) => state.auth);
+  console.log(message_error);
 
   const onSubmit = (data) => {
     data["roles"] = roles;
-    console.log("data", data);
-    // dispatch(handleRegister({ data, setVisible }));
+    dispatch(handleRegister({ data, setVisible, navigate }));
   };
 
   // calling useForm
@@ -30,7 +31,6 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log(errors);
   return (
     <>
       <div className="h-screen grid grid-cols-1 sm:grid-cols-2 font-inter">
@@ -55,6 +55,14 @@ const Register = () => {
             className="max-w-[400px] w-full mx-auto bg-gray-50 p-6 px-8 shadow rounded-2xl "
             onSubmit={handleSubmit(onSubmit)}
           >
+            <div>
+              {visible && (
+                <ErrorMessage
+                  message={message_error}
+                  onClose={() => setVisible(false)}
+                />
+              )}
+            </div>
             <div>
               <p className="font-sans text-2xl font-medium pb-3 text-slate-900 ">
                 Daftar sebagai {roles}

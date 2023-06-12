@@ -1,24 +1,45 @@
 import OtpInput from "react-otp-input";
-
 import OtpTimer from "otp-timer";
 import { Button } from "../../atom";
+import { useState } from "react";
+import ErrorMessage from "../../error_message/ErrorMessage";
 import { useSelector } from "react-redux";
-const Card = ({ setOtp, otp, handleSubmit, handleResend }) => {
+const Card = ({
+  setOtp,
+  otp,
+  handleSubmit,
+  handleResend,
+  data,
+  visible,
+  setVisible,
+}) => {
+  const { message_error } = useSelector((state) => state.auth);
+  console.log(message_error);
+
+  console.log(data);
   return (
     <>
       <div>
         <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-slate-200 font-inter p-2">
           <div className="relative bg-white px-3 pt-8 pb-8 sm:px-6 sm:pt-10 sm:pb-9 shadow mx-auto w-full max-w-md rounded-2xl">
             <div className="mx-auto flex w-full max-w-md flex-col space-y-10">
-              <div className="flex flex-col items-center text-center">
+              <div className="flex flex-col text-center">
                 <div className="font-medium text-3xl">
                   <p>Verifikasi Email</p>
                 </div>
-                <div className="flex flex-row text-sm font-normal text-gray-400">
+                <div className="flex flex-row text-sm font-normal text-gray-600">
                   <p>
-                    Kami telah mengirimkan kode konfirmasi ke email
-                    ba**@dipainhouse.com
+                    Kami telah mengirimkan kode konfirmasi ke email{" "}
+                    <strong className="text-black">{data.email}</strong>
                   </p>
+                </div>
+                <div>
+                  {visible && (
+                    <ErrorMessage
+                      message={message_error}
+                      onClose={() => setVisible(false)}
+                    />
+                  )}
                 </div>
               </div>
               <div>
@@ -36,7 +57,7 @@ const Card = ({ setOtp, otp, handleSubmit, handleResend }) => {
                           "w-full h-full flex justify-center gap-x-3"
                         }
                         inputStyle={{
-                          background: "#19A7CE",
+                          background: "#6366f1",
                           border: "none",
                           fontWeight: "500",
                           borderRadius: "8px",
@@ -57,15 +78,15 @@ const Card = ({ setOtp, otp, handleSubmit, handleResend }) => {
                     <div className="px-2 max-w-sm mx-auto w-full">
                       <Button
                         type="submit"
-                        className="bg-primary mx-auto w-full "
+                        className="bg-indigo-500 mx-auto w-full text-white"
                       >
-                        Submit
+                        Verifikasi OTP
                       </Button>
                     </div>
                   </div>
                 </form>
                 <div>
-                  <div className="pt-2 px-4">
+                  {/* <div className="pt-2 px-4">
                     <OtpTimer
                       background={"#fff"}
                       textColor={"#808080"}
@@ -76,7 +97,7 @@ const Card = ({ setOtp, otp, handleSubmit, handleResend }) => {
                       ButtonText="Kirim ulang OTP!"
                       resend={handleResend}
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

@@ -1,17 +1,18 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Card, SideBar } from "./components/organism";
+import { useSelector } from "react-redux";
 import DashboardLender from "./components/template/DashboardLender";
 import Beranda from "./pages/lender/Beranda";
 import RegisterInit from "./pages/authentication/RegisterInit";
 import ProtectRoute from "./components/protect_route/ProtectRoute";
-import { useSelector } from "react-redux";
 import Lending from "./pages/public/Lending";
 import VerifyEmail from "./pages/authentication/VerifyEmail";
 import Register from "./pages/authentication/Register";
 import RegisterVerifySucess from "./pages/authentication/RegisterVerifySuccess";
 import VerifyLogin from "./pages/authentication/VerifyLogin";
 import Login from "./pages/authentication/Login";
+import DashboardBorrower from "./components/template/DashboardBorrower";
+import Pendanaan from "./pages/lender/Pendanaan";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
@@ -42,10 +43,10 @@ function App() {
                 />
               }
             >
-              <Route path="" element={<Beranda />} />
-              {/* <Route path="beranda" element={<Beranda />} /> */}
-              {/* <Route path="portofolio" element={<Portofolio />} />
+              {/* <Route path="" element={<Beranda />} /> */}
+              <Route path="beranda" element={<Beranda />} />
               <Route path="pendanaan" element={<Pendanaan />} />
+              {/* <Route path="portofolio" element={<Portofolio />} />
               <Route path="bantuan" element={<Bantuan />} /> */}
             </Route>
           </>
@@ -54,6 +55,14 @@ function App() {
           // Dashboard Borrower
           <>
             <Route
+              path="*"
+              element={<Navigate to={"/borrower"} replace={true} />}
+            />
+            <Route
+              path="/"
+              element={<Navigate to={"/borrower"} replace={true} />}
+            />
+            {/* <Route
               path="borrower"
               element={
                 <ProtectRoute
@@ -62,7 +71,23 @@ function App() {
                   children={"Borrower Dashboard"}
                 />
               }
-            />
+            /> */}
+            <Route
+              path="borrower"
+              element={
+                <ProtectRoute
+                  valid={is_auth}
+                  to={"/login"}
+                  children={<DashboardBorrower />}
+                />
+              }
+            >
+              {/* <Route path="" element={<Beranda />} /> */}
+              {/* <Route path="beranda" element={<Beranda />} /> */}
+              {/* <Route path="portofolio" element={<Portofolio />} />
+              <Route path="pendanaan" element={<Pendanaan />} />
+              <Route path="bantuan" element={<Bantuan />} /> */}
+            </Route>
           </>
         )}
 
@@ -90,7 +115,7 @@ function App() {
             <ProtectRoute valid={is_public} children={<VerifyEmail />} />
           }
         />
-        {/* <Route
+        <Route
           path="/register/success"
           element={
             <ProtectRoute
@@ -98,7 +123,7 @@ function App() {
               children={<RegisterVerifySucess />}
             />
           }
-        /> */}
+        />
         <Route
           path="/login"
           element={<ProtectRoute valid={is_public} children={<Login />} />}

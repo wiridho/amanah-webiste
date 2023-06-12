@@ -1,17 +1,23 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import InputField from "../../components/molekul/input_field/InputField";
-// import InputField from "../../components/input_field/InputField";
 import { Button } from "../../components/atom";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
-// import { handleLogin } from "../../features/auth/authSlice";
-// import { handleLogin } from "../../service/authService";
+import { handleLogin } from "../../service/authentication/authService";
+import ErrorMessage from "../../components/error_message/ErrorMessage";
+import InputLabel from "../../components/molekul/input-label/InputLabel";
+
 const Login = () => {
+  const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { message_error, load } = useSelector((state) => state.auth);
+  console.log("load", load);
+  console.log("message_error", message_error);
 
   // Calling useForm
   const {
@@ -22,17 +28,19 @@ const Login = () => {
 
   // Handle Submit
   const onSubmit = (data) => {
-    console.log("data", data);
-    // dispatch(handleLogin({ data, navigate }));
+    console.log(data);
+    dispatch(handleLogin({ data, navigate, setVisible }));
   };
+
   return (
     <>
-      <div className="h-screen grid grid-cols-1 sm:grid-cols-2 font-inter">
+      <div className="h-screen grid grid-cols-1 sm:grid-cols-2">
         {/* Left Wrapper */}
         <div className="hidden bg-primary md:flex sm:block items-center relative">
           <div className="absolute bg-indigo-600 opacity-100 h-screen w-full z-20 "></div>
           <span className="px-16 leading-[70px] text-white text-5xl z-50">
-            Investasi <span className="font-bold ">Pinjaman P2P Syariah</span>{" "}
+            Investasi{" "}
+            <span className="font-bold font-inter">Pinjaman P2P Syariah</span>{" "}
             Berkah Menggapai Kesuksesan Bersama
           </span>
           <img
@@ -42,25 +50,34 @@ const Login = () => {
           />
         </div>
         {/* Right Wrapper */}
-        <div className="flex flex-col  justify-between p-2 bg-slate-100">
+        <div className="flex flex-col bg-slate-100  justify-between p-2 ">
           {/* Logo  */}
           <div className="max-w-[400px] w-full mx-auto pt-6 flex justify-center items-center">
             <img
-              className="w-20 h-20 bg-[#0284ac] p-2 rounded-full flex justify-center items-end"
+              className="w-20 h-20 bg-indigo-500 p-2 rounded-full flex justify-center items-end"
               src={LogoAmana}
               alt="Rounded avatar"
             />
           </div>
 
           {/* Form */}
-          <div className="max-w-[400px] w-full mx-auto bg-gray-50 p-6 px-8 shadow rounded-2xl">
+          <div className="max-w-[400px] w-full mx-auto bg-zinc-50 p-6 px-8 shadow-lg rounded-2xl">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div>
-                <h1 className="text-xl">Masuk</h1>
+                <h1 className="text-xl font-sans font-semibold pb-4">
+                  Welcome back !
+                </h1>
+              </div>
+              <div className="mb-3">
+                {visible && (
+                  <ErrorMessage
+                    message={message_error}
+                    onClose={() => setVisible(false)}
+                  />
+                )}
               </div>
               <div>
-                <InputField
-                  label={"Email"}
+                <InputLabel
                   type={"text"}
                   name={"email"}
                   register={{
@@ -69,9 +86,23 @@ const Login = () => {
                     }),
                   }}
                   errors={errors.email}
-                />
+                >
+                  Email
+                </InputLabel>
+                <InputLabel
+                  type={"password"}
+                  name={"password"}
+                  register={{
+                    ...register("password", {
+                      required: true,
+                    }),
+                  }}
+                  errors={errors.password}
+                >
+                  Password
+                </InputLabel>
 
-                <div>
+                {/* <div>
                   <InputField
                     label={"Password"}
                     type={"password"}
@@ -83,13 +114,15 @@ const Login = () => {
                     }}
                     errors={errors.password}
                   />
-                </div>
+                </div> */}
               </div>
               <Button
                 type="submit"
-                className="w-full mt-2 bg-[#3a45cb] text-white hover:bg-blue-800"
+                className="w-full mt-2 bg-indigo-700 text-white hover:bg-indigo-600"
               >
-                Submit
+                {" "}
+                {!load && "Login"}
+                {load && "Loading ..."}
               </Button>
               <div className="flex justify-between text-primary">
                 <div className="flex items-center">
@@ -97,13 +130,13 @@ const Login = () => {
                     Belum punya akun?
                   </p>
                   <Link
-                    className="text-xs  hover:text-blue-800"
+                    className="text-xs text-indigo-500 font-semibold  hover:text-blue-800"
                     to="/register-init"
                   >
                     Daftar Disini!
                   </Link>
                 </div>
-                <p className="p-2 text-xs text-right text-grey hover:text-gray-700">
+                <p className="p-2 text-xs text-right text-grey text-indigo-500 hover:text-blue-800">
                   <Link to="/reset-password">Forgot Password?</Link>
                 </p>
               </div>

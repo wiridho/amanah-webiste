@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import apiConfig from "../api/apiConfig";
+import apiConfig from "../../api/apiConfig";
 
 // Handle Register
 export const handleRegister = createAsyncThunk(
@@ -11,11 +11,12 @@ export const handleRegister = createAsyncThunk(
         `${apiConfig.baseUrl}/authentication/register`,
         params.data
       );
+      params.navigate("/register/success");
       return response.data.data;
     } catch (error) {
+      params.setVisible(true);
       console.log("error", error);
       const message_error = error.response?.data?.message;
-      params.setVisible(true);
       return rejectWithValue(message_error);
     }
   }
@@ -53,25 +54,21 @@ export const resendRegisterVerify = createAsyncThunk(
   }
 );
 
-// Handle Login
 export const handleLogin = createAsyncThunk(
   "auth/login",
   async (params, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${apiConfig.baseUrl}/authentication/login?action=email-otp`,
-        params
+        params.data
       );
-      console.log("response login", response.data.data);
+      console.log("response login", response);
       params.navigate("/verifylogin");
-      return response.data.data;
+      return response?.data?.data;
     } catch (error) {
-      console.log("error", error);
-      if (error.response.status === 404) {
-        params.navigate("/register");
-      }
+      params.setVisible(true);
       const message_error = error.response?.data?.message;
-      rejectWithValue(message_error);
+      return rejectWithValue(message_error);
     }
   }
 );
@@ -80,17 +77,19 @@ export const handleLogin = createAsyncThunk(
 export const verifyLoginOtp = createAsyncThunk(
   "auth/verifyLoginOtp",
   async (params, { rejectWithValue }) => {
+    console.log("params ", params);
     try {
       const response = await axios.post(
         `${apiConfig.baseUrl}/authentication/login?action=login`,
-        params.form
+        params.body
       );
-      console.log("response login otp", response.data.data);
+      console.log("response verify login otp", response.data.data);
       params.navigate("/");
       return response?.data.data;
     } catch (err) {
+      params.setVisible(true);
       const message_error = err.response?.data?.message;
-      rejectWithValue(message_error);
+      return rejectWithValue(message_error);
     }
   }
 );

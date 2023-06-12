@@ -9,7 +9,6 @@ const Beranda = () => {
       <div className="grid grid-cols-2 gap-8 max-w-7xl mx-auto">
         <Card />
       </div>
-      <br />
       <CardList />
     </>
   );
