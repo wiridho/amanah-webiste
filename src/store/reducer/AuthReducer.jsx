@@ -3,7 +3,7 @@ import {
   handleLogin,
   handleRegister,
   verifyLoginOtp,
-} from "../../service/authService";
+} from "../../service/authentication/authService";
 import jwtDecode from "jwt-decode";
 
 const initialState = {

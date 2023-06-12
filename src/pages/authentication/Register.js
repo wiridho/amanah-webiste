@@ -9,7 +9,7 @@ import BackgroundAuth from "../../assets/img/background/login.svg";
 import ErrorMessage from "../../components/error_message/ErrorMessage";
 import { Button, Label } from "../../components/atom";
 import InputField from "../../components/molekul/input_field/InputField";
-import { handleRegister } from "../../service/authService";
+import { handleRegister } from "../../service/authentication/authService";
 const Register = () => {
   const [visible, setVisible] = useState(false);
 

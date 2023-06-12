@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router";
-import { verifyEmailAccount } from "../../service/authService";
+import { verifyEmailAccount } from "../../service/authentication/authService";
 import { generateDynamicLink } from "../../utils/Firebase";
 
 const VerifyEmail = () => {

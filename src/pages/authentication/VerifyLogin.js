@@ -1,41 +1,46 @@
 import React, { useEffect, useState } from "react";
-import Card from "../../components/molekul/card-otp/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Card from "../../components/molekul/card-otp/Card";
 
 // function slice
-import { resendLoginOtp, verifyLoginOtp } from "../../service/authService";
+import {
+  resendLoginOtp,
+  verifyLoginOtp,
+} from "../../service/authentication/authService";
+import ErrorMessage from "../../components/error_message/ErrorMessage";
 
 const VerifyLogin = () => {
   const [otp, setOtp] = useState("");
+  const [visible, setVisible] = useState(false);
+
   //dispatch
   const dispatch = useDispatch();
   //navigate
   const navigate = useNavigate();
 
-  const data = useSelector((state) => state.auth.data);
-  const { messageError, isSuccess } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    if (isSuccess) {
-      navigate("/homepage");
-    }
-  }, [navigate, isSuccess]);
+  const { data, message_error } = useSelector((state) => state.auth);
+  console.log(data);
+  let body = { email: data.email, otp: otp };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(verifyLoginOtp({ email: data.email, otp: otp }));
+    console.log(body);
+    dispatch(verifyLoginOtp({ body, navigate, setVisible }));
   };
 
   const handleResend = () => {
     console.log("button resend click");
-    dispatch(resendLoginOtp({ email: data.email }));
+    dispatch(resendLoginOtp(body));
   };
 
   return (
     <div className="">
       <div>
         <Card
+          visible={visible}
+          setVisible={setVisible}
+          data={data}
           setOtp={setOtp}
           otp={otp}
           handleSubmit={onSubmit}

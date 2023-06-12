@@ -6,15 +6,17 @@ import InputField from "../../components/molekul/input_field/InputField";
 import { Button } from "../../components/atom";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
-import { handleLogin } from "../../service/authService";
+import { handleLogin } from "../../service/authentication/authService";
 import ErrorMessage from "../../components/error_message/ErrorMessage";
+import InputLabel from "../../components/molekul/input-label/InputLabel";
 
 const Login = () => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { message_error } = useSelector((state) => state.auth);
+  const { message_error, load } = useSelector((state) => state.auth);
+  console.log("load", load);
   console.log("message_error", message_error);
 
   // Calling useForm
@@ -26,6 +28,7 @@ const Login = () => {
 
   // Handle Submit
   const onSubmit = (data) => {
+    console.log(data);
     dispatch(handleLogin({ data, navigate, setVisible }));
   };
 
@@ -74,8 +77,7 @@ const Login = () => {
                 )}
               </div>
               <div>
-                <InputField
-                  label={"Email"}
+                <InputLabel
                   type={"text"}
                   name={"email"}
                   register={{
@@ -84,9 +86,23 @@ const Login = () => {
                     }),
                   }}
                   errors={errors.email}
-                />
+                >
+                  Email
+                </InputLabel>
+                <InputLabel
+                  type={"password"}
+                  name={"password"}
+                  register={{
+                    ...register("password", {
+                      required: true,
+                    }),
+                  }}
+                  errors={errors.password}
+                >
+                  Password
+                </InputLabel>
 
-                <div>
+                {/* <div>
                   <InputField
                     label={"Password"}
                     type={"password"}
@@ -98,13 +114,15 @@ const Login = () => {
                     }}
                     errors={errors.password}
                   />
-                </div>
+                </div> */}
               </div>
               <Button
                 type="submit"
                 className="w-full mt-2 bg-indigo-700 text-white hover:bg-indigo-600"
               >
-                Submit
+                {" "}
+                {!load && "Login"}
+                {load && "Loading ..."}
               </Button>
               <div className="flex justify-between text-primary">
                 <div className="flex items-center">

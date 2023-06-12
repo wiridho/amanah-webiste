@@ -1,13 +1,11 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import apiConfig from "../../api/apiConfig";
+import { createSlice } from "@reduxjs/toolkit";
 import jwtDecode from "jwt-decode";
 import {
   handleLogin,
   handleRegister,
   resendRegisterVerify,
   verifyLoginOtp,
-} from "../../service/authService";
+} from "../../service/authentication/authService";
 
 const initialState = {
   success: null,
@@ -19,6 +17,7 @@ const initialState = {
   message_error: null,
   // buat private route
   is_auth: false,
+  roles: "",
 };
 
 const authSlice = createSlice({
