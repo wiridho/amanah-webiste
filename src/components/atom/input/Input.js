@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 
-const Input = ({ className, type, register, name, errors, message }) => {
+const Input = ({
+  className,
+  type,
+  register,
+  name,
+  errors,
+  message,
+  placeholder,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -12,11 +20,11 @@ const Input = ({ className, type, register, name, errors, message }) => {
       <div className="mb-2">
         <div className="relative">
           <input
-            placeholder={`Masukkan ${name} anda`}
+            placeholder={placeholder ? placeholder : `Masukkan ${name} anda`}
             name={name}
             {...register}
             type={showPassword ? "text" : type}
-            className={`w-full border border-gray-300 px-4 py-2 rounded-lg bg-gray-50 focus:ring-1 outline-none focus:ring-blue-500 focus:border-blue-500 ${className}`}
+            className={`${className} w-full border border-gray-300 px-4 py-2 rounded-lg bg-gray-50 focus:ring-1 outline-none focus:ring-indigo-500 focus:border-indigo-500 `}
           />
           <div className="absolute inset-y-0 right-0 flex  pr-4 ">
             {type === "password" && (

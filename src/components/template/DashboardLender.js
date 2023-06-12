@@ -6,7 +6,7 @@ const DashboardLender = () => {
   return (
     <div className="flex">
       <SideBar />
-      <div className="grow p-10">
+      <div className="grow p-10 bg-slate-50">
         <Outlet />
       </div>
     </div>
