@@ -70,9 +70,9 @@ const Pendanaan = () => {
                       <div>
                         <InputLabel
                           placeholder={"Rp100.000"}
-                          children={"Nilai Minimum"}
+                          children={"Biaya Minimum"}
                           type={"number"}
-                          name={"yield_min"}
+                          // name={"Rp100000"}
                           register={{
                             ...register("yield_min"),
                           }}
@@ -80,9 +80,9 @@ const Pendanaan = () => {
                         />
                         <InputLabel
                           placeholder={"Rp100.000.000"}
-                          children={"Nilai Maksimum"}
+                          children={"Biaya Maksimum"}
                           type={"number"}
-                          name={"yield_max"}
+                          name={"Biaya Maksimum"}
                           register={{
                             ...register("yield_max"),
                           }}
