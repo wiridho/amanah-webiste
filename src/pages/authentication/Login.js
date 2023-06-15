@@ -2,13 +2,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import InputField from "../../components/molekul/input_field/InputField";
+import { InputLabel } from "../../components/molekul";
 import { Button } from "../../components/atom";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
 import { handleLogin } from "../../service/authentication/authService";
 import ErrorMessage from "../../components/error_message/ErrorMessage";
-import InputLabel from "../../components/molekul/input-label/InputLabel";
+import { InputPassword } from "../../components/molekul";
 
 const Login = () => {
   const [visible, setVisible] = useState(false);
@@ -79,7 +79,7 @@ const Login = () => {
               <div>
                 <InputLabel
                   type={"text"}
-                  name={"email"}
+                  name={"Email"}
                   register={{
                     ...register("email", {
                       required: true,
@@ -89,40 +89,21 @@ const Login = () => {
                 >
                   Email
                 </InputLabel>
-                <InputLabel
-                  type={"password"}
-                  name={"password"}
+                <InputPassword
+                  label={"Password"}
                   register={{
                     ...register("password", {
                       required: true,
                     }),
                   }}
                   errors={errors.password}
-                >
-                  Password
-                </InputLabel>
-
-                {/* <div>
-                  <InputField
-                    label={"Password"}
-                    type={"password"}
-                    name={"password"}
-                    register={{
-                      ...register("password", {
-                        required: true,
-                      }),
-                    }}
-                    errors={errors.password}
-                  />
-                </div> */}
+                />
               </div>
               <Button
                 type="submit"
-                className="w-full mt-2 bg-indigo-700 text-white hover:bg-indigo-600"
+                className="w-full mt-3 bg-indigo-700 text-white hover:bg-indigo-600"
               >
-                {" "}
-                {!load && "Login"}
-                {load && "Loading ..."}
+                {load ? "Loading" : "Login"}
               </Button>
               <div className="flex justify-between text-primary">
                 <div className="flex items-center">

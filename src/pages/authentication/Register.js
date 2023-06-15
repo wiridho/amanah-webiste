@@ -7,8 +7,8 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import BackgroundAuth from "../../assets/img/background/login.svg";
 import ErrorMessage from "../../components/error_message/ErrorMessage";
-import { Button, Label } from "../../components/atom";
-import InputField from "../../components/molekul/input_field/InputField";
+import { Button } from "../../components/atom";
+import { InputLabel, InputPassword } from "../../components/molekul";
 import { handleRegister } from "../../service/authentication/authService";
 const Register = () => {
   const [visible, setVisible] = useState(false);
@@ -18,9 +18,9 @@ const Register = () => {
   const navigate = useNavigate();
 
   const { message_error } = useSelector((state) => state.auth);
-  console.log(message_error);
 
   const onSubmit = (data) => {
+    console.log(data);
     data["roles"] = roles;
     dispatch(handleRegister({ data, setVisible, navigate }));
   };
@@ -30,7 +30,14 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
+
+  const password = watch("password", "");
+  const confirmPassword = watch("confirmPassword", "");
+
+  const passwordsMatch = password === confirmPassword;
+
   return (
     <>
       <div className="h-screen grid grid-cols-1 sm:grid-cols-2 font-inter">
@@ -70,8 +77,7 @@ const Register = () => {
             </div>
             <div className="mb-3">
               <div>
-                <InputField
-                  label={"Email"}
+                <InputLabel
                   type={"text"}
                   name={"email"}
                   register={{
@@ -79,41 +85,43 @@ const Register = () => {
                       required: true,
                     }),
                   }}
-                  errors={errors.name}
-                />
+                  errors={errors.email}
+                >
+                  Email
+                </InputLabel>
               </div>
+
               <div>
-                <InputField
-                  label={"Nama Lengkap"}
+                <InputLabel
                   type={"text"}
-                  name={"name"}
+                  name={"email"}
                   register={{
                     ...register("name", {
                       required: true,
                     }),
                   }}
-                  errors={errors.name}
-                />
+                  errors={errors.email}
+                >
+                  Nama Lengkap
+                </InputLabel>
               </div>
               <div>
-                <InputField
-                  label={"Nomor Handpone"}
+                <InputLabel
                   type={"number"}
                   name={"phoneNumber"}
-                  placeholder={"Masukkan nomor telepon anda"}
                   register={{
                     ...register("phoneNumber", {
                       required: true,
                     }),
                   }}
                   errors={errors.phoneNumber}
-                />
+                >
+                  Nomor Handphone
+                </InputLabel>
               </div>
               <div>
-                <InputField
+                <InputPassword
                   label={"Password"}
-                  type={"password"}
-                  name={"password"}
                   register={{
                     ...register("password", {
                       required: true,
@@ -122,6 +130,17 @@ const Register = () => {
                   errors={errors.password}
                 />
               </div>
+              {/* <div>
+                <label>Confirm Password</label>
+                <input
+                  type="password"
+                  {...register("confirmPassword", {
+                    required: "Confirm Password is required",
+                    validate: (value) =>
+                      value === password || "Passwords must match",
+                  })}
+                />
+              </div> */}
             </div>
 
             <div className="pt-2">

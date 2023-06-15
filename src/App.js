@@ -13,11 +13,15 @@ import VerifyLogin from "./pages/authentication/VerifyLogin";
 import Login from "./pages/authentication/Login";
 import DashboardBorrower from "./components/template/DashboardBorrower";
 import Pendanaan from "./pages/lender/Pendanaan";
-
+import WebcamCapture from "./pages/verifikasi-kyc/VerifikasiKYC2";
+import Profile from "./pages/lender/Profile";
+import Kyc from "./pages/verifikasi-kyc/kyc";
+import DetailPendanaan from "./pages/lender/DetailPendanaan";
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
   console.log(is_auth);
   console.log(roles);
+
   let is_public = is_auth ? false : true;
   return (
     <BrowserRouter>
@@ -27,12 +31,13 @@ function App() {
           <>
             <Route
               path="*"
-              element={<Navigate to={"/funder"} replace={true} />}
+              element={<Navigate to={"/funder/beranda"} replace={true} />}
             />
             <Route
               path="/"
               element={<Navigate to={"/funder"} replace={true} />}
             />
+
             <Route
               path="funder"
               element={
@@ -46,8 +51,9 @@ function App() {
               {/* <Route path="" element={<Beranda />} /> */}
               <Route path="beranda" element={<Beranda />} />
               <Route path="pendanaan" element={<Pendanaan />} />
-              {/* <Route path="portofolio" element={<Portofolio />} />
-              <Route path="bantuan" element={<Bantuan />} /> */}
+              <Route path="pendanaan/:loanId" element={<DetailPendanaan />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="kyc" element={<Kyc />} />
             </Route>
           </>
         )}
@@ -93,6 +99,7 @@ function App() {
 
         {/* Public Route */}
         <Route path="*" element={<Navigate to={"/login"} replace={true} />} />
+
         <Route
           path="/"
           element={<ProtectRoute valid={is_public} children={<Lending />} />}

@@ -1,21 +1,20 @@
 import React from "react";
-import { MdClose, MdOutlineDangerous } from "react-icons/md";
+import { IoIosWarning } from "react-icons/io";
+import { MdClose } from "react-icons/md";
 
 const ErrorMessage = ({ message, onClose }) => {
   return (
-    <div className="flex p-3 text-md text-red-800 border border-red-300 rounded-lg bg-red-50">
-      <div className="flex items-center">
-        <div className="">
-          <span className="font-bold">
-            Error:
+    <>
+      <div className="p-3 text-md text-red-800 border border-red-300 rounded-lg bg-red-50">
+        <div className="flex items-center justify-around">
+          <IoIosWarning className="h-5 w-5 mr-2" />
+          <div className="flex-1  text-left">
             <span className="font-normal text-sm"> {message}</span>
-          </span>
-        </div>
-        <div>
-          <button onClick={onClose}>{<MdClose className="ml-[4px]" />}</button>
+          </div>
+          <button onClick={onClose}>{<MdClose className="" />}</button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../../../assets/img/logo/LogoAmana2.svg";
+import { CustomLink } from "../../molekul";
 // Import Icon
 import {
   HiChartPie,
@@ -9,23 +10,26 @@ import {
 import { BiLogOut, BiHome, BiUser, BiMoneyWithdraw } from "react-icons/bi";
 import { TbBellRinging } from "react-icons/tb";
 import { IoSettingsOutline } from "react-icons/io5";
-
-import { CustomLink } from "../../molekul";
+import { Link } from "react-router-dom";
 // End Icon
 
 const Sidebar = () => {
+  const [active, setActive] = useState("");
+
   return (
     <div>
       <div className="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-gray-50 text-gray-800">
         <div className="flex flex-col w-64 bg-white h-full border-r">
           <div className="flex items-center h-16 border-b p-2 pl-4">
-            <div className="flex items-center">
-              <img
-                src={Logo}
-                alt="Logo amanah"
-                className="bg-[#002E5D] p-2  w-11 h-11 rounded-xl"
-              />
-              <span className="text-2xl pl-2">Amanah</span>
+            <div className="">
+              <Link to={"/beranda"} className="flex items-center">
+                <img
+                  src={Logo}
+                  alt="Logo amanah"
+                  className="bg-[#002E5D] p-2  w-11 h-11 rounded-xl"
+                />
+                <span className="text-2xl pl-2">Amanah</span>
+              </Link>
             </div>
           </div>
           <div className="overflow-y-auto overflow-x-hidden flex-grow">
@@ -44,7 +48,7 @@ const Sidebar = () => {
               </li>
               <li>
                 <CustomLink
-                  to="beranda"
+                  to="portofolio"
                   icon={<HiChartPie className="text-xl" />}
                 >
                   Portofolio
@@ -60,7 +64,7 @@ const Sidebar = () => {
               </li>
               <li>
                 <CustomLink
-                  to="beranda"
+                  to="notifikasi"
                   icon={<TbBellRinging className="text-xl" />}
                 >
                   Notifikasi
@@ -75,7 +79,7 @@ const Sidebar = () => {
               </li>
               <li>
                 <CustomLink
-                  to="beranda"
+                  to="deposit"
                   icon={<HiOutlinePlus className="text-xl" />}
                 >
                   Deposit
@@ -83,7 +87,7 @@ const Sidebar = () => {
               </li>
               <li>
                 <CustomLink
-                  to="beranda"
+                  to="withdraw"
                   icon={<BiMoneyWithdraw className="text-xl" />}
                 >
                   Withdraw
@@ -98,23 +102,20 @@ const Sidebar = () => {
                 </div>
               </li>
               <li>
-                <CustomLink to="beranda" icon={<BiUser className="text-xl" />}>
+                <CustomLink to="profile" icon={<BiUser className="text-xl" />}>
                   Profile
                 </CustomLink>
               </li>
               <li>
                 <CustomLink
-                  to="beranda"
+                  to="setting"
                   icon={<IoSettingsOutline className="text-xl" />}
                 >
                   Settings
                 </CustomLink>
               </li>
               <li>
-                <CustomLink
-                  to="beranda"
-                  icon={<BiLogOut className="text-xl" />}
-                >
+                <CustomLink to="logout" icon={<BiLogOut className="text-xl" />}>
                   Logout
                 </CustomLink>
               </li>
