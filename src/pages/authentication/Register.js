@@ -42,7 +42,7 @@ const Register = () => {
     <>
       <div className="h-screen grid grid-cols-1 sm:grid-cols-2 font-inter">
         {/* Background */}
-        <div className="bg-primary justify-center items-center hidden  md:flex">
+        <div className="bg-indigo-600 justify-center items-center hidden  md:flex">
           <div className="flex sm:w-2/3  items-center  justify-center">
             <img src={BackgroundAuth} className="" alt="" />
           </div>
@@ -53,7 +53,7 @@ const Register = () => {
         <div className=" flex flex-col  justify-around bg-slate-100 ">
           <div className="max-w-[400px] w-full mx-auto sm:pb-4 pt-3 flex justify-center items-center">
             <img
-              className="w-20 h-20 bg-primary p-2 rounded-full"
+              className="w-20 h-20 bg-indigo-700 p-2 rounded-full"
               src={LogoAmana}
               alt="Rounded avatar"
             />
@@ -79,7 +79,7 @@ const Register = () => {
               <div>
                 <InputLabel
                   type={"text"}
-                  name={"email"}
+                  name={"Email"}
                   register={{
                     ...register("email", {
                       required: true,
@@ -94,9 +94,9 @@ const Register = () => {
               <div>
                 <InputLabel
                   type={"text"}
-                  name={"email"}
+                  name={"Full name"}
                   register={{
-                    ...register("name", {
+                    ...register("fullName", {
                       required: true,
                     }),
                   }}
@@ -108,7 +108,7 @@ const Register = () => {
               <div>
                 <InputLabel
                   type={"number"}
-                  name={"phoneNumber"}
+                  name={"Phone number"}
                   register={{
                     ...register("phoneNumber", {
                       required: true,
@@ -121,32 +121,27 @@ const Register = () => {
               </div>
               <div>
                 <InputPassword
+                  name={"Password"}
+                  type={"password"}
                   label={"Password"}
                   register={{
                     ...register("password", {
                       required: true,
+                      pattern:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                     }),
                   }}
                   errors={errors.password}
-                />
+                >
+                  Password
+                </InputPassword>
               </div>
-              {/* <div>
-                <label>Confirm Password</label>
-                <input
-                  type="password"
-                  {...register("confirmPassword", {
-                    required: "Confirm Password is required",
-                    validate: (value) =>
-                      value === password || "Passwords must match",
-                  })}
-                />
-              </div> */}
             </div>
 
             <div className="pt-2">
               <Button
                 type="submit"
-                className="w-full bg-primary hover:bg-[#146C94] text-white text-sm  py-2 px-4 rounded-lg"
+                className="w-full bg-indigo-700 hover:bg-indigo-600 text-white text-sm  py-2 px-4 rounded-lg"
               >
                 Daftar
               </Button>

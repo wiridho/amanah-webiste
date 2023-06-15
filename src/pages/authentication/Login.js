@@ -54,7 +54,7 @@ const Login = () => {
           {/* Logo  */}
           <div className="max-w-[400px] w-full mx-auto pt-6 flex justify-center items-center">
             <img
-              className="w-20 h-20 bg-indigo-500 p-2 rounded-full flex justify-center items-end"
+              className="w-20 h-20 bg-indigo-700 p-2 rounded-full flex justify-center items-end"
               src={LogoAmana}
               alt="Rounded avatar"
             />
@@ -90,6 +90,8 @@ const Login = () => {
                   Email
                 </InputLabel>
                 <InputPassword
+                  name={"Password"}
+                  type={"password"}
                   label={"Password"}
                   register={{
                     ...register("password", {
@@ -97,7 +99,9 @@ const Login = () => {
                     }),
                   }}
                   errors={errors.password}
-                />
+                >
+                  Password
+                </InputPassword>
               </div>
               <Button
                 type="submit"
