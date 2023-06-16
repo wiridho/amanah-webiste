@@ -1,13 +1,31 @@
 import React from "react";
 import Withdraw from "../../../assets/img/dashboardLender/withdraw.svg";
-import { BiMoneyWithdraw } from "react-icons/bi";
 import { HiOutlinePlus } from "react-icons/hi";
 import { IoWallet } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import ErrorMessage from "../../error_message/ErrorMessage";
+import { useSelector } from "react-redux";
 
 const Card = () => {
+  // const { statusKYC } = useSelector((state) => state.auth);
+  const statusKYC = "not verified";
+  // const toDeposit = () => {
+
+  // }
+
+  const checkStatus = () => {
+    let status = <> </>;
+    if (statusKYC === "not verified") {
+      status = <ErrorMessage message={"Akun Not Verified"} />;
+    } else if (statusKYC === "pending") {
+      status = <ErrorMessage message={"Akun kamu sedang diperiksa Pending"} />;
+    }
+    return status;
+  };
+
   return (
     <>
+      {checkStatus()}
       <div className="max-w-md w-full p-3 bg-slate-300 rounded-xl shadow-lg">
         <div className="grid grid-cols-4 gap-8 max-w-3xl mx-auto">
           <div className="col-span-2 bg-white  rounded-lg p-4 transform transition duration-500 hover:scale-105">
@@ -28,9 +46,20 @@ const Card = () => {
             </div>
           </div>
 
-          <Link className="flex justify-center items-center  rounded-xl shadow-md transform transition duration-500 hover:scale-105 bg-white ">
+          <Link
+            to={statusKYC === "verified" ? "deposit" : "#"}
+            className={`flex justify-center items-center  rounded-xl shadow-md transform transition duration-500 hover:scale-105 bg-white ${
+              statusKYC === "verified" ? "cursor-pointer" : "cursor-not-allowed"
+            }`}
+          >
             <div className="flex flex-col justify-center items-center ">
-              <HiOutlinePlus className=" text-white bg-darkBlue text-2xl p-1 rounded-full" />
+              <HiOutlinePlus
+                className={` text-white  ${
+                  statusKYC === "verified"
+                    ? "bg-darkBlue "
+                    : "bg-gray-500 cursor-not-allowed"
+                }  text-2xl p-1 rounded-full`}
+              />
               <p className="pt-1">Deposit</p>
             </div>
           </Link>

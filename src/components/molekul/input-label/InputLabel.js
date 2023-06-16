@@ -21,6 +21,9 @@ const InputLabel = ({
         name={name}
         register={register}
       />
+      {errors?.type === "required" && (
+        <span className="text-xs text-red-500 block">{name} is required.</span>
+      )}
     </div>
   );
 };

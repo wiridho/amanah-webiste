@@ -8,9 +8,6 @@ import { CheckboxList, InputLabel } from "../../components/molekul";
 import CardPendanaan from "./CardPendanaan";
 import { Button } from "../../components/atom";
 import { useState } from "react";
-// import InputLabel from "../../components/molekul/input-label/InputLabel";
-// import Accordion from "../../components/molekul/accordion/Accordion";
-// import CheckboxList from "../../components/molekul/checkbox/checkboxList";
 
 const Pendanaan = () => {
   const [loanList, setListLoan] = useState(null);

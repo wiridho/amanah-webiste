@@ -29,25 +29,25 @@ const CardList = () => {
 
   return (
     <div>
-      {/* <article class="overflow-hidden rounded-lg shadow transition hover:shadow-lg">
+      {/* <article className="overflow-hidden rounded-lg shadow transition hover:shadow-lg">
         <img
           alt="Office"
           src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
-          class="h-56 w-full object-cover"
+          className="h-56 w-full object-cover"
         />
 
-        <div class="bg-white p-4 sm:p-6">
-          <time datetime="2022-10-10" class="block text-xs text-gray-500">
+        <div className="bg-white p-4 sm:p-6">
+          <time datetime="2022-10-10" className="block text-xs text-gray-500">
             10th Oct 2022
           </time>
 
           <a href="#">
-            <h3 class="mt-0.5 text-lg text-gray-900">
+            <h3 className="mt-0.5 text-lg text-gray-900">
               How to position your furniture for positivity
             </h3>
           </a>
 
-          <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
+          <p className="mt-2 line-clamp-3 text-sm/relaxed text-gray-500">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae
             dolores, possimus pariatur animi temporibus nesciunt praesentium
             dolore sed nulla ipsum eveniet corporis quidem, mollitia itaque
@@ -56,15 +56,18 @@ const CardList = () => {
           </p>
         </div>
       </article> */}
-      <div class="space-y-4">
-        <details class="group [&_summary::-webkit-details-marker]:hidden" open>
-          <summary class="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-gray-50 p-4 text-gray-900">
-            <h2 class="font-medium">
+      <div className="space-y-4">
+        <details
+          className="group [&_summary::-webkit-details-marker]:hidden"
+          open
+        >
+          <summary className="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-gray-50 p-4 text-gray-900">
+            <h2 className="font-medium">
               Lorem ipsum dolor sit amet consectetur adipisicing?
             </h2>
 
             <svg
-              class="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180"
+              className="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -79,7 +82,7 @@ const CardList = () => {
             </svg>
           </summary>
 
-          <p class="mt-4 px-4 leading-relaxed text-gray-700">
+          <p className="mt-4 px-4 leading-relaxed text-gray-700">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab hic
             veritatis molestias culpa in, recusandae laboriosam neque aliquid
             libero nesciunt voluptate dicta quo officiis explicabo consequuntur
@@ -87,14 +90,14 @@ const CardList = () => {
           </p>
         </details>
 
-        <details class="group [&_summary::-webkit-details-marker]:hidden">
-          <summary class="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-gray-50 p-4 text-gray-900">
-            <h2 class="font-medium">
+        <details className="group [&_summary::-webkit-details-marker]:hidden">
+          <summary className="flex cursor-pointer items-center justify-between gap-1.5 rounded-lg bg-gray-50 p-4 text-gray-900">
+            <h2 className="font-medium">
               Lorem ipsum dolor sit amet consectetur adipisicing?
             </h2>
 
             <svg
-              class="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180"
+              className="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -109,7 +112,7 @@ const CardList = () => {
             </svg>
           </summary>
 
-          <p class="mt-4 px-4 leading-relaxed text-gray-700">
+          <p className="mt-4 px-4 leading-relaxed text-gray-700">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ab hic
             veritatis molestias culpa in, recusandae laboriosam neque aliquid
             libero nesciunt voluptate dicta quo officiis explicabo consequuntur

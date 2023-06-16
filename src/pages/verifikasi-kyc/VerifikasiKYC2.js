@@ -1,7 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import Webcam from "react-webcam";
-// import axios from "axios";
-// import apiConfig from "../../api/apiConfig";
 
 const WebcamCapture = ({ selfieFile, fileName, setImageUrl }) => {
   const webcamRef = useRef(null);

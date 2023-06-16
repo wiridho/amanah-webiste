@@ -13,11 +13,12 @@ export const verificationLenderKYC = async ({ accessToken, formData }) => {
         },
       }
     );
-    console.log(response);
+    return response?.data?.status;
   } catch (error) {
-    console.log(error);
+    return false;
   }
 };
+
 export const getLenderStatusKYC = async ({ accessToken }) => {
   try {
     const response = await axios.get(
@@ -28,7 +29,6 @@ export const getLenderStatusKYC = async ({ accessToken }) => {
         },
       }
     );
-    console.log(response);
     return response?.data;
   } catch (error) {
     console.log(error);

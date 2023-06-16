@@ -107,7 +107,7 @@ const Login = () => {
                 type="submit"
                 className="w-full mt-3 bg-indigo-700 text-white hover:bg-indigo-600"
               >
-                {load ? "Loading" : "Login"}
+                {load ? "Loading..." : "Login"}
               </Button>
               <div className="flex justify-between text-primary">
                 <div className="flex items-center">

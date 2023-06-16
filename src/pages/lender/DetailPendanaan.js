@@ -7,13 +7,14 @@ import { getDetailLoan } from "../../service/loans/loan";
 
 // Icon
 import { HiOutlineChevronRight, HiOutlineHome } from "react-icons/hi";
-import { FaFilePdf } from "react-icons/fa";
+import { FaFilePdf, FaMoneyBillWave } from "react-icons/fa";
+import { FormatMataUang } from "../../utils/FormatMataUang";
 
 const DetailPendanaan = () => {
-  const [detail, setDetailData] = useState(null);
+  const { loanId } = useParams();
   const { accessToken } = useSelector((state) => state.auth);
 
-  const { loanId } = useParams();
+  const [detailData, setDetailData] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -22,7 +23,7 @@ const DetailPendanaan = () => {
     })();
   }, []);
 
-  console.log("detail", detail);
+  console.log("detail", detailData);
   return (
     <div className="">
       <nav aria-label="Breadcrumb">
@@ -70,6 +71,7 @@ const DetailPendanaan = () => {
                 <span>Detail Payor & Penerima Pembiayaan</span>
               </div>
               <div className="flex flex-col gap-3">
+                {/* Kontrak */}
                 <div className="block rounded-xl border bg-white shadow sm:p-3 lg:p-3">
                   <div className="flex items-center justify-between gap-2 px-2">
                     <div className="flex items-center gap-3">
@@ -78,23 +80,56 @@ const DetailPendanaan = () => {
                         Kontrak pembiayaan
                       </p>
                     </div>
-                    <Link
-                      to={"#"}
+                    <a
+                      target="_blank"
+                      href={detailData?.contract}
                       className="underline font-semibold text-blue-800 hover:text-blue-950"
                     >
                       Lihat
-                    </Link>
+                    </a>
                   </div>
                 </div>
+                {/* Kontrak */}
               </div>
             </div>
           </div>
 
           <div className="col-span-1 sticky top-0">
-            <div class="sticky top-0">
-              <strong class="rounded-full border border-blue-600 bg-gray-100 px-3 py-0.5 text-xs font-medium tracking-wide text-blue-600">
-                Pre Order
+            <div className="sticky top-0">
+              <strong className="rounded-full border border-blue-600 bg-gray-100 px-3 py-0.5 text-xs font-medium tracking-wide text-blue-600">
+                {detailData?.risk}
               </strong>
+              <div>
+                <article className="overflow-hidden rounded-lg border border-gray-100 bg-white shadow-sm">
+                  <div className="p-4 sm:p-6">
+                    <div>
+                      <div className="flex items-center gap-3">
+                        <FaMoneyBillWave />
+                        <span className="text-sm font-medium text-neutral-600">
+                          Jumlah Pembiayaan
+                        </span>
+                      </div>
+                      <span className="font-semibold">
+                        {FormatMataUang(detailData?.amount)}
+                      </span>
+                      <div className="flex items-center gap-3">
+                        <FaMoneyBillWave />
+                        <span className="text-sm font-medium text-neutral-600">
+                          Skema Pengembalian
+                        </span>
+                      </div>
+                      <span className="">{detailData?.paymentSchema}</span>
+                      <div className="flex items-center gap-3">
+                        <FaMoneyBillWave />
+                        <span className="text-sm font-medium text-neutral-600">
+                          Tujuan Penggunaan Dana
+                        </span>
+                      </div>
+                      <span className="">{detailData?.purpose}</span>
+                    </div>
+                  </div>
+                </article>
+              </div>
             </div>
           </div>
         </div>

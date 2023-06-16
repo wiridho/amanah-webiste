@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Input, Label } from "../../atom";
 import { HiEye, HiEyeOff } from "react-icons/hi";
+import { useForm } from "react-hook-form";
 
 const InputPassword = ({
   children,
@@ -9,15 +10,17 @@ const InputPassword = ({
   className,
   name,
   type,
-  message,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  console.log(errors);
+
   return (
-    <div className="">
+    <div>
       <Label>{children}</Label>
       <div className="relative">
         <Input
@@ -35,6 +38,17 @@ const InputPassword = ({
           )}
         </div>
       </div>
+      {console.log(errors)}
+      {errors?.type === "required" && (
+        <span className="text-xs text-red-500 block">{name} is required.</span>
+      )}
+      {console.log(errors)}
+      {errors?.type === "pattern" && (
+        <span className="text-xs text-red-500 block">
+          Minimal 8 karakter, 1 uppercase, 1 lowercase, dan 1 spesial karakter
+        </span>
+      )}
+      <div />
     </div>
   );
 };

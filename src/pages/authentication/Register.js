@@ -17,10 +17,9 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { message_error } = useSelector((state) => state.auth);
+  const { message_error, load } = useSelector((state) => state.auth);
 
   const onSubmit = (data) => {
-    console.log(data);
     data["roles"] = roles;
     dispatch(handleRegister({ data, setVisible, navigate }));
   };
@@ -32,11 +31,6 @@ const Register = () => {
     formState: { errors },
     watch,
   } = useForm();
-
-  const password = watch("password", "");
-  const confirmPassword = watch("confirmPassword", "");
-
-  const passwordsMatch = password === confirmPassword;
 
   return (
     <>
@@ -143,7 +137,7 @@ const Register = () => {
                 type="submit"
                 className="w-full bg-indigo-700 hover:bg-indigo-600 text-white text-sm  py-2 px-4 rounded-lg"
               >
-                Daftar
+                {load ? "Loading..." : "Daftar"}
               </Button>
             </div>
             <div className="flex justify-between">

@@ -101,7 +101,7 @@ const CardPendanaan = ({ data }) => {
                         style={{ width: `${progress}%` }}
                       >
                         <span className="font-bold text-white">
-                          {progress}%{" "}
+                          {progress}%
                         </span>
                       </span>
                     </span>

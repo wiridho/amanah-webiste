@@ -17,6 +17,8 @@ import WebcamCapture from "./pages/verifikasi-kyc/VerifikasiKYC2";
 import Profile from "./pages/lender/Profile";
 import Kyc from "./pages/verifikasi-kyc/kyc";
 import DetailPendanaan from "./pages/lender/DetailPendanaan";
+import MultiStepForm from "./pages/verifikasi-kyc/MultiFormStep";
+import Deposit from "./pages/lender/Deposit";
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
   console.log(is_auth);
@@ -52,8 +54,10 @@ function App() {
               <Route path="beranda" element={<Beranda />} />
               <Route path="pendanaan" element={<Pendanaan />} />
               <Route path="pendanaan/:loanId" element={<DetailPendanaan />} />
+              <Route path="deposit" element={<Deposit />} />
               <Route path="profile" element={<Profile />} />
               <Route path="kyc" element={<Kyc />} />
+              <Route path="multi-step" element={<MultiStepForm />} />
             </Route>
           </>
         )}

@@ -10,11 +10,21 @@ import {
 import { BiLogOut, BiHome, BiUser, BiMoneyWithdraw } from "react-icons/bi";
 import { TbBellRinging } from "react-icons/tb";
 import { IoSettingsOutline } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "../../atom";
+import { useDispatch } from "react-redux";
 // End Icon
 
 const Sidebar = () => {
   const [active, setActive] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const logout = () => {
+    navigate("/login");
+    window.localStorage.removeItem("persist:root");
+    dispatch({ type: "DESTROY_SESSION" });
+  };
 
   return (
     <div>
@@ -115,9 +125,7 @@ const Sidebar = () => {
                 </CustomLink>
               </li>
               <li>
-                <CustomLink to="logout" icon={<BiLogOut className="text-xl" />}>
-                  Logout
-                </CustomLink>
+                <Button onClick={logout}>Logout</Button>
               </li>
             </ul>
           </div>
