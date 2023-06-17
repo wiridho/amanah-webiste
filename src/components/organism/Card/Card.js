@@ -1,10 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+// Asset
 import Withdraw from "../../../assets/img/dashboardLender/withdraw.svg";
+
+// Icons
 import { HiOutlinePlus } from "react-icons/hi";
 import { IoWallet } from "react-icons/io5";
-import { Link } from "react-router-dom";
-import ErrorMessage from "../../error_message/ErrorMessage";
-import { useSelector } from "react-redux";
+
+// Component
+import { ErrorMessage } from "../../atom";
 
 const Card = () => {
   // const { statusKYC } = useSelector((state) => state.auth);

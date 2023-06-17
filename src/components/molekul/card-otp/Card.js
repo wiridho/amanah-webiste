@@ -1,9 +1,10 @@
+import { useSelector } from "react-redux";
 import OtpInput from "react-otp-input";
 import OtpTimer from "otp-timer";
-import { Button } from "../../atom";
-import { useState } from "react";
-import ErrorMessage from "../../error_message/ErrorMessage";
-import { useSelector } from "react-redux";
+
+// Component
+import { Button, ErrorMessage } from "../../atom";
+
 const Card = ({
   setOtp,
   otp,
@@ -14,9 +15,6 @@ const Card = ({
   setVisible,
 }) => {
   const { message_error } = useSelector((state) => state.auth);
-  console.log(message_error);
-
-  console.log(data);
   return (
     <>
       <div>

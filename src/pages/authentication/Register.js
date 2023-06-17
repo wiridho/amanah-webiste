@@ -1,23 +1,24 @@
 import { useState } from "react";
-import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
-
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+
+//  Background
+import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
-import ErrorMessage from "../../components/error_message/ErrorMessage";
-import { Button } from "../../components/atom";
+
+// Component
+import { Button, ErrorMessage } from "../../components/atom";
 import { InputLabel, InputPassword } from "../../components/molekul";
+// Service
 import { handleRegister } from "../../service/authentication/authService";
+
 const Register = () => {
   const [visible, setVisible] = useState(false);
-
+  const { message_error, load } = useSelector((state) => state.auth);
   const { roles } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { message_error, load } = useSelector((state) => state.auth);
 
   const onSubmit = (data) => {
     data["roles"] = roles;
@@ -29,7 +30,6 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm();
 
   return (
@@ -43,7 +43,6 @@ const Register = () => {
         </div>
 
         {/* Form */}
-
         <div className=" flex flex-col  justify-around bg-slate-100 ">
           <div className="max-w-[400px] w-full mx-auto sm:pb-4 pt-3 flex justify-center items-center">
             <img

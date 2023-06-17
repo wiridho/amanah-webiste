@@ -9,8 +9,6 @@ const InputLabel = ({
   register,
   errors,
   placeholder,
-  max,
-  min,
 }) => {
   return (
     <div>

@@ -3,6 +3,7 @@ import { IoIosWarning } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 
 const ErrorMessage = ({ message, onClose }) => {
+  console.log("atom");
   return (
     <>
       <div className="p-3 text-md text-red-800 border border-red-300 rounded-lg bg-red-50">

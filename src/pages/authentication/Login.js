@@ -3,11 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { InputLabel } from "../../components/molekul";
-import { Button } from "../../components/atom";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
 import { handleLogin } from "../../service/authentication/authService";
-import ErrorMessage from "../../components/error_message/ErrorMessage";
+
+import { Button, ErrorMessage } from "../../components/atom";
 import { InputPassword } from "../../components/molekul";
 
 const Login = () => {
@@ -43,11 +43,7 @@ const Login = () => {
             <span className="font-bold font-inter">Pinjaman P2P Syariah</span>{" "}
             Berkah Menggapai Kesuksesan Bersama
           </span>
-          <img
-            src={BackgroundAuth}
-            alt="image login"
-            className="z-10 absolute"
-          />
+          <img src={BackgroundAuth} alt="imgLogin" className="z-10 absolute" />
         </div>
         {/* Right Wrapper */}
         <div className="flex flex-col bg-slate-100  justify-between p-2 ">
