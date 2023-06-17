@@ -4,10 +4,12 @@ import { useForm } from "react-hook-form";
 import { Button, Label } from "../../components/atom";
 import VerifikasiKYC from "./VerifikasiKYC2";
 import { useState } from "react";
+
 import {
   getLenderStatusKYC,
   verificationLenderKYC,
-} from "../../service/verification-kyc/verification-kyc";
+} from "../../service/lender/lenderVerificationKYC";
+
 import { useDispatch, useSelector } from "react-redux";
 import { BsFillPersonVcardFill, BsPerson } from "react-icons/bs";
 import { authActions } from "../../store/reducer/AuthReducer";

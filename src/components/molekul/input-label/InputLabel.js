@@ -9,6 +9,8 @@ const InputLabel = ({
   register,
   errors,
   placeholder,
+  max,
+  min,
 }) => {
   return (
     <div>
@@ -21,8 +23,12 @@ const InputLabel = ({
         name={name}
         register={register}
       />
+
       {errors?.type === "required" && (
         <span className="text-xs text-red-500 block">{name} is required.</span>
+      )}
+      {(errors?.type === "max" || errors?.type === "min") && (
+        <span className="text-xs text-red-500 block">{errors.message}</span>
       )}
     </div>
   );

@@ -12,7 +12,6 @@ const CardPendanaan = ({ data }) => {
   return (
     <div>
       {data.map((item, index) => {
-        console.log("item", item);
         let progress = (item.totalFunding / item.amount) * 100;
         return (
           <Link to={`${item.loanId}`} key={index}>

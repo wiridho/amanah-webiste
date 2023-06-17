@@ -19,10 +19,9 @@ import Kyc from "./pages/verifikasi-kyc/kyc";
 import DetailPendanaan from "./pages/lender/DetailPendanaan";
 import MultiStepForm from "./pages/verifikasi-kyc/MultiFormStep";
 import Deposit from "./pages/lender/Deposit";
+import TransaksiPendanaan from "./pages/lender/Pendanaan/TransaksiPendanaan";
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
-  console.log(is_auth);
-  console.log(roles);
 
   let is_public = is_auth ? false : true;
   return (
@@ -54,10 +53,14 @@ function App() {
               <Route path="beranda" element={<Beranda />} />
               <Route path="pendanaan" element={<Pendanaan />} />
               <Route path="pendanaan/:loanId" element={<DetailPendanaan />} />
+              <Route
+                path="pendanaan/transaksi/:loanId"
+                element={<TransaksiPendanaan />}
+              />
+
               <Route path="deposit" element={<Deposit />} />
               <Route path="profile" element={<Profile />} />
               <Route path="kyc" element={<Kyc />} />
-              <Route path="multi-step" element={<MultiStepForm />} />
             </Route>
           </>
         )}
