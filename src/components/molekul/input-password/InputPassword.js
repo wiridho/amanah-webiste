@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Input, Label } from "../../atom";
 import { HiEye, HiEyeOff } from "react-icons/hi";
-import { useForm } from "react-hook-form";
 
 const InputPassword = ({
   children,
@@ -10,6 +9,7 @@ const InputPassword = ({
   className,
   name,
   type,
+  placeholder,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -17,13 +17,12 @@ const InputPassword = ({
     setShowPassword(!showPassword);
   };
 
-  console.log(errors);
-
   return (
     <div>
       <Label>{children}</Label>
       <div className="relative">
         <Input
+          placeholder={placeholder}
           errors={errors}
           type={showPassword ? "text" : type}
           className={className}
@@ -33,19 +32,22 @@ const InputPassword = ({
         <div className="absolute inset-y-0 flex items-center right-0  pr-4 ">
           {type === "password" && (
             <button type="button" onClick={togglePasswordVisibility}>
-              {showPassword ? <HiEyeOff /> : <HiEye />}
+              {showPassword ? (
+                <HiEyeOff className="text-gray-800" />
+              ) : (
+                <HiEye className="text-gray-800" />
+              )}
             </button>
           )}
         </div>
       </div>
-      {console.log(errors)}
       {errors?.type === "required" && (
-        <span className="text-xs text-red-500 block">{name} is required.</span>
+        <span className="text-xs text-red-500 block">{name} wajib diisi.</span>
       )}
-      {console.log(errors)}
       {errors?.type === "pattern" && (
         <span className="text-xs text-red-500 block">
-          Minimal 8 karakter, 1 uppercase, 1 lowercase, dan 1 spesial karakter
+          Password harus terdiri dari 8 karakter, mengandung setidaknya satu
+          huruf besar, satu huruf kecil, dan satu karakter khusus.
         </span>
       )}
       <div />

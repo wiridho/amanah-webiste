@@ -23,7 +23,7 @@ const InputLabel = ({
       />
 
       {errors?.type === "required" && (
-        <span className="text-xs text-red-500 block">{name} is required.</span>
+        <span className="text-xs text-red-500 block">{name} wajib diisi.</span>
       )}
       {(errors?.type === "max" || errors?.type === "min") && (
         <span className="text-xs text-red-500 block">{errors.message}</span>

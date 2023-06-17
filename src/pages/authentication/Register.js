@@ -3,10 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-//  Background
+// Background
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
-
 // Component
 import { Button, ErrorMessage } from "../../components/atom";
 import { InputLabel, InputPassword } from "../../components/molekul";
@@ -52,7 +51,7 @@ const Register = () => {
             />
           </div>
           <form
-            className="max-w-[400px] w-full mx-auto bg-gray-50 p-6 px-8 shadow rounded-2xl "
+            className="max-w-[400px] w-full mx-auto bg-gray-50 p-6 px-8 shadow-md rounded-md "
             onSubmit={handleSubmit(onSubmit)}
           >
             <div>
@@ -71,6 +70,7 @@ const Register = () => {
             <div className="mb-3">
               <div>
                 <InputLabel
+                  placeholder={"nama@example.com"}
                   type={"text"}
                   name={"Email"}
                   register={{
@@ -86,22 +86,24 @@ const Register = () => {
 
               <div>
                 <InputLabel
+                  placeholder={"John Doe"}
                   type={"text"}
-                  name={"Full name"}
+                  name={"Nama lengkap"}
                   register={{
                     ...register("fullName", {
                       required: true,
                     }),
                   }}
-                  errors={errors.email}
+                  errors={errors.fullName}
                 >
                   Nama Lengkap
                 </InputLabel>
               </div>
               <div>
                 <InputLabel
+                  placeholder={"08123456789"}
                   type={"number"}
-                  name={"Phone number"}
+                  name={"Nomor telepon"}
                   register={{
                     ...register("phoneNumber", {
                       required: true,
@@ -114,6 +116,7 @@ const Register = () => {
               </div>
               <div>
                 <InputPassword
+                  placeholder={"********"}
                   name={"Password"}
                   type={"password"}
                   label={"Password"}
@@ -141,17 +144,17 @@ const Register = () => {
             </div>
             <div className="flex justify-between">
               <div className="flex items-center">
-                <p className="pr-1 text-xs text-right text-grey">
+                <p className="pr-1 text-xs text-right text-gray-500">
                   Sudah punya akun?
                 </p>
                 <Link
-                  className="text-xs text-primary hover:text-[#146C94]"
+                  className="text-xs text-indigo-500 font-semibold  hover:text-indigo-800"
                   to="/login"
                 >
                   Masuk
                 </Link>
               </div>
-              <p className="p-2 text-xs text-right text-grey hover:text-[#146C94]">
+              <p className="p-2 text-xs text-righ text-indigo-500 hover:text-blue-800">
                 <Link to="/reset-password">Lupa Password?</Link>
               </p>
             </div>

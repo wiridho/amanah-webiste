@@ -34,7 +34,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="h-screen grid grid-cols-1 sm:grid-cols-2">
+      <div className="h-screen grid grid-cols-1 sm:grid-cols-2 overflow-hidden">
         {/* Left Wrapper */}
         <div className="hidden bg-primary md:flex sm:block items-center relative">
           <div className="absolute bg-indigo-600 opacity-100 h-screen w-full z-20 "></div>
@@ -57,7 +57,7 @@ const Login = () => {
           </div>
 
           {/* Form */}
-          <div className="max-w-[400px] w-full mx-auto bg-zinc-50 p-6 px-8 shadow-lg rounded-2xl">
+          <div className="max-w-[400px] w-full mx-auto bg-zinc-50 p-4 sm:p-6 sm:px-8 shadow-md rounded-md">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <h1 className="text-xl font-sans font-semibold pb-4">
@@ -74,6 +74,7 @@ const Login = () => {
               </div>
               <div>
                 <InputLabel
+                  placeholder={"name@example.com"}
                   type={"text"}
                   name={"Email"}
                   register={{
@@ -86,6 +87,7 @@ const Login = () => {
                   Email
                 </InputLabel>
                 <InputPassword
+                  placeholder={"********"}
                   name={"Password"}
                   type={"password"}
                   label={"Password"}
@@ -117,7 +119,7 @@ const Login = () => {
                     Daftar Disini!
                   </Link>
                 </div>
-                <p className="p-2 text-xs text-right text-grey text-indigo-500 hover:text-blue-800">
+                <p className="p-2 text-xs text-right text-indigo-500 hover:text-blue-800">
                   <Link to="/reset-password">Forgot Password?</Link>
                 </p>
               </div>

@@ -3,7 +3,7 @@ import React from "react";
 const Input = ({ className, type, register, name, placeholder }) => {
   return (
     <>
-      <div className="mb-2">
+      <div>
         <input
           placeholder={placeholder ? placeholder : `Masukkan ${name} anda`}
           name={name}
