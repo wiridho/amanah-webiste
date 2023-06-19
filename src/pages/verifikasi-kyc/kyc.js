@@ -13,8 +13,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { BsFillPersonVcardFill, BsPerson } from "react-icons/bs";
 import { authActions } from "../../store/reducer/AuthReducer";
+import { useNavigate } from "react-router-dom";
 
 const Kyc = () => {
+  const [visible, setVisible] = useState(false);
   const { accessToken, statusKYC } = useSelector((state) => state.auth);
   const [response, responseMessage] = useState("");
 
@@ -28,6 +30,7 @@ const Kyc = () => {
   const [gambarKTP, setGambarKTP] = useState(null);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Calling useForm
   const {
@@ -36,13 +39,18 @@ const Kyc = () => {
     formState: { errors },
   } = useForm();
 
-  useEffect(() => {
-    (async () => {
+  const getStatusKYC = async () => {
+    try {
       const response = await getLenderStatusKYC({ accessToken });
-      console.log(response);
       dispatch(authActions.setStatusKYC(response?.data?.kyc));
-    })();
-  }, [statusKYC]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getStatusKYC();
+  }, []);
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -54,11 +62,15 @@ const Kyc = () => {
     formData.append("personal.work.salary", data.salary);
     formData.append("idCardImage", gambarKTP);
     formData.append("faceImage", gambarSelfie);
-    const result = await verificationLenderKYC({ accessToken, formData });
+    const result = await verificationLenderKYC({
+      accessToken,
+      formData,
+      setVisible,
+    });
     if (result) {
       responseMessage(result?.message);
     }
-    dispatch(authActions.setStatusKYC("pending"));
+    navigate("/funder");
   };
 
   const handleDataKtp = (data) => {
@@ -74,18 +86,16 @@ const Kyc = () => {
   };
 
   if (statusKYC === "pending") {
-    return <span>Pending</span>;
+    return <span>Pending : Pengajuan sedang dalam proses</span>;
   }
 
   if (statusKYC === "verified") {
-    return <span>Verified</span>;
+    return <span>Sudah Verified</span>;
   }
 
-  return (
-    <div>
-      {!statusKYC ? (
-        <span className="text-7xl">Loading</span>
-      ) : (
+  if (statusKYC === "not verified") {
+    return (
+      <div>
         <form
           className="bg-white px-5 py-2.5 rounded"
           onSubmit={handleSubmit(onSubmit)}
@@ -150,7 +160,6 @@ const Kyc = () => {
                 </RadioButton>
               </div>
             </div>
-
             <div>
               <InputLabel
                 name={"Tanggal Lahir"}
@@ -194,7 +203,15 @@ const Kyc = () => {
               </InputLabel>
             </div>
           </div>
-          <div>{response && <ErrorMessage message={response} />}</div>
+          <div>
+            {response && (
+              <ErrorMessage
+                message={response}
+                visible={visible}
+                onClose={() => setVisible(false)}
+              />
+            )}
+          </div>
           {gambarSelfie && <span>{gambarSelfie.name}</span>}
           {ambilGambarSelfie ? (
             <VerifikasiKYC
@@ -216,9 +233,7 @@ const Kyc = () => {
               </ButtonIcon>
             </div>
           )}
-
           {gambarKTP && <span>{gambarKTP.name}</span>}
-
           {ambilGambarKTP ? (
             <VerifikasiKYC
               setImageUrl={setImageUrlKTP}
@@ -243,9 +258,9 @@ const Kyc = () => {
             Verifikasi Data Diri
           </Button>
         </form>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 };
 
 export default Kyc;

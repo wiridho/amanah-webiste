@@ -47,8 +47,7 @@ function App() {
                 />
               }
             >
-              <Route path="" element={<Beranda />} />
-              <Route path="beranda" element={<Beranda />} />
+              <Route index element={<Beranda />} />
               <Route path="pendanaan" element={<Pendanaan />} />
               <Route path="pendanaan/:loanId" element={<DetailPendanaan />} />
               <Route

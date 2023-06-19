@@ -52,7 +52,7 @@ const Sidebar = () => {
                 </div>
               </li>
               <li>
-                <CustomLink to="beranda" icon={<BiHome className="text-xl" />}>
+                <CustomLink to="/" icon={<BiHome className="text-xl" />}>
                   Dashboard
                 </CustomLink>
               </li>

@@ -1,10 +1,11 @@
 import axios from "axios";
 import apiConfig from "../../api/apiConfig";
-import { ErrorMessage } from "../../components/atom";
 
-//File Ori Yang Dipake
-
-export const verificationLenderKYC = async ({ accessToken, formData }) => {
+export const verificationLenderKYC = async ({
+  accessToken,
+  formData,
+  setVisible,
+}) => {
   try {
     const response = await axios.put(
       `${apiConfig.baseUrl}/lenders/request/verification`,
@@ -17,6 +18,7 @@ export const verificationLenderKYC = async ({ accessToken, formData }) => {
       }
     );
   } catch (error) {
+    setVisible(true);
     return error?.response?.data;
   }
 };
