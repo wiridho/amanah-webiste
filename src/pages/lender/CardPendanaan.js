@@ -96,11 +96,11 @@ const CardPendanaan = ({ data }) => {
                       className="block rounded-full bg-gray-200"
                     >
                       <span
-                        className="block h-4 rounded-full bg-[#8cc63e] text-center text-[10px]/4"
+                        className="block h-4 rounded-full bg-green-500 text-center text-[10px]/4"
                         style={{ width: `${progress}%` }}
                       >
                         <span className="font-bold text-white">
-                          {progress}%
+                          {progress.toFixed(2)}%
                         </span>
                       </span>
                     </span>

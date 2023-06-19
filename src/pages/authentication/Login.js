@@ -16,8 +16,6 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const { message_error, load } = useSelector((state) => state.auth);
-  console.log("load", load);
-  console.log("message_error", message_error);
 
   // Calling useForm
   const {

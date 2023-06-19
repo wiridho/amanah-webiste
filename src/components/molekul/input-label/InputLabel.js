@@ -25,6 +25,11 @@ const InputLabel = ({
       {errors?.type === "required" && (
         <span className="text-xs text-red-500 block">{name} wajib diisi.</span>
       )}
+      {errors?.type === "validate" && (
+        <span className="text-xs text-red-500 block">
+          Wajib kelipatan Rp.50000
+        </span>
+      )}
       {(errors?.type === "max" || errors?.type === "min") && (
         <span className="text-xs text-red-500 block">{errors.message}</span>
       )}

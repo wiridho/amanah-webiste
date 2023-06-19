@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { HiOutlineChevronRight } from "react-icons/hi";
 
-const Accordion = ({ name, title, type, register, children }) => {
+const Accordion = ({ title, children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const contentRef = useRef(null);
   const [contentHeight, setContentHeight] = useState(0);

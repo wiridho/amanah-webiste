@@ -1,5 +1,6 @@
 import axios from "axios";
 import apiConfig from "../../api/apiConfig";
+import { ErrorMessage } from "../../components/atom";
 
 //File Ori Yang Dipake
 
@@ -15,9 +16,8 @@ export const verificationLenderKYC = async ({ accessToken, formData }) => {
         },
       }
     );
-    return response?.data?.status;
   } catch (error) {
-    return false;
+    return error?.response?.data;
   }
 };
 

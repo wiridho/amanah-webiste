@@ -57,33 +57,35 @@ const Pendanaan = () => {
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-col gap-4">
-                <div>
+                <div className="">
                   <Accordion
                     name="imbalHasil"
                     title="Imbal Hasil"
                     type={"text"}
                     register={register}
                     children={
-                      <div>
-                        <InputLabel
-                          placeholder={"Rp100.000"}
-                          children={"Biaya Minimum"}
-                          type={"number"}
-                          // name={"Rp100000"}
-                          register={{
-                            ...register("yield_min"),
-                          }}
-                          errors={errors.email}
-                        />
-                        <InputLabel
-                          placeholder={"Rp100.000.000"}
-                          children={"Biaya Maksimum"}
-                          type={"number"}
-                          name={"Biaya Maksimum"}
-                          register={{
-                            ...register("yield_max"),
-                          }}
-                        />
+                      <div className="">
+                        <div className="">
+                          <InputLabel
+                            placeholder={"Rp100.000"}
+                            children={"Biaya Minimum"}
+                            type={"number"}
+                            register={{
+                              ...register("yield_min"),
+                            }}
+                            errors={errors.email}
+                          />
+                        </div>
+                        <div className="pb-5">
+                          <InputLabel
+                            placeholder={"Rp100.000.000"}
+                            children={"Biaya Maksimum"}
+                            type={"number"}
+                            register={{
+                              ...register("yield_max"),
+                            }}
+                          />
+                        </div>
                       </div>
                     }
                   />
@@ -93,10 +95,10 @@ const Pendanaan = () => {
                     name="tenor"
                     title="Durasi Pengembalian"
                     children={
-                      <div>
+                      <div className="mb-4">
                         {checkbox_data.map((item, index) => {
                           return (
-                            <div key={index}>
+                            <div key={index} className="pb-1">
                               <CheckboxList
                                 label={item.label}
                                 value={item.value}

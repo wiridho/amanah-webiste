@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Logo from "../../../assets/img/logo/LogoAmana2.svg";
-import { CustomLink } from "../../molekul";
+import { ButtonIcon, CustomLink } from "../../molekul";
 // Import Icon
 import {
   HiChartPie,
@@ -116,33 +116,25 @@ const Sidebar = () => {
                   Profile
                 </CustomLink>
               </li>
+
               <li>
-                <CustomLink
-                  to="setting"
-                  icon={<IoSettingsOutline className="text-xl" />}
-                >
-                  Settings
-                </CustomLink>
-              </li>
-              <li>
-                <Button onClick={logout}>Logout</Button>
+                <div className="bg-red-500 hover:bg-red-700">
+                  <ButtonIcon
+                    type={"button"}
+                    className={
+                      "rounded-none flex items-center text-white w-full "
+                    }
+                    onClick={logout}
+                  >
+                    <BiLogOut className="text-xl" />
+                    Logout
+                  </ButtonIcon>
+                </div>
               </li>
             </ul>
           </div>
         </div>
       </div>
-      {/* <button
-        data-drawer-target="default-sidebar"
-        data-drawer-toggle="default-sidebar"
-        aria-controls="default-sidebar"
-        type="button"
-        classname="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-      >
-        <span>
-          <GiHamburger />
-        </span>
-        <span classname="sr-only">Open sidebar</span>
-      </button> */}
     </div>
   );
 };

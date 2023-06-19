@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ButtonIcon, InputLabel, RadioButton } from "../../components/molekul";
 import { useForm } from "react-hook-form";
-import { Button, Label } from "../../components/atom";
+import { Button, ErrorMessage, Label } from "../../components/atom";
 import VerifikasiKYC from "./VerifikasiKYC2";
 import { useState } from "react";
 
@@ -16,6 +16,7 @@ import { authActions } from "../../store/reducer/AuthReducer";
 
 const Kyc = () => {
   const { accessToken, statusKYC } = useSelector((state) => state.auth);
+  const [response, responseMessage] = useState("");
 
   const [imageUrlSelfie, setImageUrlSelfie] = useState(false);
   const [imageUrlKTP, setImageUrlKTP] = useState(false);
@@ -35,6 +36,14 @@ const Kyc = () => {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    (async () => {
+      const response = await getLenderStatusKYC({ accessToken });
+      console.log(response);
+      dispatch(authActions.setStatusKYC(response?.data?.kyc));
+    })();
+  }, [statusKYC]);
+
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("personal.idCardNumber", data.idCardNumber);
@@ -45,10 +54,11 @@ const Kyc = () => {
     formData.append("personal.work.salary", data.salary);
     formData.append("idCardImage", gambarKTP);
     formData.append("faceImage", gambarSelfie);
-    let status = await verificationLenderKYC({ accessToken, formData });
-    if (status) {
-      dispatch(authActions.setStatusKYC("pending"));
+    const result = await verificationLenderKYC({ accessToken, formData });
+    if (result) {
+      responseMessage(result?.message);
     }
+    dispatch(authActions.setStatusKYC("pending"));
   };
 
   const handleDataKtp = (data) => {
@@ -184,6 +194,7 @@ const Kyc = () => {
               </InputLabel>
             </div>
           </div>
+          <div>{response && <ErrorMessage message={response} />}</div>
           {gambarSelfie && <span>{gambarSelfie.name}</span>}
           {ambilGambarSelfie ? (
             <VerifikasiKYC

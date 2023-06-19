@@ -28,6 +28,22 @@ const TransaksiPendanaan = () => {
     lenderFunding({ data: { ...data, ...{ loanId } }, accessToken });
   };
 
+  const validateSalary = (value) => {
+    const numericValue = Number(value);
+
+    if (numericValue < 100000) {
+      return "Nominal minimal Rp100.000";
+    }
+    if (numericValue > balance) {
+      return `Nominal maksimal Rp${balance}`;
+    }
+    if (numericValue % 50000 !== 0) {
+      return "Kelipatan nominal harus Rp50.000";
+    }
+
+    return true; // Return true for valid value
+  };
+
   const disableButton = () => {
     let disable = true;
     let amount = getValues("amount");
@@ -55,7 +71,60 @@ const TransaksiPendanaan = () => {
         </div>
 
         <div>
-          <InputLabel
+          <div class="inline-flex justify-between bg-gray-100 rounded border border-gray-200">
+            <div class="inline bg-gray-200 py-2 px-4 text-gray-600 select-none">
+              Rp
+            </div>
+            <input
+              type="number"
+              {...register("nominal", {
+                required: "Nominal wajib diisi",
+                validate: validateSalary, // Use custom validation function
+              })}
+              className="bg-transparent py-1 text-gray-600 px-4 focus:outline-none"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="price"
+              className="block text-sm font-medium leading-6 text-gray-900"
+            >
+              Price
+            </label>
+            <div className="relative mt-2 rounded-md shadow-sm">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                <span className="text-gray-500 sm:text-sm">$</span>
+              </div>
+              <input
+                type="text"
+                name="price"
+                id="price"
+                className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                placeholder="0.00"
+              />
+              <div className="absolute inset-y-0 right-0 flex items-center">
+                <label htmlFor="currency" className="sr-only">
+                  Currency
+                </label>
+                <select
+                  id="currency"
+                  name="currency"
+                  className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                >
+                  <option>USD</option>
+                  <option>CAD</option>
+                  <option>EUR</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          {errors.nominal && (
+            <span className="flex gap-2 items-center text-xs  text-red-500">
+              <IoWarningOutline />
+              {errors.nominal?.message}
+            </span>
+          )}
+          {/* <InputLabel
             type={"number"}
             name={"amount"}
             register={{
@@ -67,21 +136,16 @@ const TransaksiPendanaan = () => {
                 },
                 max: {
                   value: balance,
-                  message: `Maksimal dengan isi saldo kamu ${balance}`,
+                  message: `Maksimal dengan isi saldo kamu Rp.${balance}`,
                 },
+                validate: validateSalary,
               }),
             }}
             errors={errors.amount}
             placeholder={"100.000"}
           >
             Masukkan uang yang akan anda dipinjamkan
-          </InputLabel>
-          <div className="flex items-center gap-2">
-            <IoWarningOutline />
-            <span className="text-xs">
-              Minimum pemberian pinjaman Rp100.000
-            </span>
-          </div>
+          </InputLabel> */}
         </div>
 
         <div className="mt-2">
@@ -110,9 +174,6 @@ const TransaksiPendanaan = () => {
           4.3
         </span> */}
       </form>
-      <div className="relative justify-between rounded-xl bg-slate-500 p-4 shadow sm:p-6 lg:p-8">
-        dawdadadadaw
-      </div>
     </div>
   );
 };

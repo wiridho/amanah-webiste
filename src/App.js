@@ -13,17 +13,15 @@ import VerifyLogin from "./pages/authentication/VerifyLogin";
 import Login from "./pages/authentication/Login";
 import DashboardBorrower from "./components/template/DashboardBorrower";
 import Pendanaan from "./pages/lender/Pendanaan";
-import WebcamCapture from "./pages/verifikasi-kyc/VerifikasiKYC2";
 import Profile from "./pages/lender/Profile";
 import Kyc from "./pages/verifikasi-kyc/kyc";
 import DetailPendanaan from "./pages/lender/DetailPendanaan";
-import MultiStepForm from "./pages/verifikasi-kyc/MultiFormStep";
 import Deposit from "./pages/lender/Deposit";
 import TransaksiPendanaan from "./pages/lender/Pendanaan/TransaksiPendanaan";
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
-
   let is_public = is_auth ? false : true;
+
   return (
     <BrowserRouter>
       <Routes>
@@ -49,7 +47,7 @@ function App() {
                 />
               }
             >
-              {/* <Route path="" element={<Beranda />} /> */}
+              <Route path="" element={<Beranda />} />
               <Route path="beranda" element={<Beranda />} />
               <Route path="pendanaan" element={<Pendanaan />} />
               <Route path="pendanaan/:loanId" element={<DetailPendanaan />} />
@@ -94,13 +92,7 @@ function App() {
                   children={<DashboardBorrower />}
                 />
               }
-            >
-              {/* <Route path="" element={<Beranda />} /> */}
-              {/* <Route path="beranda" element={<Beranda />} /> */}
-              {/* <Route path="portofolio" element={<Portofolio />} />
-              <Route path="pendanaan" element={<Pendanaan />} />
-              <Route path="bantuan" element={<Bantuan />} /> */}
-            </Route>
+            ></Route>
           </>
         )}
 
