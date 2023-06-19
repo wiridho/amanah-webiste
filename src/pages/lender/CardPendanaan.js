@@ -15,8 +15,8 @@ const CardPendanaan = ({ data }) => {
         let progress = (item.totalFunding / item.amount) * 100;
         return (
           <Link to={`${item.loanId}`} key={index}>
-            <div className="flex bg-white mb-6 p-3 lg:p-5 relative">
-              <div className="absolute top-0 left-0 bg-indigo-500 text-white rounded-r-full px-2 py-1 ">
+            <div className="flex bg-white mb-6 p-3 lg:p-5 relative rounded">
+              <div className="absolute top-0 left-0 bg-[#4381cf] text-white  rounded-r-full px-2 py-1 ">
                 <span
                   className="transititext-primary  transition duration-100 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 font-semibold "
                   data-te-toggle="tooltip"
@@ -28,8 +28,8 @@ const CardPendanaan = ({ data }) => {
               <div className="grow mt-4 ">
                 <div className="flex h-full ">
                   <div className="mt-4">
-                    <div className=" flex justify-center items-center h-12 w-12 rounded-full border-2  border-indigo-500 ">
-                      <BsPersonFill className="h-9 w-9 text-indigo-700" />
+                    <div className=" flex justify-center items-center h-12 w-12 rounded-full border-2  border-indigo-400 ">
+                      <BsPersonFill className="h-9 w-9 text-indigo-600" />
                     </div>
                   </div>
                   <div className="text-left  ml-2 p-2">
