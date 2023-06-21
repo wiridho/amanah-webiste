@@ -107,7 +107,13 @@ const WebcamCapture = ({ selfieFile, fileName, setImageUrl }) => {
               <Webcam audio={false} ref={webcamRef} />
               {!isRetake ? (
                 <>
-                  <button onClick={captureImage}>Capture</button>
+                  <button
+                    type="button"
+                    className="bg-blue-500 px-4 py-2 text-white rounded-md mt-2"
+                    onClick={captureImage}
+                  >
+                    Capture
+                  </button>
                   <br />
                   <br />
                 </>
@@ -118,14 +124,22 @@ const WebcamCapture = ({ selfieFile, fileName, setImageUrl }) => {
           ) : (
             <>
               <img src={capturedImage} alt="Captured" />
-              <button type="button" onClick={saveImage}>
-                Upload
-              </button>
-              <br />
-              <br />
-              <button type="button" onClick={retakeImage}>
-                Retake
-              </button>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  className="bg-blue-500 px-4 py-2 text-white rounded-md mt-2"
+                  onClick={saveImage}
+                >
+                  Upload
+                </button>
+                <button
+                  type="button"
+                  className="bg-red-500 px-4 py-2 text-white rounded-md mt-2"
+                  onClick={retakeImage}
+                >
+                  Retake
+                </button>
+              </div>
             </>
           )}
         </>

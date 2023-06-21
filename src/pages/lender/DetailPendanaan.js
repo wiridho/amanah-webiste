@@ -15,6 +15,8 @@ import { Button } from "../../components/atom";
 // Icon
 import {
   HiClipboardCheck,
+  HiOutlineCash,
+  HiOutlineCreditCard,
   HiOutlineFastForward,
   HiOutlineHome,
 } from "react-icons/hi";
@@ -22,19 +24,24 @@ import { FaFilePdf, FaMoneyBillWave } from "react-icons/fa";
 import { FormatMataUang } from "../../utils/FormatMataUang";
 import { GiPayMoney } from "react-icons/gi";
 import { GoNote } from "react-icons/go";
-import BreadCumb from "../../components/atom/breadcumb/BreadCumb";
 import { BsPersonFill } from "react-icons/bs";
-import { BiCoinStack, BiTimer } from "react-icons/bi";
+import { BiCategoryAlt, BiCoinStack, BiTimer } from "react-icons/bi";
 import { MdOutlineSentimentSatisfied } from "react-icons/md";
 
+import BreadCumb from "../../components/atom/breadcumb/BreadCumb";
+import TransaksiPendanaan from "./Pendanaan/TransaksiPendanaan";
+
 const DetailPendanaan = () => {
+  const [openModalVerified, setOpenModalVerified] = useState(false);
+  const [openModalPending, setOpenModalPending] = useState(false);
+  const [openModalNotVerified, setOpenModalNotVerified] = useState(false);
+
   const { accessToken, statusKYC } = useSelector((state) => state.auth);
   const { loanId } = useParams();
   const [detailData, setDetailData] = useState(null);
   let progress = (detailData?.totalFunding / detailData?.amount) * 100;
 
   const navigate = useNavigate();
-
   useEffect(() => {
     (async () => {
       const response = await getDetailLoan({ accessToken, loanId });
@@ -44,9 +51,12 @@ const DetailPendanaan = () => {
 
   const onClick = () => {
     if (statusKYC === "verified") {
-      navigate(`/funder/pendanaan/transaksi/${loanId}`);
+      setOpenModalVerified(true);
+      // navigate(`/funder/pendanaan/transaksi/${loanId}`);
+    } else if (statusKYC === "pending") {
+      setOpenModalPending(true);
     } else {
-      console.log("Belum Verified");
+      setOpenModalNotVerified(true);
     }
   };
 
@@ -57,7 +67,6 @@ const DetailPendanaan = () => {
   ];
 
   const performanceBorrower = detailData?.borrower?.performance;
-  console.log(performanceBorrower);
 
   return (
     <div className="">
@@ -89,18 +98,20 @@ const DetailPendanaan = () => {
                     <div className="grid grid-cols-3 gap-3 ">
                       <div className="flex flex-col">
                         <span className="text-gray-500 text-sm">
-                          Jumlah pinjaman
+                          Total dana dipinjam
                         </span>
                         <span className="font-semibold">1 pinjaman </span>
                       </div>
                       <div className="flex flex-col ">
                         <span className="text-gray-500 text-sm">
-                          Dana Pinjaman
+                          Total peminjaman
                         </span>
                         <span className="font-semibold">1 pinjaman </span>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-gray-500 text-sm">Risiko</span>
+                        <span className="text-gray-500 text-sm">
+                          Kredit Skor
+                        </span>
                         <span className="font-semibold">2.4</span>
                       </div>
                     </div>
@@ -159,22 +170,28 @@ const DetailPendanaan = () => {
                         </span>
                         <div className="flex flex-col gap-1">
                           <div className="flex justify-between">
-                            <span className="flex items-center gap-2 text-sm  lg:text-lg">
-                              <HiOutlineFastForward className="text-3xl text-gray-400" />
+                            <span className="flex items-center gap-2">
+                              <HiOutlineFastForward
+                                size={30}
+                                className="text-gray-400"
+                              />
                               Dipercepat
                             </span>
                             <span>0</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="flex items-center gap-2 text-sm  lg:text-lg">
-                              <MdOutlineSentimentSatisfied className="text-3xl text-gray-400" />
+                            <span className="flex items-center gap-2">
+                              <MdOutlineSentimentSatisfied
+                                size={30}
+                                className=" text-gray-400"
+                              />
                               Tepat waktu
                             </span>
                             <span>0</span>
                           </div>
                           <div className="flex justify-between gap-2">
-                            <span className="flex items-center gap-2 text-sm  lg:text-lg">
-                              <BiTimer className="text-3xl text-gray-400" />
+                            <span className="flex items-center gap-2">
+                              <BiTimer size={30} className=" text-gray-400" />
                               Terlambat
                             </span>
                             <span>0</span>
@@ -196,40 +213,49 @@ const DetailPendanaan = () => {
             </strong> */}
 
             {/* Keterangan Funding */}
-            <div>
+            <div className="mb-5">
               <article className="overflow-hidden rounded-md border border-gray-100 bg-white shadow">
                 <div className="p-4 sm:p-6">
                   <div className="flex flex-col gap-2">
                     <div>
-                      <div className="flex items-center gap-3">
-                        <FaMoneyBillWave />
-                        <span className="text-sm font-medium text-neutral-600">
-                          Jumlah Pembiayaan
-                        </span>
+                      <div className="flex items-center gap-3  text-gray-600">
+                        <HiOutlineCash size={20} />
+                        <span className="font-medium">Jumlah Pembiayaan</span>
                       </div>
                       <span className="font-bold">
-                        {/* {FormatMataUang(detailData?.amount)} */}
+                        {FormatMataUang(detailData?.amount)}
                       </span>
                     </div>
                     <div>
-                      <div className="flex items-center gap-3">
-                        <GiPayMoney />
-                        <span className="text-sm font-semibold text-neutral-600">
+                      <div className="flex items-center gap-3 text-gray-600">
+                        <HiOutlineCreditCard size={20} />
+                        <span className=" font-semibold ">
                           Skema Pengembalian
                         </span>
                       </div>
-                      <span className="font-semibold text-neutral-600">
-                        {/* {detailData?.paymentSchema} */}
+                      <span className="font-semibold text-sm">
+                        {detailData?.paymentSchema}
                       </span>
                     </div>
                     <div>
-                      <div className="flex items-center gap-3">
-                        <GoNote />
-                        <span className="text-sm font-semibold text-neutral-600">
-                          Tujuan Penggunaan Dana
+                      <div className="flex items-center gap-3 text-gray-600">
+                        <BiCategoryAlt size={20} />
+                        <span className=" font-semibold ">
+                          Kategori Pinjaman
                         </span>
                       </div>
-                      <span className="font-semibold text-neutral-600">
+                      <span className="font-semibold text-sm ">
+                        {detailData?.borrowingCategory}
+                      </span>
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-3 text-gray-600">
+                        <BiCoinStack size={20} />
+                        <span className=" font-semibold ">
+                          Tujuan Peminjaman
+                        </span>
+                      </div>
+                      <span className="font-semibold text-sm">
                         {detailData?.purpose}
                       </span>
                     </div>
@@ -287,6 +313,90 @@ const DetailPendanaan = () => {
               >
                 Danai Sekarang
               </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className={`z-10 fixed flex items-center justify-center  inset-0 backdrop-brightness-50 ${
+          openModalVerified ? <TransaksiPendanaan /> : "hidden"
+        }`}
+      >
+        <div>
+          <span>Verified</span>
+        </div>
+      </div>
+      <div
+        className={`z-10 fixed flex items-center justify-center  inset-0 backdrop-brightness-50 ${
+          openModalPending ? "" : "hidden"
+        }`}
+      >
+        <div className=" bg-white w-full max-w-md rounded-md">
+          <div className=" w-full max-w-2xl max-h-full  ">
+            {/* Modal header */}
+            <div className="flex items-start justify-between p-4 border-b rounded-t">
+              <h3 className="text-xl font-semibold text-gray-900 ">
+                Verifikasi KYC sedang diproses
+              </h3>
+            </div>
+            {/* Modal body */}
+            <div className="p-6 space-y-6">
+              <p className="text-base leading-relaxed text-gray-500 ">
+                Mohon tunggu, kami akan infokan ketika peninjauan telah selesai{" "}
+                <Link
+                  className="underline text-blue-700 hover:text-blue-900"
+                  to={"/funder/kyc"}
+                >
+                  kembali ke halaman utama!
+                </Link>
+              </p>
+            </div>
+            {/* Modal footer */}
+            <div className="flex items-center px-5 py-3 space-x-2 border-t border-gray-200 rounded-b ">
+              <button
+                onClick={() => setOpenModalPending(false)}
+                className="bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className={`z-10 flex items-center justify-center fixed inset-0 backdrop-brightness-50   ${
+          openModalNotVerified ? "" : "hidden"
+        }`}
+      >
+        <div className=" bg-white w-full max-w-md rounded-md">
+          <div className=" w-full max-w-2xl max-h-full  ">
+            {/* Modal header */}
+            <div className="flex items-start justify-between p-4 border-b rounded-t">
+              <h3 className="text-xl font-semibold text-gray-900 ">
+                Akun belum diverifikasi
+              </h3>
+            </div>
+            {/* Modal body */}
+            <div className="p-6 space-y-6">
+              <p className="text-base leading-relaxed text-gray-500 ">
+                Akun anda belum verifikasi KYC, silahkan verifikasi terlebih
+                dahulu{" "}
+                <Link
+                  className="underline text-blue-700 hover:text-blue-800"
+                  to={"/funder/kyc"}
+                >
+                  disini!
+                </Link>
+              </p>
+            </div>
+            {/* Modal footer */}
+            <div className="flex items-center px-5 py-3 space-x-2 border-t border-gray-200 rounded-b ">
+              <button
+                onClick={() => setOpenModalNotVerified(false)}
+                className="bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+              >
+                Tutup
+              </button>
             </div>
           </div>
         </div>

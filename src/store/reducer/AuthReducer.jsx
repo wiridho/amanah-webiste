@@ -94,5 +94,5 @@ const authSlice = createSlice({
   },
 });
 
-export const authActions = authSlice.actions;
+export const { setStatusKYC } = authSlice.actions;
 export default authSlice.reducer;

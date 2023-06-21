@@ -4,7 +4,7 @@ import { Card } from "../../components/organism";
 import { useSelector } from "react-redux";
 
 const Beranda = () => {
-  const { roles, statusKYC } = useSelector((state) => state.auth);
+  const { statusKYC } = useSelector((state) => state.auth);
 
   return (
     <>

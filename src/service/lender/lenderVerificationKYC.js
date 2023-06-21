@@ -5,6 +5,7 @@ export const verificationLenderKYC = async ({
   accessToken,
   formData,
   setVisible,
+  navigate,
 }) => {
   try {
     const response = await axios.put(
@@ -17,6 +18,8 @@ export const verificationLenderKYC = async ({
         },
       }
     );
+    navigate("/funder/status/kyc");
+    return response?.data;
   } catch (error) {
     setVisible(true);
     return error?.response?.data;

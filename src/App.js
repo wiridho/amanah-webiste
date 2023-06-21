@@ -15,6 +15,7 @@ import DashboardBorrower from "./components/template/DashboardBorrower";
 import Pendanaan from "./pages/lender/Pendanaan";
 import Profile from "./pages/lender/Profile";
 import Kyc from "./pages/verifikasi-kyc/kyc";
+import Status_KYC from "./pages/lender/statusKYC/status_KYC";
 import DetailPendanaan from "./pages/lender/DetailPendanaan";
 import Deposit from "./pages/lender/Deposit";
 import TransaksiPendanaan from "./pages/lender/Pendanaan/TransaksiPendanaan";
@@ -58,6 +59,7 @@ function App() {
               <Route path="deposit" element={<Deposit />} />
               <Route path="profile" element={<Profile />} />
               <Route path="kyc" element={<Kyc />} />
+              <Route path="status/kyc" element={<Status_KYC />} />
             </Route>
           </>
         )}
