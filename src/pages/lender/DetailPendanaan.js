@@ -36,12 +36,13 @@ const DetailPendanaan = () => {
   const [openModalPending, setOpenModalPending] = useState(false);
   const [openModalNotVerified, setOpenModalNotVerified] = useState(false);
 
-  const { accessToken, statusKYC } = useSelector((state) => state.auth);
+  const { accessToken } = useSelector((state) => state.auth);
   const { loanId } = useParams();
   const [detailData, setDetailData] = useState(null);
   let progress = (detailData?.totalFunding / detailData?.amount) * 100;
 
   const navigate = useNavigate();
+  const statusKYC = "verified";
   useEffect(() => {
     (async () => {
       const response = await getDetailLoan({ accessToken, loanId });
@@ -52,7 +53,6 @@ const DetailPendanaan = () => {
   const onClick = () => {
     if (statusKYC === "verified") {
       setOpenModalVerified(true);
-      // navigate(`/funder/pendanaan/transaksi/${loanId}`);
     } else if (statusKYC === "pending") {
       setOpenModalPending(true);
     } else {
@@ -66,6 +66,7 @@ const DetailPendanaan = () => {
     { to: "#", label: "Detail Pendanaan", bold: true },
   ];
 
+  // const statusKYC = "verified";
   const performanceBorrower = detailData?.borrower?.performance;
 
   return (
@@ -141,6 +142,58 @@ const DetailPendanaan = () => {
               </div>
               {/* Kontrak */}
 
+              {/* Keterangan Funding */}
+              <div className="mb-5">
+                <article className="overflow-hidden rounded-md border border-gray-100 bg-white shadow">
+                  <div className="p-4 sm:p-6">
+                    <div className="flex flex-col gap-2">
+                      <div>
+                        <div className="flex items-center gap-3  text-gray-600">
+                          <HiOutlineCash size={20} />
+                          <span className="font-medium">Jumlah Pembiayaan</span>
+                        </div>
+                        <span className="font-bold">
+                          {FormatMataUang(detailData?.amount)}
+                        </span>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-3 text-gray-600">
+                          <HiOutlineCreditCard size={20} />
+                          <span className=" font-semibold ">
+                            Skema Pengembalian
+                          </span>
+                        </div>
+                        <span className="font-semibold text-sm">
+                          {detailData?.paymentSchema}
+                        </span>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-3 text-gray-600">
+                          <BiCategoryAlt size={20} />
+                          <span className=" font-semibold ">
+                            Kategori Pinjaman
+                          </span>
+                        </div>
+                        <span className="font-semibold text-sm ">
+                          {detailData?.borrowingCategory}
+                        </span>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-3 text-gray-600">
+                          <BiCoinStack size={20} />
+                          <span className=" font-semibold ">
+                            Tujuan Peminjaman
+                          </span>
+                        </div>
+                        <span className="font-semibold text-sm">
+                          {detailData?.purpose}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+
               {/* Performa Peminjam */}
               <div className="">
                 <div>
@@ -212,58 +265,6 @@ const DetailPendanaan = () => {
             {/* <strong className="rounded-full border border-blue-600 bg-gray-100 px-3 py-0.5 text-xs font-medium tracking-wide text-blue-600">
             </strong> */}
 
-            {/* Keterangan Funding */}
-            <div className="mb-5">
-              <article className="overflow-hidden rounded-md border border-gray-100 bg-white shadow">
-                <div className="p-4 sm:p-6">
-                  <div className="flex flex-col gap-2">
-                    <div>
-                      <div className="flex items-center gap-3  text-gray-600">
-                        <HiOutlineCash size={20} />
-                        <span className="font-medium">Jumlah Pembiayaan</span>
-                      </div>
-                      <span className="font-bold">
-                        {FormatMataUang(detailData?.amount)}
-                      </span>
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-3 text-gray-600">
-                        <HiOutlineCreditCard size={20} />
-                        <span className=" font-semibold ">
-                          Skema Pengembalian
-                        </span>
-                      </div>
-                      <span className="font-semibold text-sm">
-                        {detailData?.paymentSchema}
-                      </span>
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-3 text-gray-600">
-                        <BiCategoryAlt size={20} />
-                        <span className=" font-semibold ">
-                          Kategori Pinjaman
-                        </span>
-                      </div>
-                      <span className="font-semibold text-sm ">
-                        {detailData?.borrowingCategory}
-                      </span>
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-3 text-gray-600">
-                        <BiCoinStack size={20} />
-                        <span className=" font-semibold ">
-                          Tujuan Peminjaman
-                        </span>
-                      </div>
-                      <span className="font-semibold text-sm">
-                        {detailData?.purpose}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </div>
-
             {/* Card Funding */}
             <div className="block px-6 py-4 bg-white border border-gray-200 rounded-lg shadow">
               <h3 className=" text-sm font-semibold ">Status Pendanaan</h3>
@@ -318,16 +319,24 @@ const DetailPendanaan = () => {
         </div>
       </div>
       <div
-        className={`z-10 fixed flex items-center justify-center  inset-0 backdrop-brightness-50 ${
-          openModalVerified ? <TransaksiPendanaan /> : "hidden"
+        className={`z-10 fixed flex items-center justify-center inset-0 backdrop-brightness-50 transition-opacity ${
+          openModalVerified ? "" : "hidden"
         }`}
       >
-        <div>
-          <span>Verified</span>
+        <div className="bg-white flex flex-col gap-4">
+          <TransaksiPendanaan />
+          <div className="flex items-center  justify-end  ">
+            <button
+              onClick={() => setOpenModalVerified(false)}
+              className="bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+            >
+              Tutup
+            </button>
+          </div>
         </div>
       </div>
       <div
-        className={`z-10 fixed flex items-center justify-center  inset-0 backdrop-brightness-50 ${
+        className={`z-10 fixed flex items-center justify-center transition-transform duration-1000 inset-0 backdrop-brightness-50     ${
           openModalPending ? "" : "hidden"
         }`}
       >
@@ -352,7 +361,7 @@ const DetailPendanaan = () => {
               </p>
             </div>
             {/* Modal footer */}
-            <div className="flex items-center px-5 py-3 space-x-2 border-t border-gray-200 rounded-b ">
+            <div className="flex items-center px-5 py-3 space-x-2 justify-end border-t border-gray-200 rounded-b ">
               <button
                 onClick={() => setOpenModalPending(false)}
                 className="bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
@@ -364,8 +373,10 @@ const DetailPendanaan = () => {
         </div>
       </div>
       <div
-        className={`z-10 flex items-center justify-center fixed inset-0 backdrop-brightness-50   ${
-          openModalNotVerified ? "" : "hidden"
+        className={`z-10 flex items-center justify-center fixed inset-0 backdrop-brightness-50 transition-opacity  ${
+          openModalNotVerified
+            ? "opacity-100"
+            : "hidden opacity-0 pointer-events-none"
         }`}
       >
         <div className=" bg-white w-full max-w-md rounded-md">

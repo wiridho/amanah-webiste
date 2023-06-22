@@ -19,6 +19,8 @@ import Status_KYC from "./pages/lender/statusKYC/status_KYC";
 import DetailPendanaan from "./pages/lender/DetailPendanaan";
 import Deposit from "./pages/lender/Deposit";
 import TransaksiPendanaan from "./pages/lender/Pendanaan/TransaksiPendanaan";
+import Portofolio from "./pages/lender/Portofolio";
+import DepositIntruksi from "./pages/lender/DepositIntruksi";
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
   let is_public = is_auth ? false : true;
@@ -57,9 +59,11 @@ function App() {
               />
 
               <Route path="deposit" element={<Deposit />} />
+              <Route path="deposit/intruksi" element={<DepositIntruksi />} />
+              <Route path="portofolio" element={<Portofolio />} />
               <Route path="profile" element={<Profile />} />
               <Route path="kyc" element={<Kyc />} />
-              <Route path="status/kyc" element={<Status_KYC />} />
+              <Route path="kyc/status" element={<Status_KYC />} />
             </Route>
           </>
         )}

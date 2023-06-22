@@ -14,8 +14,8 @@ const CustomLink = ({ children, to, className, icon }) => {
     >
       <ButtonIcon
         icon={icon}
-        className={`text-sm tracking-wide truncate ${
-          isActive ? "bg-slate-100 font-semibold text-indigo-500" : ""
+        className={`text-sm tracking-wide truncate w-full ${
+          isActive ? "font-semibold text-indigo-500" : ""
         } `}
       >
         {children}

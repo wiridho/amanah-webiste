@@ -110,5 +110,3 @@ export const resendLoginOtp = createAsyncThunk(
     }
   }
 );
-
-// Handle Forgot Password

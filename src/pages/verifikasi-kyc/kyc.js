@@ -18,11 +18,16 @@ import {
 
 // Icon
 import { BsFillPersonVcardFill, BsPerson } from "react-icons/bs";
+import { setStatusKYC } from "../../store/reducer/AuthReducer";
 
 const Kyc = () => {
   const [visible, setVisible] = useState(false);
+
   const { accessToken, statusKYC } = useSelector((state) => state.auth);
+
   const [response, setResponseMessage] = useState("");
+
+  const [load, setLoad] = useState(true);
 
   const [imageUrlSelfie, setImageUrlSelfie] = useState(false);
   const [imageUrlKTP, setImageUrlKTP] = useState(false);
@@ -34,6 +39,23 @@ const Kyc = () => {
   const [gambarKTP, setGambarKTP] = useState(null);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const statusLender = async () => {
+    if (statusKYC !== "not verified") {
+      navigate("/funder/kyc/status");
+    }
+    if (load) {
+      let loadKYC = await getLenderStatusKYC({ accessToken });
+      console.log(loadKYC?.data?.kyc);
+      dispatch(setStatusKYC(loadKYC?.data?.kyc));
+      setLoad(false);
+    }
+  };
+
+  useEffect(() => {
+    statusLender();
+  }, []);
 
   // Calling useForm
   const {
@@ -59,7 +81,9 @@ const Kyc = () => {
       setVisible,
       navigate,
     });
-    if (result) {
+    console.log("result", result);
+    setLoad(result.status);
+    if (!result.status || result.status === "Validation Error") {
       setResponseMessage(result?.message);
     }
   };
@@ -76,192 +100,190 @@ const Kyc = () => {
     setAmbilGambarSelfie(false);
   };
 
-  if (statusKYC === "not verified") {
-    return (
-      <div>
-        <div className="my-2">
-          {response && (
-            <ErrorMessage
-              message={response}
-              visible={visible}
-              onClose={() => setVisible(false)}
-            />
-          )}
-        </div>
-        <form
-          className="bg-white px-5 py-2.5 rounded"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <h2 className="text-base font-semibold leading-7 text-gray-900">
-            Personal Information
-          </h2>
-          <div className="grid grid-cols-6 gap-3">
-            <div className="col-span-2">
-              <InputLabel
-                type={"number"}
-                name={"No.KTP"}
-                register={{
-                  ...register("idCardNumber", {
-                    required: true,
-                  }),
-                }}
-                errors={errors.idCardNumber}
-              >
-                No.KTP
-              </InputLabel>
-            </div>
-            <div className="col-span-2">
-              <InputLabel
-                type={"text"}
-                name={"Nama lengkap"}
-                register={{
-                  ...register("fullName", {
-                    required: true,
-                  }),
-                }}
-                errors={errors.fullName}
-              >
-                Nama Lengkap
-              </InputLabel>
-            </div>
-            <div className="col-span-2">
-              <Label>Jenis Kelamin</Label>
-              <div className="flex gap-3">
-                <div>
-                  <RadioButton
-                    name="Gender"
-                    register={{
-                      ...register("gender", {
-                        required: true,
-                      }),
-                    }}
-                    value={"male"}
-                    errors={errors.gender}
-                  >
-                    Male
-                  </RadioButton>
-                </div>
-                <div>
-                  <RadioButton
-                    name="gender"
-                    register={{
-                      ...register("gender", {
-                        required: true,
-                      }),
-                    }}
-                    value={"female"}
-                  >
-                    Female
-                  </RadioButton>
-                </div>
-              </div>
-            </div>
-            <div className="col-span-2">
-              <InputLabel
-                name={"Tanggal Lahir"}
-                register={{
-                  ...register("birthDate", {
-                    required: true,
-                  }),
-                }}
-                errors={errors.birthDate}
-                type={"date"}
-              >
-                Tanggal lahir
-              </InputLabel>
-            </div>
-            <div className="col-span-2">
-              <InputLabel
-                type={"text"}
-                name={"Pekerjaan"}
-                register={{
-                  ...register("workName", {
-                    required: true,
-                  }),
-                }}
-                errors={errors.workName}
-              >
-                Pekerjaan
-              </InputLabel>
-            </div>
-            <div className="col-span-2">
-              <InputLabel
-                type={"number"}
-                name={"Pendapatan"}
-                register={{
-                  ...register("salary", {
-                    required: true,
-                  }),
-                }}
-                errors={errors.salary}
-              >
-                Pendapatan
-              </InputLabel>
-            </div>
-            {/* Webcam */}
-            <div className="col-span-3">
-              <div>
-                <Label>Foto Selfie Data Diri</Label>
-                {gambarSelfie && <span>{gambarSelfie.name}</span>}
-              </div>
-              {ambilGambarSelfie ? (
-                <Webcam
-                  setImageUrl={setImageUrlSelfie}
-                  selfieFile={handleDataSelfie}
-                  fileName={"selfie.png"}
-                />
-              ) : (
-                <div>
-                  <ButtonIcon
-                    className={
-                      "!px-4 !py-2 bg-blue-500 text-white hover:bg-transparent hover:text-blue-500 border hover:border-indigo-500"
-                    }
-                    onClick={() => setAmbilGambarSelfie(!ambilGambarSelfie)}
-                    type={"button"}
-                  >
-                    <BsPerson />
-                    Ambil Data Diri
-                  </ButtonIcon>
-                </div>
-              )}
-            </div>
-            <div className="col-span-3">
-              <div>
-                <Label>Gambar KTP</Label>
-                {gambarKTP && <span>{gambarKTP.name}</span>}
-              </div>
-              {ambilGambarKTP ? (
-                <Webcam
-                  setImageUrl={setImageUrlKTP}
-                  selfieFile={handleDataKtp}
-                  fileName={"KTP.png"}
-                />
-              ) : (
-                <div>
-                  <ButtonIcon
-                    className={
-                      "bg-blue-500 text-white hover:bg-transparent hover:text-indigo-500 border hover:border-indigo-500"
-                    }
-                    onClick={() => setAmbilGambarKTP(!ambilGambarKTP)}
-                    type={"button"}
-                  >
-                    <BsFillPersonVcardFill className="" />
-                    Ambil foto KTP
-                  </ButtonIcon>
-                </div>
-              )}
-            </div>
-            <Button
-              type={"submit"}
-              className={` bg-red-500 text-white disabled:bg-gray-500`}
-            >
-              Verifikasi Data Diri
-            </Button>
-          </div>
-        </form>
+  return (
+    <div>
+      <div className="my-2">
+        {response && (
+          <ErrorMessage
+            message={response}
+            visible={visible}
+            onClose={() => setVisible(false)}
+          />
+        )}
       </div>
-    );
-  }
+      <form
+        className="bg-white px-5 py-2.5 rounded"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <h2 className="text-base font-semibold leading-7 text-gray-900">
+          Personal Information
+        </h2>
+        <div className="grid grid-cols-6 gap-3">
+          <div className="col-span-2">
+            <InputLabel
+              type={"number"}
+              name={"No.KTP"}
+              register={{
+                ...register("idCardNumber", {
+                  required: true,
+                }),
+              }}
+              errors={errors.idCardNumber}
+            >
+              No.KTP
+            </InputLabel>
+          </div>
+          <div className="col-span-2">
+            <InputLabel
+              type={"text"}
+              name={"Nama lengkap"}
+              register={{
+                ...register("fullName", {
+                  required: true,
+                }),
+              }}
+              errors={errors.fullName}
+            >
+              Nama Lengkap
+            </InputLabel>
+          </div>
+          <div className="col-span-2">
+            <Label>Jenis Kelamin</Label>
+            <div className="flex gap-3">
+              <div>
+                <RadioButton
+                  name="Gender"
+                  register={{
+                    ...register("gender", {
+                      required: true,
+                    }),
+                  }}
+                  value={"male"}
+                  errors={errors.gender}
+                >
+                  Male
+                </RadioButton>
+              </div>
+              <div>
+                <RadioButton
+                  name="gender"
+                  register={{
+                    ...register("gender", {
+                      required: true,
+                    }),
+                  }}
+                  value={"female"}
+                >
+                  Female
+                </RadioButton>
+              </div>
+            </div>
+          </div>
+          <div className="col-span-2">
+            <InputLabel
+              name={"Tanggal Lahir"}
+              register={{
+                ...register("birthDate", {
+                  required: true,
+                }),
+              }}
+              errors={errors.birthDate}
+              type={"date"}
+            >
+              Tanggal lahir
+            </InputLabel>
+          </div>
+          <div className="col-span-2">
+            <InputLabel
+              type={"text"}
+              name={"Pekerjaan"}
+              register={{
+                ...register("workName", {
+                  required: true,
+                }),
+              }}
+              errors={errors.workName}
+            >
+              Pekerjaan
+            </InputLabel>
+          </div>
+          <div className="col-span-2">
+            <InputLabel
+              type={"number"}
+              name={"Pendapatan"}
+              register={{
+                ...register("salary", {
+                  required: true,
+                }),
+              }}
+              errors={errors.salary}
+            >
+              Pendapatan
+            </InputLabel>
+          </div>
+          {/* Webcam */}
+          <div className="col-span-3">
+            <div>
+              <Label>Foto Selfie Data Diri</Label>
+              {gambarSelfie && <span>{gambarSelfie.name}</span>}
+            </div>
+            {ambilGambarSelfie ? (
+              <Webcam
+                setImageUrl={setImageUrlSelfie}
+                selfieFile={handleDataSelfie}
+                fileName={"selfie.png"}
+              />
+            ) : (
+              <div>
+                <ButtonIcon
+                  className={
+                    "!px-4 !py-2 bg-blue-500 text-white hover:bg-transparent hover:text-blue-500 border hover:border-indigo-500"
+                  }
+                  onClick={() => setAmbilGambarSelfie(!ambilGambarSelfie)}
+                  type={"button"}
+                >
+                  <BsPerson />
+                  Ambil Data Diri
+                </ButtonIcon>
+              </div>
+            )}
+          </div>
+          <div className="col-span-3">
+            <div>
+              <Label>Gambar KTP</Label>
+              {gambarKTP && <span>{gambarKTP.name}</span>}
+            </div>
+            {ambilGambarKTP ? (
+              <Webcam
+                setImageUrl={setImageUrlKTP}
+                selfieFile={handleDataKtp}
+                fileName={"KTP.png"}
+              />
+            ) : (
+              <div>
+                <ButtonIcon
+                  className={
+                    "bg-blue-500 text-white hover:bg-transparent hover:text-indigo-500 border hover:border-indigo-500"
+                  }
+                  onClick={() => setAmbilGambarKTP(!ambilGambarKTP)}
+                  type={"button"}
+                >
+                  <BsFillPersonVcardFill className="" />
+                  Ambil foto KTP
+                </ButtonIcon>
+              </div>
+            )}
+          </div>
+          <Button
+            type={"submit"}
+            className={` bg-red-500 text-white disabled:bg-gray-500`}
+          >
+            Verifikasi Data Diri
+          </Button>
+        </div>
+      </form>
+    </div>
+  );
 };
 
 export default Kyc;

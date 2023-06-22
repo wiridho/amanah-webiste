@@ -8,7 +8,11 @@ export const getProfileLender = async ({ accessToken }) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    return response?.data;
+    const profileImg = await axios.get(
+      `https://ui-avatars.com/api/?name=${response?.data?.data?.name}`
+    );
+
+    return { ...response?.data.data, profileImg };
   } catch (error) {
     console.log(error);
   }

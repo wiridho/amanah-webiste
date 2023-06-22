@@ -58,12 +58,12 @@ const CardPendanaan = ({ data }) => {
                         Jumlah Pinjaman
                       </span>
                       <span className="font-bold text-base text-gray-custom1 ">
-                        Rp. {FormatMataUang(item.amount)}
+                        {FormatMataUang(item.amount)}
                       </span>
                     </div>
                     <div className="flex flex-col gap-2 col-span-2 ">
                       <span className="text-xs text-gray-600 ">
-                        Metode Pembayaran
+                        Skema Pelunasan
                       </span>
                       <span className=" text-sm text-grayCustom1 font-semibold">
                         {item.paymentSchema}
@@ -76,7 +76,9 @@ const CardPendanaan = ({ data }) => {
                       </div>
                     </div>
                     <div className="flex flex-col gap-2">
-                      <span className="text-xs text-gray-600 ">Purpose</span>
+                      <span className="text-xs text-gray-600 ">
+                        Tujuan Peminjaman
+                      </span>
                       <span className="font-semibold text-sm text-grayCustom1">
                         {TruncateString(item.purpose, 36)}
                       </span>
