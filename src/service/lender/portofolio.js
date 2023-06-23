@@ -6,7 +6,6 @@ export const handlePortofolio = createAsyncThunk(
   "portofolio",
   async ({ accessToken }, { rejectWithValue }) => {
     try {
-      console.log(accessToken);
       const response = await axios.get(`${apiConfig.baseUrl}/lenders/funding`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,

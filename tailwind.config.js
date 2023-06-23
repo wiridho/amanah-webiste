@@ -17,6 +17,7 @@ module.exports = {
         grayCustom1: "#303030",
       },
       fontFamily: {
+        "nunito-sans": ["Nunito Sans", "sans-serif"],
         lato: ["Lato", "sans-serif"],
         // inter: ["Inter", "sans-serif"],
         // testing: ["Kanit", "sans-serif"],

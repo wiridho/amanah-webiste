@@ -2,7 +2,10 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DashboardLender from "./components/template/DashboardLender";
+
 import Beranda from "./pages/lender/Beranda";
+import Borrower from "./pages/borrower/Beranda";
+
 import RegisterInit from "./pages/authentication/RegisterInit";
 import ProtectRoute from "./components/protect_route/ProtectRoute";
 import Lending from "./pages/public/Lending";
@@ -21,6 +24,7 @@ import Deposit from "./pages/lender/Deposit";
 import TransaksiPendanaan from "./pages/lender/Pendanaan/TransaksiPendanaan";
 import Portofolio from "./pages/lender/Portofolio";
 import DepositIntruksi from "./pages/lender/DepositIntruksi";
+import Withdraw from "./pages/lender/withdraw/Withdraw";
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
   let is_public = is_auth ? false : true;
@@ -33,7 +37,7 @@ function App() {
           <>
             <Route
               path="*"
-              element={<Navigate to={"/funder/beranda"} replace={true} />}
+              element={<Navigate to={"/funder"} replace={true} />}
             />
             <Route
               path="/"
@@ -58,6 +62,7 @@ function App() {
                 element={<TransaksiPendanaan />}
               />
 
+              <Route path="withdraw" element={<Withdraw />} />
               <Route path="deposit" element={<Deposit />} />
               <Route path="deposit/intruksi" element={<DepositIntruksi />} />
               <Route path="portofolio" element={<Portofolio />} />
@@ -78,16 +83,7 @@ function App() {
               path="/"
               element={<Navigate to={"/borrower"} replace={true} />}
             />
-            {/* <Route
-              path="borrower"
-              element={
-                <ProtectRoute
-                  valid={is_auth}
-                  to={"/login"}
-                  children={"Borrower Dashboard"}
-                />
-              }
-            /> */}
+
             <Route
               path="borrower"
               element={
@@ -97,7 +93,9 @@ function App() {
                   children={<DashboardBorrower />}
                 />
               }
-            ></Route>
+            >
+              <Route index element={<Borrower />} />
+            </Route>
           </>
         )}
 

@@ -25,7 +25,7 @@ import { FormatMataUang } from "../../utils/FormatMataUang";
 import { GiPayMoney } from "react-icons/gi";
 import { GoNote } from "react-icons/go";
 import { BsPersonFill } from "react-icons/bs";
-import { BiCategoryAlt, BiCoinStack, BiTimer } from "react-icons/bi";
+import { BiCategoryAlt, BiCoinStack, BiMoney, BiTimer } from "react-icons/bi";
 import { MdOutlineSentimentSatisfied } from "react-icons/md";
 
 import BreadCumb from "../../components/atom/breadcumb/BreadCumb";
@@ -70,11 +70,11 @@ const DetailPendanaan = () => {
   const performanceBorrower = detailData?.borrower?.performance;
 
   return (
-    <div className="">
+    <div className="font-sans">
       <BreadCumb links={breadCumbLinks} />
-      <div className="grid grid-cols-3 gap-3">
-        <div className="col-span-2">
-          <div className="my-6">
+      <div className="grid grid-cols-3 gap-3 pt-10">
+        <div className="col-span-2 ">
+          <div className="">
             <div className="flex flex-col gap-4">
               {/* Informasi Peminjam */}
               <div className=" ">
@@ -111,7 +111,7 @@ const DetailPendanaan = () => {
                       </div>
                       <div className="flex flex-col">
                         <span className="text-gray-500 text-sm">
-                          Kredit Skor
+                          Kredit skor
                         </span>
                         <span className="font-semibold">2.4</span>
                       </div>
@@ -152,7 +152,7 @@ const DetailPendanaan = () => {
                           <HiOutlineCash size={20} />
                           <span className="font-medium">Jumlah Pembiayaan</span>
                         </div>
-                        <span className="font-bold">
+                        <span className="font-bold font-mono">
                           {FormatMataUang(detailData?.amount)}
                         </span>
                       </div>
@@ -200,40 +200,44 @@ const DetailPendanaan = () => {
                   <span className="inline-block font-semibold text-sm mb-2">
                     Performa Penerima Pendanaan
                   </span>
-                  <div className="rounded bg-white overflow-hidden shadow flex flex-col px-6 py-4">
+                  <div className="rounded-md  bg-white overflow-hidden shadow flex flex-col px-6 py-4">
                     <div className="flex flex-col gap-6">
                       <div className="flex flex-col gap-2">
-                        <span className="font-bold">
+                        <span className="font-bold text-gray-700">
                           Track Record Pembiayaan
                         </span>
                         <div className="flex flex-col gap-1">
                           <div className="flex justify-between">
-                            <span className="">Dana Tersalurkan</span>
+                            <span className="text-gray-600 font-semibold">
+                              Dana Tersalurkan
+                            </span>
                             <span>Rp2.000.000</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="">Pembiayaan Tersalurkan</span>
+                          <div className="flex justify-between ">
+                            <span className="text-[#545454] font-semibold">
+                              Pembiayaan Tersalurkan
+                            </span>
                             <span>Rp4.000.000</span>
                           </div>
                         </div>
                       </div>
                       <div className="flex flex-col gap-2">
-                        <span className="font-bold">
+                        <span className="font-bold text-[#545454]">
                           Performa Pengembalian Dana
                         </span>
                         <div className="flex flex-col gap-1">
                           <div className="flex justify-between">
-                            <span className="flex items-center gap-2">
+                            <span className="flex items-center gap-2 font-semibold text-gray-700">
                               <HiOutlineFastForward
                                 size={30}
-                                className="text-gray-400"
+                                className="text-gray-600 "
                               />
                               Dipercepat
                             </span>
                             <span>0</span>
                           </div>
                           <div className="flex justify-between">
-                            <span className="flex items-center gap-2">
+                            <span className="flex items-center gap-2 font-semibold text-gray-700">
                               <MdOutlineSentimentSatisfied
                                 size={30}
                                 className=" text-gray-400"
@@ -260,16 +264,18 @@ const DetailPendanaan = () => {
           </div>
         </div>
 
-        <div className="col-span-1 sticky top-0">
-          <div className="sticky top-0">
-            {/* <strong className="rounded-full border border-blue-600 bg-gray-100 px-3 py-0.5 text-xs font-medium tracking-wide text-blue-600">
-            </strong> */}
-
+        <div className="col-span-1 ">
+          <div className="sticky  top-[20px]">
             {/* Card Funding */}
-            <div className="block px-6 py-4 bg-white border border-gray-200 rounded-lg shadow">
-              <h3 className=" text-sm font-semibold ">Status Pendanaan</h3>
+            <span className="font-semibold inline-block mb-2 text-sm ">
+              Progress Pendanaan
+            </span>
+            <div className="block p-5 bg-white border border-gray-200 rounded-lg shadow">
+              {/* <h3 className=" text-sm font-semibold ">Status Pendanaan</h3> */}
               <div className="flex justify-between ">
-                <p className="mt-2 hidden text-sm sm:block">Sisa Slot</p>
+                <p className="mt-2 hidden text-sm sm:block font-semibold">
+                  Sisa Slot
+                </p>
                 <p className="mt-2 hidden text-sm sm:block">
                   {FormatMataUang(
                     detailData?.amount - detailData?.totalFunding
@@ -277,7 +283,9 @@ const DetailPendanaan = () => {
                 </p>
               </div>
               <div className="flex justify-between">
-                <p className="mt-2 hidden text-sm sm:block">Terdanai</p>
+                <p className="mt-2 hidden text-sm sm:block font-semibold">
+                  Terdanai
+                </p>
                 <p className="mt-2 hidden text-sm sm:block">
                   {FormatMataUang(detailData?.totalFunding)}
                 </p>
@@ -309,7 +317,7 @@ const DetailPendanaan = () => {
                 onClick={onClick}
                 type={"button"}
                 className={
-                  "bg-indigo-500 hover:bg-indigo-700 !rounded-full text-white font-semibold w-full"
+                  "bg-indigo-700 hover:bg-indigo-800 text-white font-semibold w-full"
                 }
               >
                 Danai Sekarang

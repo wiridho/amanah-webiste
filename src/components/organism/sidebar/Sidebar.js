@@ -25,7 +25,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen sticky top-[0px]">
       <aside className="w-64 ">
         <div className="flex items-center h-16 border-b p-2 pl-4">
           <div className="">
