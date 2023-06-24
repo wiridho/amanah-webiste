@@ -22,24 +22,21 @@ import { setStatusKYC } from "../../store/reducer/AuthReducer";
 
 const Kyc = () => {
   const [visible, setVisible] = useState(false);
-
-  const { accessToken, statusKYC } = useSelector((state) => state.auth);
-
   const [response, setResponseMessage] = useState("");
-
   const [load, setLoad] = useState(true);
 
   const [imageUrlSelfie, setImageUrlSelfie] = useState(false);
   const [imageUrlKTP, setImageUrlKTP] = useState(false);
-
   const [ambilGambarSelfie, setAmbilGambarSelfie] = useState(false);
   const [ambilGambarKTP, setAmbilGambarKTP] = useState(false);
-
   const [gambarSelfie, setGambarSelfie] = useState(null);
   const [gambarKTP, setGambarKTP] = useState(null);
 
+  const { accessToken } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const statusKYC = "not verified";
 
   const statusLender = async () => {
     if (statusKYC !== "not verified") {
@@ -55,7 +52,7 @@ const Kyc = () => {
 
   useEffect(() => {
     statusLender();
-  }, []);
+  }, [dispatch, statusKYC]);
 
   // Calling useForm
   const {
@@ -81,7 +78,6 @@ const Kyc = () => {
       setVisible,
       navigate,
     });
-    console.log("result", result);
     setLoad(result.status);
     if (!result.status || result.status === "Validation Error") {
       setResponseMessage(result?.message);
@@ -89,19 +85,20 @@ const Kyc = () => {
   };
 
   const handleDataKtp = (data) => {
-    console.log("Gambar KTP", data);
     setGambarKTP(data);
     setAmbilGambarKTP(false);
   };
 
   const handleDataSelfie = (data) => {
-    console.log("Gambar Selfie", data);
     setGambarSelfie(data);
     setAmbilGambarSelfie(false);
   };
 
+  const isPhotoFilled = () => {
+    return gambarKTP && gambarSelfie;
+  };
   return (
-    <div>
+    <div className="bg-white px-4 py-2">
       <div className="my-2">
         {response && (
           <ErrorMessage
@@ -222,10 +219,14 @@ const Kyc = () => {
             </InputLabel>
           </div>
           {/* Webcam */}
-          <div className="col-span-3">
-            <div>
-              <Label>Foto Selfie Data Diri</Label>
-              {gambarSelfie && <span>{gambarSelfie.name}</span>}
+          <div className="col-span-3 flex flex-col items-center justify-center">
+            <div className="">
+              <Label>Ambil Selfie</Label>
+              {gambarSelfie && (
+                <span className="flex justify-center bg-gray-400 text-white px-2 py-1 mb-2 rounded-md ">
+                  {gambarSelfie.name}
+                </span>
+              )}
             </div>
             {ambilGambarSelfie ? (
               <Webcam
@@ -248,10 +249,14 @@ const Kyc = () => {
               </div>
             )}
           </div>
-          <div className="col-span-3">
+          <div className="col-span-3 flex flex-col items-center justify-center">
             <div>
-              <Label>Gambar KTP</Label>
-              {gambarKTP && <span>{gambarKTP.name}</span>}
+              <Label>Ambil foto KTP</Label>
+              {gambarKTP && (
+                <span className="flex justify-center bg-gray-400 text-white px-2 py-1 mb-2 rounded-md ">
+                  {gambarKTP.name}
+                </span>
+              )}
             </div>
             {ambilGambarKTP ? (
               <Webcam
@@ -260,10 +265,10 @@ const Kyc = () => {
                 fileName={"KTP.png"}
               />
             ) : (
-              <div>
+              <div className="flex">
                 <ButtonIcon
                   className={
-                    "bg-blue-500 text-white hover:bg-transparent hover:text-indigo-500 border hover:border-indigo-500"
+                    "bg-blue-500  text-white hover:bg-transparent hover:text-indigo-500 border hover:border-indigo-500"
                   }
                   onClick={() => setAmbilGambarKTP(!ambilGambarKTP)}
                   type={"button"}
@@ -274,14 +279,21 @@ const Kyc = () => {
               </div>
             )}
           </div>
-          <Button
-            type={"submit"}
-            className={` bg-red-500 text-white disabled:bg-gray-500`}
-          >
-            Verifikasi Data Diri
-          </Button>
         </div>
       </form>
+      <div>
+        <div className=" flex justify-center ">
+          <Button
+            type={"submit"}
+            disabled={!isPhotoFilled()}
+            className={` bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-500 ${
+              !isPhotoFilled() && "disabled:bg-gray-500"
+            }`}
+          >
+            Verifikasi Diri
+          </Button>
+        </div>
+      </div>
     </div>
   );
 };

@@ -17,7 +17,7 @@ import Login from "./pages/authentication/Login";
 import DashboardBorrower from "./components/template/DashboardBorrower";
 import Pendanaan from "./pages/lender/Pendanaan";
 import Profile from "./pages/lender/Profile";
-import Kyc from "./pages/verifikasi-kyc/kyc";
+import Kyc from "./pages/verifikasiKyc/kyc";
 import Status_KYC from "./pages/lender/statusKYC/status_KYC";
 import DetailPendanaan from "./pages/lender/DetailPendanaan";
 import Deposit from "./pages/lender/Deposit";

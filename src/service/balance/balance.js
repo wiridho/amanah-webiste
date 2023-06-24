@@ -2,15 +2,17 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import apiConfig from "../../api/apiConfig";
 
-export const handlePortofolio = createAsyncThunk(
-  "portofolio",
-  async ({ accessToken }, { rejectWithValue }) => {
+// Handle Get Balance
+export const handleGetBalance = createAsyncThunk(
+  "balance/getBalance",
+  async ({ accessToken, data }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`${apiConfig.baseUrl}/lenders/funding`, {
+      const response = await axios.get(`${apiConfig.baseUrl}/balance`, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      console.log("get balance", response);
       return response?.data?.data;
     } catch (error) {
       const message_error = error.response?.data?.message;

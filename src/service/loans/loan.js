@@ -1,9 +1,10 @@
 import axios from "axios";
 import apiConfig from "../../api/apiConfig";
 
-export const getAvailableLoan = async ({ accessToken }) => {
+export const getAvailableLoan = async ({ params, accessToken }) => {
   try {
     const response = await axios.get(`${apiConfig.baseUrl}/loans/available`, {
+      params: params,
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -27,7 +28,6 @@ export const getDetailLoan = async ({ accessToken, loanId }) => {
     );
     return response?.data;
   } catch (err) {
-    console.log(err);
-    throw err;
+    return { data: null };
   }
 };

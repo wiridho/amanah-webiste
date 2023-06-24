@@ -36,49 +36,6 @@ const WebcamCapture = ({ selfieFile, fileName, setImageUrl }) => {
     setIsRetake(false);
   };
 
-  // const uploadImage = async () => {
-  //   try {
-  //     const formData = new FormData();
-
-  //     formData.append("personal.fullName", "RONALDO");
-  //     formData.append("personal.gender", "male");
-  //     formData.append("personal.birthDate", "2020-10-10");
-  //     formData.append("personal.work.name", "FOOTBALLER THE BEST");
-  //     formData.append("personal.work.salary", "9999999999");
-  //     formData.append("relativesContact.firstRelative.name", "MESSI");
-  //     formData.append("relativesContact.firstRelative.relation", "Anak");
-  //     formData.append(
-  //       "relativesContact.firstRelative.phoneNumber",
-  //       "090293284"
-  //     );
-  //     formData.append("relativesContact.secondRelative.name", "MESSI");
-  //     formData.append("relativesContact.secondRelative.relation", "Anak");
-  //     formData.append(
-  //       "relativesContact.secondRelative.phoneNumber",
-  //       "090293284"
-  //     );
-  //     // formData.append('relatives', dataURLtoFile(imageSrc));
-  //     // formData.append('image', dataURLtoFile(imageSrc));
-  //     formData.append("idCardImage", dataURLtoFile(capturedImage));
-  //     formData.append("faceImage", dataURLtoFile(capturedImage));
-
-  //     const response = await axios.put(
-  //       `${apiConfig.baseUrl}/borrowers/request/verification`,
-  //       formData,
-  //       {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //           Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDg1Y2VjOTRmZjYwMDAxNGUwNWVkNjIiLCJyb2xlcyI6ImJvcnJvd2VyIiwidmVyaWZpZWRFbWFpbCI6dHJ1ZSwidmVyaWZpZWRLWUMiOmZhbHNlLCJpYXQiOjE2ODY1NTk3OTYsImV4cCI6MTY4NzE2NDU5Nn0.J9QsxF1harrm2MZ3X4YCQzDE9diJGWBcYl8KTmETczo`,
-  //         },
-  //       }
-  //     );
-
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error("Error while posting the image", error);
-  //   }
-  // };
-
   const saveImage = () => {
     setImageUrl(capturedImage);
     const file = dataURLtoFile(capturedImage, fileName);

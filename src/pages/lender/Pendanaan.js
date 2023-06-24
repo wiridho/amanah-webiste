@@ -1,16 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getAvailableLoan } from "../../service/loans/loan";
 import { useForm } from "react-hook-form";
-import { Accordion } from "../../components/atom";
-import { CheckboxList, InputLabel } from "../../components/molekul";
+import { Accordion, Slider } from "../../components/atom";
+import { InputLabel } from "../../components/molekul";
+
+import RangeSlider from "react-range-slider-input";
+import "react-range-slider-input/dist/style.css";
 
 import CardPendanaan from "./CardPendanaan";
 import { Button } from "../../components/atom";
-import { useState } from "react";
 
 const Pendanaan = () => {
   const [loanList, setListLoan] = useState(null);
+  const [value, setValue] = useState([1, 3]);
   const { accessToken } = useSelector((state) => state.auth);
 
   const {
@@ -20,27 +23,37 @@ const Pendanaan = () => {
     formState: { errors },
   } = useForm();
 
+  const filterDefault = async () => {
+    let tenor = { tenor_min: 1, tenor_max: 3 };
+    const response = await getAvailableLoan({
+      params: tenor,
+      accessToken,
+    });
+    setListLoan(response?.data);
+    setValue([1, 3]);
+  };
+
   useEffect(() => {
-    (async () => {
-      const response = await getAvailableLoan({ accessToken });
-      const data = response?.data;
-      setListLoan(data);
-    })();
+    filterDefault();
   }, []);
 
-  const onSubmit = (data) => {
-    console.log("filter", data);
+  const onSubmit = async (data) => {
+    let tenorValue = {
+      tenor_min: value[0],
+      tenor_max: value[1],
+    };
+    let params = {
+      ...data,
+      ...tenorValue,
+    };
+    const response = await getAvailableLoan({ params, accessToken });
+    setListLoan(response?.data);
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
     reset();
+    await filterDefault();
   };
-
-  let checkbox_data = [
-    { label: "1-3 bulan", value: "tenor_min=1&tenor_max=3" },
-    { label: "4-5 bulan", value: "tenor_min=4&tenor_max=5" },
-    { label: "6 bulan", value: "tenor_max=6" },
-  ];
 
   return (
     <div className="">
@@ -92,24 +105,21 @@ const Pendanaan = () => {
                 </div>
                 <div>
                   <Accordion
-                    name="tenor"
-                    title="Durasi Pengembalian"
+                    title={"Durasi Pengembalian"}
+                    className={"p-4"}
                     children={
-                      <div className="mb-4">
-                        {checkbox_data.map((item, index) => {
-                          return (
-                            <div key={index} className="pb-1">
-                              <CheckboxList
-                                label={item.label}
-                                value={item.value}
-                                name={"tenor"}
-                                register={{
-                                  ...register("tenor"),
-                                }}
-                              />
-                            </div>
-                          );
-                        })}
+                      <div className="">
+                        <RangeSlider
+                          className={"my-3"}
+                          min={1}
+                          max={12}
+                          step={1}
+                          value={value}
+                          onInput={setValue}
+                        />
+                        <span className="flex justify-center pb-4 font-nunito-sans text-sm">
+                          {value[0]}-{value[1]} Bulan
+                        </span>
                       </div>
                     }
                   />
@@ -136,7 +146,11 @@ const Pendanaan = () => {
           </div>
         </div>
         {/* Card Pendanaan */}
-        {loanList ? <CardPendanaan data={loanList} /> : " No Loan Available"}
+        {loanList?.length > 0 ? (
+          <CardPendanaan data={loanList} />
+        ) : (
+          "No Loan Available"
+        )}
       </div>
     </div>
   );

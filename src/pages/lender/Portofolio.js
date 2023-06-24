@@ -1,118 +1,150 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { handlePortofolio } from "../../service/lender/portofolio";
 import { useDispatch, useSelector } from "react-redux";
 
 // Icon
-import { HiChartPie } from "react-icons/hi";
-import { FaChartPie, FaFilePdf } from "react-icons/fa";
-import { titleCase } from "../../utils/FormatTitleCase";
-import { Link } from "react-router-dom";
-import { Badge } from "../../components/atom";
+import { FaChartPie } from "react-icons/fa";
+
+// Komponen
+import CardPortofolio from "../../components/organism/cardPortofolio/CardPortofolio";
 const Portofolio = () => {
-  const [tab, setTab] = useState("berjalan");
+  const [tab, setTab] = useState("active");
   const { accessToken } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(handlePortofolio({ accessToken }));
-  }, []);
+  }, [dispatch, accessToken]);
+
+  const portofolio = {
+    active: {
+      summary: {
+        totalFunding: 120000,
+        totalYield: 70000,
+      },
+      funding: [
+        {
+          funds: {
+            amount: 500000,
+            yieldReturn: 50000,
+            repaymentDate: "2023-09-10T00:00:00.000Z",
+          },
+          Loan: {
+            borrower: {
+              name: "John Doe",
+              creditScore: 500,
+            },
+            loan: {
+              loanId: "tes",
+              amount: 5000000,
+              tenor: 5,
+            },
+          },
+        },
+        {
+          funds: {
+            amount: 1200000,
+            yieldReturn: 40000,
+            repaymentDate: "2023-10-10T00:00:00.000Z",
+          },
+          Loan: {
+            borrower: {
+              name: "The Undertaker",
+              creditScore: 500,
+            },
+            loan: {
+              loanId: "tes2",
+              amount: 5000000,
+              tenor: 2,
+            },
+          },
+        },
+      ],
+    },
+    done: {
+      summary: {
+        totalFunding: 5000000,
+        totalYield: 200000,
+      },
+      funding: [
+        {
+          funds: {
+            amount: 500000,
+            yieldReturn: 50000,
+            repaymentDate: "2023-08-10T00:00:00.000Z",
+          },
+          Loan: {
+            borrower: {
+              name: "Lionel Messi",
+              creditScore: 500,
+            },
+            loan: {
+              loanId: "640410c5465ed9af9ccb8912",
+              amount: 5000000,
+              tenor: 5,
+            },
+          },
+        },
+      ],
+    },
+  };
 
   return (
     <div>
       <div className="flex flex-col mb-4">
         <span className="font-semibold text-xl">Portofolio</span>
-        <span>Total 0 berjalan, 0 selesai</span>
+        <span>
+          Total {portofolio.active.funding.length} berjalan,{" "}
+          {portofolio.done.funding.length} selesai
+        </span>
       </div>
       <div className="mb-4">
         <div className="flex border-b border-gray-100 text-sm ">
           <span
             className={`px-4 py-2  flex border-b  ${
-              tab === "berjalan"
+              tab === "active"
                 ? "-mb-px border-b-2 border-current p-4 text-indigo-500 font-semibold"
                 : "  text-gray-400 hover:cursor-pointer hover:text-indigo-600"
             }`}
-            onClick={() => setTab("berjalan")}
+            onClick={() => setTab("active")}
           >
             Berjalan
           </span>
           <span
             className={`px-4 py-2 flex border-b  ${
-              tab === "selesai"
+              tab === "done"
                 ? "-mb-px border-b-2 border-current p-4 text-indigo-500 font-semibold"
                 : " text-gray-400 hover:text-indigo-700 hover:cursor-pointer "
             }`}
-            onClick={() => setTab("selesai")}
+            onClick={() => setTab("done")}
           >
             Selesai
           </span>
         </div>
       </div>
       <div className="grid grid-cols-5 gap-14">
+        {/* Card Portofolio */}
         <div className="col-span-3">
-          <Link
-            to="#"
-            className="relative block overflow-hidden shadow  rounded-md bg-white border border-gray-100 p-4 sm:p-6 lg:p-6"
-          >
-            <span className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-indigo-500 via-indigo-700 to-indigo-900"></span>
-
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold text-[#194175] sm:text-xl ">
-                John Cena
-              </h3>
-              <span>
-                <Badge className={"border border-indigo-600  text-indigo-500"}>
-                  500
-                </Badge>
-              </span>
-            </div>
-
-            <div className="mt-4 flex flex-col gap-">
-              <div className="flex justify-between">
-                <span className="text-base text-[#194175] font-medium">
-                  Pendanaanmu
-                </span>
-                <span className="font-mono font-semibold text-gray-700">
-                  Rp500.000
-                </span>
+          {portofolio[tab].funding.map((item, index) => {
+            const { name, creditScore } = item?.Loan?.borrower;
+            const { repaymentDate, amount, yieldReturn } = item?.funds;
+            const { tenor, loanId } = item?.Loan?.loan;
+            return (
+              <div className="mb-2.5" key={index}>
+                <CardPortofolio
+                  name={name}
+                  creditScore={creditScore}
+                  repaymentDate={repaymentDate}
+                  amount={amount}
+                  yieldReturn={yieldReturn}
+                  tenor={tenor}
+                  loanId={loanId}
+                />
               </div>
-              <div className="flex justify-between">
-                <span className="text-base text-gray-800">
-                  Estimasi Imbal Hasil
-                </span>
-                <span className="font-semibold  font-mono text-gray-700">
-                  Rp20.000
-                </span>
-              </div>
-            </div>
-
-            <dl className="mt-6 flex gap-4 sm:gap-6 justify-between">
-              <div className="flex justify-between gap-7">
-                <div className="flex flex-col">
-                  <dt className="text-xs  text-gray-500">Tanggal Pelunasan</dt>
-                  <dd className="text-sm text-gray-700 font-medium">
-                    04 April 2023
-                  </dd>
-                </div>
-
-                <div className="flex flex-col">
-                  <dd className="text-xs text-gray-500">Tenor</dd>
-                  <dt className="text-sm font-medium text-gray-600">5 bulan</dt>
-                </div>
-              </div>
-              <div className="">
-                <a
-                  class="flex items-center gap-1  border border-indigo-800 bg-indigo-800 px-4 py-2 rounded-full text-sm font-medium text-white hover:bg-transparent hover:text-indigo-600 focus:outline-none focus:ring active:text-indigo-500"
-                  href="/download"
-                >
-                  <FaFilePdf color="text-indigo-600" size={18} />
-                  Kontrak
-                </a>
-              </div>
-            </dl>
-          </Link>
+            );
+          })}
         </div>
+        {/* Card Portofolio */}
         {/* Summary / Ringkasan */}
         <div className="col-span-2">
           <div className="bg-gradient-to-b from-[#003b65] to-[#004c7f] shadow-lg rounded-md text-white">
@@ -124,7 +156,8 @@ const Portofolio = () => {
                 <div>
                   <span>Ringkasan </span>
                   <span className="font-semibold">
-                    1 Pendanaan {titleCase(tab)}
+                    {portofolio[tab].funding.length} Pendanaan
+                    {tab === "active" ? " berjalan" : " selesai"}
                   </span>
                 </div>
               </div>
@@ -132,13 +165,18 @@ const Portofolio = () => {
                 <span className="text-center mt-2">
                   <div className="flex flex-col">
                     <span className="text-sm">Total Pendanaan</span>
-                    <span className="font-semibold text-2xl">2.000.000</span>
+                    <span className="font-semibold text-2xl">
+                      {portofolio[tab].summary.totalFunding}
+                    </span>
                   </div>
                 </span>
                 <span className=" text-center mt-2">
                   <div className="flex flex-col">
                     <span className="text-sm">Est.Imbal Hasil</span>
-                    <span className="font-semibold text-2xl">200.000</span>
+                    <span className="font-semibold text-2xl">
+                      {" "}
+                      {portofolio[tab].summary.totalYield}
+                    </span>
                   </div>
                 </span>
               </div>
