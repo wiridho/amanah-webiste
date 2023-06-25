@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Card from "../../components/molekul/card-otp/Card";
+import Card from "../../components/molekul/cardOtp/Card";
 
 // Component
 import { ErrorMessage } from "../../components/atom";

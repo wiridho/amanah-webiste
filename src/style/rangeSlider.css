@@ -1,0 +1,18 @@
+
+#range-slider .range-slider__range {
+	transition: height .3s;
+}
+
+#range-slider .range-slider__thumb {
+	transition: transform .3s;
+	height: 16px;
+	width : 16px;
+}
+
+#range-slider .range-slider__thumb[data-active] {
+	transform: translate(-50%, -50%) scale(1.25);
+}
+
+#range-slider .range-slider__range[data-active] {
+	height: 16px;
+}

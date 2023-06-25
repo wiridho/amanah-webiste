@@ -1,8 +1,10 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import AuthReducer from "./reducer/AuthReducer";
+import BalanceReducer from "./reducer/Balance/BalanceReducer";
 
 const reducers = combineReducers({
   auth: AuthReducer,
+  balance: BalanceReducer,
 });
 
 const rootReducer = (state, action) => {

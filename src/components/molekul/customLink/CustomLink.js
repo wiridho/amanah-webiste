@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import ButtonIcon from "../button-icon/ButtonIcon";
+import ButtonIcon from "../buttonIcon/ButtonIcon";
 
 const CustomLink = ({ children, to, className, icon }) => {
   const { pathname } = useLocation();

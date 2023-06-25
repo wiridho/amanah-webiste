@@ -37,7 +37,6 @@ const authSlice = createSlice({
         state.load = true;
       })
       .addCase(handleRegister.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.load = false;
         state.error = false;
         state.data = action.payload;

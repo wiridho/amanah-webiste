@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getAvailableLoan } from "../../service/loans/loan";
 import { useForm } from "react-hook-form";
-import { Accordion, Slider } from "../../components/atom";
+import { Accordion } from "../../components/atom";
 import { InputLabel } from "../../components/molekul";
 
 import RangeSlider from "react-range-slider-input";
@@ -10,6 +10,8 @@ import "react-range-slider-input/dist/style.css";
 
 import CardPendanaan from "./CardPendanaan";
 import { Button } from "../../components/atom";
+
+import "../../style/rangeSlider.css";
 
 const Pendanaan = () => {
   const [loanList, setListLoan] = useState(null);
@@ -24,7 +26,7 @@ const Pendanaan = () => {
   } = useForm();
 
   const filterDefault = async () => {
-    let tenor = { tenor_min: 1, tenor_max: 3 };
+    let tenor = { tenor_min: 1, tenor_max: 6 };
     const response = await getAvailableLoan({
       params: tenor,
       accessToken,
@@ -110,6 +112,7 @@ const Pendanaan = () => {
                     children={
                       <div className="">
                         <RangeSlider
+                          id="range-slider"
                           className={"my-3"}
                           min={1}
                           max={12}

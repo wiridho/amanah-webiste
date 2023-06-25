@@ -15,7 +15,7 @@ const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { message_error, load } = useSelector((state) => state.auth);
+  const { message_error, load, success } = useSelector((state) => state.auth);
 
   // Calling useForm
   const {
@@ -63,12 +63,14 @@ const Login = () => {
                 </h1>
               </div>
               <div className="mb-3">
-                {visible && (
-                  <ErrorMessage
-                    message={message_error}
-                    onClose={() => setVisible(false)}
-                  />
-                )}
+                {/* {visible && ( */}
+                <ErrorMessage
+                  status={success}
+                  visible={visible}
+                  message={message_error}
+                  onClose={() => setVisible(false)}
+                />
+                {/* )} */}
               </div>
               <div>
                 <InputLabel

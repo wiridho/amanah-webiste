@@ -2,7 +2,7 @@ import React from "react";
 import { IoIosWarning } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 
-const ErrorMessage = ({ message, onClose, visible }) => {
+const ErrorMessage = ({ status, message, onClose, visible }) => {
   return (
     <>
       <div
@@ -16,7 +16,7 @@ const ErrorMessage = ({ message, onClose, visible }) => {
             <span className="font-normal text-sm"> {message}</span>
           </div>
           <button role="button" onClick={onClose}>
-            {<MdClose className="" />}
+            {<MdClose />}
           </button>
         </div>
       </div>

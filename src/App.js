@@ -5,9 +5,8 @@ import DashboardLender from "./components/template/DashboardLender";
 
 import Beranda from "./pages/lender/Beranda";
 import Borrower from "./pages/borrower/Beranda";
-
 import RegisterInit from "./pages/authentication/RegisterInit";
-import ProtectRoute from "./components/protect_route/ProtectRoute";
+import ProtectRoute from "./components/protectRoute/ProtectRoute";
 import Lending from "./pages/public/Lending";
 import VerifyEmail from "./pages/authentication/VerifyEmail";
 import Register from "./pages/authentication/Register";
@@ -25,6 +24,7 @@ import TransaksiPendanaan from "./pages/lender/Pendanaan/TransaksiPendanaan";
 import Portofolio from "./pages/lender/Portofolio";
 import DepositIntruksi from "./pages/lender/DepositIntruksi";
 import Withdraw from "./pages/lender/withdraw/Withdraw";
+
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
   let is_public = is_auth ? false : true;
