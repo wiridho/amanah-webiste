@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Card from "../../components/molekul/card-otp/Card";
+import Card from "../../components/molekul/cardOtp/Card";
 
-// function slice
+// Component
+import { ErrorMessage } from "../../components/atom";
+
+// Service
 import {
   resendLoginOtp,
   verifyLoginOtp,
 } from "../../service/authentication/authService";
-import ErrorMessage from "../../components/error_message/ErrorMessage";
 
 const VerifyLogin = () => {
   const [otp, setOtp] = useState("");

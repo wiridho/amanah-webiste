@@ -2,9 +2,11 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import DashboardLender from "./components/template/DashboardLender";
+
 import Beranda from "./pages/lender/Beranda";
+import Borrower from "./pages/borrower/Beranda";
 import RegisterInit from "./pages/authentication/RegisterInit";
-import ProtectRoute from "./components/protect_route/ProtectRoute";
+import ProtectRoute from "./components/protectRoute/ProtectRoute";
 import Lending from "./pages/public/Lending";
 import VerifyEmail from "./pages/authentication/VerifyEmail";
 import Register from "./pages/authentication/Register";
@@ -13,12 +15,23 @@ import VerifyLogin from "./pages/authentication/VerifyLogin";
 import Login from "./pages/authentication/Login";
 import DashboardBorrower from "./components/template/DashboardBorrower";
 import Pendanaan from "./pages/lender/Pendanaan";
+import Profile from "./pages/lender/Profile";
+import Kyc from "./pages/verifikasiKyc/kyc";
+import Status_KYC from "./pages/lender/statusKYC/status_KYC";
+import DetailPendanaan from "./pages/lender/DetailPendanaan";
+import Deposit from "./pages/lender/Deposit";
+import TransaksiPendanaan from "./pages/lender/Pendanaan/TransaksiPendanaan";
+import Portofolio from "./pages/lender/Portofolio";
+import DepositIntruksi from "./pages/lender/DepositIntruksi";
+
+// Withdraw
+import WithdrawListBank from "./pages/lender/withdraw/WithdrawListBank";
+import WithdrawTambahBank from "./pages/lender/withdraw/WithdrawTambahBank";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
-  console.log(is_auth);
-  console.log(roles);
   let is_public = is_auth ? false : true;
+
   return (
     <BrowserRouter>
       <Routes>
@@ -33,6 +46,7 @@ function App() {
               path="/"
               element={<Navigate to={"/funder"} replace={true} />}
             />
+
             <Route
               path="funder"
               element={
@@ -43,11 +57,26 @@ function App() {
                 />
               }
             >
-              {/* <Route path="" element={<Beranda />} /> */}
-              <Route path="beranda" element={<Beranda />} />
+              <Route index element={<Beranda />} />
               <Route path="pendanaan" element={<Pendanaan />} />
-              {/* <Route path="portofolio" element={<Portofolio />} />
-              <Route path="bantuan" element={<Bantuan />} /> */}
+              <Route path="pendanaan/:loanId" element={<DetailPendanaan />} />
+              <Route
+                path="pendanaan/transaksi/:loanId"
+                element={<TransaksiPendanaan />}
+              />
+
+              <Route path="withdraw/listBank" element={<WithdrawListBank />} />
+              <Route
+                path="withdraw/tambah/bank"
+                element={<WithdrawTambahBank />}
+              />
+
+              <Route path="deposit" element={<Deposit />} />
+              <Route path="deposit/intruksi" element={<DepositIntruksi />} />
+              <Route path="portofolio" element={<Portofolio />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="kyc" element={<Kyc />} />
+              <Route path="kyc/status" element={<Status_KYC />} />
             </Route>
           </>
         )}
@@ -62,16 +91,7 @@ function App() {
               path="/"
               element={<Navigate to={"/borrower"} replace={true} />}
             />
-            {/* <Route
-              path="borrower"
-              element={
-                <ProtectRoute
-                  valid={is_auth}
-                  to={"/login"}
-                  children={"Borrower Dashboard"}
-                />
-              }
-            /> */}
+
             <Route
               path="borrower"
               element={
@@ -82,17 +102,14 @@ function App() {
                 />
               }
             >
-              {/* <Route path="" element={<Beranda />} /> */}
-              {/* <Route path="beranda" element={<Beranda />} /> */}
-              {/* <Route path="portofolio" element={<Portofolio />} />
-              <Route path="pendanaan" element={<Pendanaan />} />
-              <Route path="bantuan" element={<Bantuan />} /> */}
+              <Route index element={<Borrower />} />
             </Route>
           </>
         )}
 
         {/* Public Route */}
         <Route path="*" element={<Navigate to={"/login"} replace={true} />} />
+
         <Route
           path="/"
           element={<ProtectRoute valid={is_public} children={<Lending />} />}

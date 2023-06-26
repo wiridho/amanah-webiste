@@ -2,22 +2,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import InputField from "../../components/molekul/input_field/InputField";
-import { Button } from "../../components/atom";
+import { InputLabel } from "../../components/molekul";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
 import { handleLogin } from "../../service/authentication/authService";
-import ErrorMessage from "../../components/error_message/ErrorMessage";
-import InputLabel from "../../components/molekul/input-label/InputLabel";
+
+import { Button, ErrorMessage } from "../../components/atom";
+import { InputPassword } from "../../components/molekul";
 
 const Login = () => {
   const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { message_error, load } = useSelector((state) => state.auth);
-  console.log("load", load);
-  console.log("message_error", message_error);
+  const { message_error, load, success } = useSelector((state) => state.auth);
 
   // Calling useForm
   const {
@@ -34,7 +32,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="h-screen grid grid-cols-1 sm:grid-cols-2">
+      <div className="h-screen grid grid-cols-1 sm:grid-cols-2 overflow-hidden">
         {/* Left Wrapper */}
         <div className="hidden bg-primary md:flex sm:block items-center relative">
           <div className="absolute bg-indigo-600 opacity-100 h-screen w-full z-20 "></div>
@@ -43,25 +41,21 @@ const Login = () => {
             <span className="font-bold font-inter">Pinjaman P2P Syariah</span>{" "}
             Berkah Menggapai Kesuksesan Bersama
           </span>
-          <img
-            src={BackgroundAuth}
-            alt="image login"
-            className="z-10 absolute"
-          />
+          <img src={BackgroundAuth} alt="imgLogin" className="z-10 absolute" />
         </div>
         {/* Right Wrapper */}
         <div className="flex flex-col bg-slate-100  justify-between p-2 ">
           {/* Logo  */}
           <div className="max-w-[400px] w-full mx-auto pt-6 flex justify-center items-center">
             <img
-              className="w-20 h-20 bg-indigo-500 p-2 rounded-full flex justify-center items-end"
+              className="w-20 h-20 bg-indigo-700 p-2 rounded-full flex justify-center items-end"
               src={LogoAmana}
               alt="Rounded avatar"
             />
           </div>
 
           {/* Form */}
-          <div className="max-w-[400px] w-full mx-auto bg-zinc-50 p-6 px-8 shadow-lg rounded-2xl">
+          <div className="max-w-[400px] w-full mx-auto bg-zinc-50 p-4 sm:p-6 sm:px-8 shadow-md rounded-md">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <h1 className="text-xl font-sans font-semibold pb-4">
@@ -69,17 +63,20 @@ const Login = () => {
                 </h1>
               </div>
               <div className="mb-3">
-                {visible && (
-                  <ErrorMessage
-                    message={message_error}
-                    onClose={() => setVisible(false)}
-                  />
-                )}
+                {/* {visible && ( */}
+                <ErrorMessage
+                  status={success}
+                  visible={visible}
+                  message={message_error}
+                  onClose={() => setVisible(false)}
+                />
+                {/* )} */}
               </div>
               <div>
                 <InputLabel
+                  placeholder={"name@example.com"}
                   type={"text"}
-                  name={"email"}
+                  name={"Email"}
                   register={{
                     ...register("email", {
                       required: true,
@@ -89,9 +86,11 @@ const Login = () => {
                 >
                   Email
                 </InputLabel>
-                <InputLabel
+                <InputPassword
+                  placeholder={"********"}
+                  name={"Password"}
                   type={"password"}
-                  name={"password"}
+                  label={"Password"}
                   register={{
                     ...register("password", {
                       required: true,
@@ -100,29 +99,13 @@ const Login = () => {
                   errors={errors.password}
                 >
                   Password
-                </InputLabel>
-
-                {/* <div>
-                  <InputField
-                    label={"Password"}
-                    type={"password"}
-                    name={"password"}
-                    register={{
-                      ...register("password", {
-                        required: true,
-                      }),
-                    }}
-                    errors={errors.password}
-                  />
-                </div> */}
+                </InputPassword>
               </div>
               <Button
                 type="submit"
-                className="w-full mt-2 bg-indigo-700 text-white hover:bg-indigo-600"
+                className="w-full mt-3 bg-indigo-700 text-white hover:bg-indigo-600"
               >
-                {" "}
-                {!load && "Login"}
-                {load && "Loading ..."}
+                {load ? "Loading..." : "Login"}
               </Button>
               <div className="flex justify-between text-primary">
                 <div className="flex items-center">
@@ -136,7 +119,7 @@ const Login = () => {
                     Daftar Disini!
                   </Link>
                 </div>
-                <p className="p-2 text-xs text-right text-grey text-indigo-500 hover:text-blue-800">
+                <p className="p-2 text-xs text-right text-indigo-500 hover:text-blue-800">
                   <Link to="/reset-password">Forgot Password?</Link>
                 </p>
               </div>

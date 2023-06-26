@@ -1,24 +1,23 @@
 import { useState } from "react";
-import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
-
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
+
+// Background
+import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
-import ErrorMessage from "../../components/error_message/ErrorMessage";
-import { Button, Label } from "../../components/atom";
-import InputField from "../../components/molekul/input_field/InputField";
+// Component
+import { Button, ErrorMessage } from "../../components/atom";
+import { InputLabel, InputPassword } from "../../components/molekul";
+// Service
 import { handleRegister } from "../../service/authentication/authService";
+
 const Register = () => {
   const [visible, setVisible] = useState(false);
-
+  const { message_error, load } = useSelector((state) => state.auth);
   const { roles } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const { message_error } = useSelector((state) => state.auth);
-  console.log(message_error);
 
   const onSubmit = (data) => {
     data["roles"] = roles;
@@ -31,28 +30,28 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   return (
     <>
       <div className="h-screen grid grid-cols-1 sm:grid-cols-2 font-inter">
         {/* Background */}
-        <div className="bg-primary justify-center items-center hidden  md:flex">
+        <div className="bg-indigo-600 justify-center items-center hidden  md:flex">
           <div className="flex sm:w-2/3  items-center  justify-center">
             <img src={BackgroundAuth} className="" alt="" />
           </div>
         </div>
 
         {/* Form */}
-
         <div className=" flex flex-col  justify-around bg-slate-100 ">
           <div className="max-w-[400px] w-full mx-auto sm:pb-4 pt-3 flex justify-center items-center">
             <img
-              className="w-20 h-20 bg-primary p-2 rounded-full"
+              className="w-20 h-20 bg-indigo-700 p-2 rounded-full"
               src={LogoAmana}
               alt="Rounded avatar"
             />
           </div>
           <form
-            className="max-w-[400px] w-full mx-auto bg-gray-50 p-6 px-8 shadow rounded-2xl "
+            className="max-w-[400px] w-full mx-auto bg-gray-50 p-6 px-8 shadow-md rounded-md "
             onSubmit={handleSubmit(onSubmit)}
           >
             <div>
@@ -70,81 +69,92 @@ const Register = () => {
             </div>
             <div className="mb-3">
               <div>
-                <InputField
-                  label={"Email"}
+                <InputLabel
+                  placeholder={"nama@example.com"}
                   type={"text"}
-                  name={"email"}
+                  name={"Email"}
                   register={{
                     ...register("email", {
                       required: true,
                     }),
                   }}
-                  errors={errors.name}
-                />
+                  errors={errors.email}
+                >
+                  Email
+                </InputLabel>
               </div>
+
               <div>
-                <InputField
-                  label={"Nama Lengkap"}
+                <InputLabel
+                  placeholder={"John Doe"}
                   type={"text"}
-                  name={"name"}
+                  name={"Nama lengkap"}
                   register={{
-                    ...register("name", {
+                    ...register("fullName", {
                       required: true,
                     }),
                   }}
-                  errors={errors.name}
-                />
+                  errors={errors.fullName}
+                >
+                  Nama Lengkap
+                </InputLabel>
               </div>
               <div>
-                <InputField
-                  label={"Nomor Handpone"}
+                <InputLabel
+                  placeholder={"08123456789"}
                   type={"number"}
-                  name={"phoneNumber"}
-                  placeholder={"Masukkan nomor telepon anda"}
+                  name={"Nomor telepon"}
                   register={{
                     ...register("phoneNumber", {
                       required: true,
                     }),
                   }}
                   errors={errors.phoneNumber}
-                />
+                >
+                  Nomor Handphone
+                </InputLabel>
               </div>
               <div>
-                <InputField
-                  label={"Password"}
+                <InputPassword
+                  placeholder={"********"}
+                  name={"Password"}
                   type={"password"}
-                  name={"password"}
+                  label={"Password"}
                   register={{
                     ...register("password", {
                       required: true,
+                      pattern:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                     }),
                   }}
                   errors={errors.password}
-                />
+                >
+                  Password
+                </InputPassword>
               </div>
             </div>
 
             <div className="pt-2">
               <Button
                 type="submit"
-                className="w-full bg-primary hover:bg-[#146C94] text-white text-sm  py-2 px-4 rounded-lg"
+                className="w-full bg-indigo-700 hover:bg-indigo-600 text-white text-sm  py-2 px-4 rounded-lg"
               >
-                Daftar
+                {load ? "Loading..." : "Daftar"}
               </Button>
             </div>
             <div className="flex justify-between">
               <div className="flex items-center">
-                <p className="pr-1 text-xs text-right text-grey">
+                <p className="pr-1 text-xs text-right text-gray-500">
                   Sudah punya akun?
                 </p>
                 <Link
-                  className="text-xs text-primary hover:text-[#146C94]"
+                  className="text-xs text-indigo-500 font-semibold  hover:text-indigo-800"
                   to="/login"
                 >
                   Masuk
                 </Link>
               </div>
-              <p className="p-2 text-xs text-right text-grey hover:text-[#146C94]">
+              <p className="p-2 text-xs text-righ text-indigo-500 hover:text-blue-800">
                 <Link to="/reset-password">Lupa Password?</Link>
               </p>
             </div>
