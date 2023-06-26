@@ -21,6 +21,7 @@ const Deposit = () => {
 
   // Handle Submit
   const onSubmit = (data) => {
+    data["platform"] = "website";
     console.log(data);
     dispatch(postBalanceDeposit({ accessToken, data, setPaymentStatus }));
   };

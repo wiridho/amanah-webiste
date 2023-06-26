@@ -87,7 +87,7 @@ const Sidebar = () => {
             </li>
             <li>
               <CustomLink
-                to="withdraw"
+                to="withdraw/listBank"
                 icon={<BiMoneyWithdraw className="text-xl" />}
               >
                 Withdraw

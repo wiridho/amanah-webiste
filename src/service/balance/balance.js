@@ -6,14 +6,12 @@ import apiConfig from "../../api/apiConfig";
 export const handleGetBalance = createAsyncThunk(
   "balance/getBalance",
   async ({ accessToken }, { rejectWithValue }) => {
-    console.log("accessToken", accessToken);
     try {
       const response = await axios.get(`${apiConfig.baseUrl}/balance`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log("get balance", response);
       return response?.data?.data?.balance;
     } catch (error) {
       const message_error = error.response?.data?.message;
@@ -30,9 +28,9 @@ export const postBalanceDeposit = createAsyncThunk(
         `${apiConfig.baseUrl}/balance/deposit`,
         data,
         {
-          // headers: {
-          //   Authorization: `Bearer ${accessToken}`,
-          // },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       );
       setPaymentStatus("waitingPayment");

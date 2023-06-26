@@ -3,9 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { handleGetBalance } from "../../../service/balance/balance";
 import { useDispatch, useSelector } from "react-redux";
 
-// Asset
-import Withdraw from "../../../assets/img/dashboardLender/withdraw.svg";
-
 // Icons
 import { HiOutlinePlus } from "react-icons/hi";
 import { IoWallet } from "react-icons/io5";

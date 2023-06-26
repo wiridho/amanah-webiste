@@ -1,18 +1,21 @@
 import React from "react";
-import { TbAlertTriangle } from "react-icons/tb";
 
-const WarningMessage = () => {
+//  icon
+import { IoIosWarning } from "react-icons/io";
+import { MdClose } from "react-icons/md";
+
+const WarningMessage = ({ message, onClose, visible }) => {
   return (
-    <div>
-      <div className="p-4 max-w-4xl flex rounded-lg border border-yellow-300 bg-yellow-100">
-        <span className="flex-shrink-0 text-yellow-500">
-          <TbAlertTriangle className="w-6 h-6" />
-        </span>
-        <div className="ml-3 flex flex-col items-start space-y-2 text-sm">
-          <h3 className="text-yellow-800 font-semibold">Warning!</h3>
-          <p className="text-yellow-600 font-medium antialiased">
-            Better check this by yourself, it is not looking too good.
-          </p>
+    <div className={`${visible ? "" : "hidden"} block w-full`}>
+      <div className="flex bg-yellow-50 mx-2 p-4 rounded justify-between text-bold text-yellow-700 items-center border border-yellow-300 ">
+        <div className="flex space-x-4 items-center">
+          <IoIosWarning className="h-5 w-5 flex-none" />
+          <span className="whitespace-normal">{message}</span>
+        </div>
+        <div className="flex space-x-1 items-center">
+          <button role="button" onClick={onClose}>
+            {<MdClose className="w-4 h-4" />}
+          </button>
         </div>
       </div>
     </div>

@@ -1,9 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { RiAddLine, RiHome6Fill } from "react-icons/ri";
+import { Button } from "../../../components/atom";
 
 const Withdraw = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="h-screen flex justify-center items-center font-nunito-sans">
       <div className="max-w-sm w-full rounded-md overflow-hidden shadow bg-white">
@@ -16,7 +19,7 @@ const Withdraw = () => {
               <span className="text-gray-500 ">Pilih akun</span>
               <div className="flex items-center text-blue-500 hover:text-blue-700 ">
                 <RiAddLine />
-                <Link to={"#"} className=" ">
+                <Link to={"/funder/withdraw/tambah/bank"} className=" ">
                   Tambah akun
                 </Link>
               </div>
@@ -81,9 +84,9 @@ const Withdraw = () => {
                 </tbody>
               </table>
             </div>
-            <button className="bg-indigo-500 hover:bg-indigo-700 text-white w-full px-4 py-2 rounded font-semibold">
+            <Button className="bg-indigo-500 hover:bg-indigo-700 text-white w-full px-4 py-2 rounded font-semibold">
               Lanjut
-            </button>
+            </Button>
           </div>
         </div>
       </div>

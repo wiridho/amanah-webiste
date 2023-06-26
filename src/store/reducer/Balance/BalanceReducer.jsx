@@ -24,7 +24,6 @@ const balanceSlice = createSlice({
         state.load = true;
       })
       .addCase(handleGetBalance.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.load = false;
         state.error = false;
         state.balance = action.payload;
