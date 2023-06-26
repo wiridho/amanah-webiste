@@ -27,6 +27,7 @@ import DepositIntruksi from "./pages/lender/DepositIntruksi";
 // Withdraw
 import WithdrawListBank from "./pages/lender/withdraw/WithdrawListBank";
 import WithdrawTambahBank from "./pages/lender/withdraw/WithdrawTambahBank";
+import Withdraw from "./pages/lender/withdraw/Withdraw";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
@@ -64,17 +65,21 @@ function App() {
                 path="pendanaan/transaksi/:loanId"
                 element={<TransaksiPendanaan />}
               />
-
+              {/* Withdraw */}
+              <Route path="withdraw" element={<Withdraw />} />
               <Route path="withdraw/listBank" element={<WithdrawListBank />} />
               <Route
                 path="withdraw/tambah/bank"
                 element={<WithdrawTambahBank />}
               />
-
+              {/* Deposit */}
               <Route path="deposit" element={<Deposit />} />
               <Route path="deposit/intruksi" element={<DepositIntruksi />} />
+
               <Route path="portofolio" element={<Portofolio />} />
               <Route path="profile" element={<Profile />} />
+
+              {/* KYC */}
               <Route path="kyc" element={<Kyc />} />
               <Route path="kyc/status" element={<Status_KYC />} />
             </Route>

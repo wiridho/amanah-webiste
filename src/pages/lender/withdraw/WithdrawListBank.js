@@ -3,9 +3,26 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { RiAddLine, RiHome6Fill } from "react-icons/ri";
 import { Button } from "../../../components/atom";
+import { useState } from "react";
+import { useEffect } from "react";
+import { getBalanceAccountBank } from "../../../service/balance/balance";
+import { useSelector } from "react-redux";
 
 const Withdraw = () => {
+  const { accessToken } = useSelector((state) => state.auth);
+  const [listBank, setListBank] = useState(null);
   const navigate = useNavigate();
+
+  const getListBank = async () => {
+    const response = await getBalanceAccountBank({ accessToken });
+    setListBank(response);
+  };
+
+  useEffect(() => {
+    (async () => {
+      await getListBank();
+    })();
+  }, []);
 
   return (
     <div className="h-screen flex justify-center items-center font-nunito-sans">
@@ -41,46 +58,23 @@ const Withdraw = () => {
                 </thead>
                 <div className="m-2"></div>
                 <tbody>
-                  <tr className="bg-white odd:bg-slate-50">
-                    <td
-                      scope="row"
-                      className="py-2 font-medium whitespace-nowrap"
-                    >
-                      1218293231
-                    </td>
-                    <td className="py-2">BRI</td>
-                    <td className="py-2">
-                      <RiHome6Fill />
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <tr className="bg-white ">
-                    <td
-                      scope="row"
-                      className="py-2 font-medium whitespace-nowrap"
-                    >
-                      1218293019
-                    </td>
-                    <td className="py-2">BCA</td>
-                    <td className="py-2">
-                      <RiHome6Fill />
-                    </td>
-                  </tr>
-                </tbody>
-                <tbody>
-                  <tr className="bg-white odd:bg-slate-50 ">
-                    <td
-                      scope="row"
-                      className="py-2 font-medium whitespace-nowrap"
-                    >
-                      2432123112
-                    </td>
-                    <td className="py-2">Mandiri</td>
-                    <td className="py-2">
-                      <RiHome6Fill />
-                    </td>
-                  </tr>
+                  {listBank &&
+                    listBank.map((item, index) => {
+                      return (
+                        <tr key={index} className="bg-white odd:bg-slate-50">
+                          <td
+                            scope="row"
+                            className="py-2 font-medium whitespace-nowrap"
+                          >
+                            {item.accountNumber}
+                          </td>
+                          <td className="py-2">{item.bankCode}</td>
+                          <td className="py-2">
+                            <RiHome6Fill />
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
