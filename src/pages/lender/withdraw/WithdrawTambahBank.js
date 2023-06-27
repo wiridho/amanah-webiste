@@ -25,12 +25,12 @@ const WithdrawTambahBank = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    let valueBank = data?.selectedOption?.value;
-    let accountNumber = data?.accountNumber;
-    data = {
-      bankCode: valueBank,
-      accountNumber: accountNumber,
+  const onSubmit = (params) => {
+    const { accountNumber, selectedOption } = params;
+    const data = {
+      accountNumber,
+      bankName: selectedOption.label,
+      bankCode: selectedOption.value,
     };
     dispatch(postBalanceAccountBank({ accessToken, data, navigate }));
   };
@@ -70,16 +70,6 @@ const WithdrawTambahBank = () => {
                   >
                     Nomor Rekening
                   </InputLabel>
-                  {/* <SelectDropdown
-                    control={control}
-                    caption={"Pilih Bank"}
-                    data={banks}
-                    register={{
-                      ...register("bankCode", {
-                        required: true,
-                      }),
-                    }}
-                  /> */}
                   <SelectDropdown
                     caption="Select an option"
                     data={banks}
@@ -91,7 +81,7 @@ const WithdrawTambahBank = () => {
                   className={`bg-indigo-500 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-md text-xs`}
                   type={"submit"}
                 >
-                  Cek Rekening Bank
+                  Tambah Rekening
                 </Button>
               </div>
             </form>

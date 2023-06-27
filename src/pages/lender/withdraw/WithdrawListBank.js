@@ -61,7 +61,7 @@ const Withdraw = () => {
                   {listBank &&
                     listBank.map((item, index) => {
                       return (
-                        <tr key={index} className="bg-white odd:bg-slate-50">
+                        <tr key={index} className="bg-white odd:bg-slate-100">
                           <td
                             scope="row"
                             className="py-2 font-medium whitespace-nowrap"
@@ -78,7 +78,10 @@ const Withdraw = () => {
                 </tbody>
               </table>
             </div>
-            <Button className="bg-indigo-500 hover:bg-indigo-700 text-white w-full px-4 py-2 rounded font-semibold">
+            <Button
+              onClick={() => navigate("/funder/withdraw")}
+              className="bg-indigo-500 hover:bg-indigo-700 text-white w-full px-4 py-2 rounded font-semibold"
+            >
               Lanjut
             </Button>
           </div>

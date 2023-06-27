@@ -51,7 +51,6 @@ export const getBalanceBanks = async ({ accessToken }) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(response?.data?.data);
     return response?.data?.data;
   } catch (error) {
     console.log(error);
@@ -64,7 +63,6 @@ export const getBalanceAccountBank = async ({ accessToken }) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(response?.data?.data);
     return response?.data?.data;
   } catch (error) {
     console.log(error);
