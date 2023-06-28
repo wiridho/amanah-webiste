@@ -1,17 +1,23 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { RiAddLine, RiHome6Fill } from "react-icons/ri";
+import { RiAddLine } from "react-icons/ri";
 import { Button } from "../../../components/atom";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import { getBalanceAccountBank } from "../../../service/balance/balance";
-import { useSelector } from "react-redux";
+import { setBankSelected } from "../../../store/reducer/Balance/BalanceTransactionReducer";
+import _ from "lodash";
 
 const Withdraw = () => {
   const { accessToken } = useSelector((state) => state.auth);
   const [listBank, setListBank] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  let diasbleButton = _.every(listBank, { isChecked: false });
 
   const getListBank = async () => {
     const response = await getBalanceAccountBank({ accessToken });
@@ -23,6 +29,22 @@ const Withdraw = () => {
       await getListBank();
     })();
   }, []);
+
+  const chooseBank = (item) => {
+    let list = listBank.map((data) => {
+      return {
+        ...data,
+        ...{ isChecked: data._id === item._id ? true : false },
+      };
+    });
+    setListBank(list);
+  };
+
+  const nextToWithdraw = () => {
+    let data = _.find(listBank, { isChecked: true });
+    dispatch(setBankSelected(data));
+    navigate("/funder/withdraw");
+  };
 
   return (
     <div className="h-screen flex justify-center items-center font-nunito-sans">
@@ -42,7 +64,7 @@ const Withdraw = () => {
               </div>
             </div>
             <div className="relative overflow-x-auto">
-              <table className="w-full text-sm text-left text-gray-500 rounded-md">
+              <table className="w-full text-sm text-left rounded-md">
                 <thead className="text-xs text-gray-700 bg-white border-b">
                   <tr className="">
                     <th scope="col" className="py-3 ">
@@ -51,9 +73,6 @@ const Withdraw = () => {
                     <th scope="col" className=" py-3">
                       Bank
                     </th>
-                    <th scope="col" className="py-3">
-                      Action
-                    </th>
                   </tr>
                 </thead>
                 <div className="m-2"></div>
@@ -61,17 +80,20 @@ const Withdraw = () => {
                   {listBank &&
                     listBank.map((item, index) => {
                       return (
-                        <tr key={index} className="bg-white odd:bg-slate-100">
+                        <tr
+                          key={index}
+                          className={`${
+                            item.isChecked ? "bg-blue-400 text-white" : ""
+                          }bg-white`}
+                          onClick={() => chooseBank(item)}
+                        >
                           <td
                             scope="row"
                             className="py-2 font-medium whitespace-nowrap"
                           >
                             {item.accountNumber}
                           </td>
-                          <td className="py-2">{item.bankCode}</td>
-                          <td className="py-2">
-                            <RiHome6Fill />
-                          </td>
+                          <td className="py-2">{item.bankName}</td>
                         </tr>
                       );
                     })}
@@ -79,8 +101,13 @@ const Withdraw = () => {
               </table>
             </div>
             <Button
-              onClick={() => navigate("/funder/withdraw")}
-              className="bg-indigo-500 hover:bg-indigo-700 text-white w-full px-4 py-2 rounded font-semibold"
+              disabled={diasbleButton}
+              onClick={() => nextToWithdraw()}
+              className={`w-full px-4 py-2 rounded font-semibold ${
+                diasbleButton
+                  ? "bg-gray-500 text-gray-900 cursor-not-allowed"
+                  : "bg-indigo-500 hover:bg-indigo-700 text-white"
+              }`}
             >
               Lanjut
             </Button>

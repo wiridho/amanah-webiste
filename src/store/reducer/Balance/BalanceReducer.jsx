@@ -1,9 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  getBalanceAccountBank,
   handleGetBalance,
   postBalanceAccountBank,
-  postBalanceDeposit,
 } from "../../../service/balance/balance";
 
 const initialState = {
@@ -35,20 +33,7 @@ const balanceSlice = createSlice({
         state.error = true;
         state.message = action.payload;
       })
-      // Post Balance Deposit
-      .addCase(postBalanceDeposit.pending, (state) => {
-        state.load = true;
-      })
-      .addCase(postBalanceDeposit.fulfilled, (state, action) => {
-        state.load = false;
-        state.error = false;
-        state.paymentLink = action.payload;
-      })
-      .addCase(postBalanceDeposit.rejected, (state, action) => {
-        state.load = false;
-        state.error = true;
-        state.message = action.payload;
-      })
+
       // Get balance account bank
       // .addCase(getBalanceAccountBank.pending, (state) => {
       //   state.load = true;

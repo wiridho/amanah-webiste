@@ -28,6 +28,7 @@ import DepositIntruksi from "./pages/lender/DepositIntruksi";
 import WithdrawListBank from "./pages/lender/withdraw/WithdrawListBank";
 import WithdrawTambahBank from "./pages/lender/withdraw/WithdrawTambahBank";
 import Withdraw from "./pages/lender/withdraw/Withdraw";
+import RiwayatTransaksi from "./pages/lender/RiwayatTransaksi";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
@@ -72,6 +73,7 @@ function App() {
                 path="withdraw/tambah/bank"
                 element={<WithdrawTambahBank />}
               />
+              <Route path="riwayat-transaksi" element={<RiwayatTransaksi />} />
               {/* Deposit */}
               <Route path="deposit" element={<Deposit />} />
               <Route path="deposit/intruksi" element={<DepositIntruksi />} />

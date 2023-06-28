@@ -11,6 +11,7 @@ import { BiLogOut, BiHome, BiUser, BiMoneyWithdraw } from "react-icons/bi";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { MdHistory } from "react-icons/md";
 // End Icon
 
 const Sidebar = () => {
@@ -91,6 +92,14 @@ const Sidebar = () => {
                 icon={<BiMoneyWithdraw className="text-xl" />}
               >
                 Withdraw
+              </CustomLink>
+            </li>
+            <li>
+              <CustomLink
+                to="riwayat-transaksi"
+                icon={<MdHistory className="text-xl" />}
+              >
+                Riwayat Transaksi
               </CustomLink>
             </li>
 

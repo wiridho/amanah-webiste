@@ -19,8 +19,6 @@ module.exports = {
       fontFamily: {
         "nunito-sans": ["Nunito Sans", "sans-serif"],
         lato: ["Lato", "sans-serif"],
-        // inter: ["Inter", "sans-serif"],
-        // testing: ["Kanit", "sans-serif"],
       },
     },
   },

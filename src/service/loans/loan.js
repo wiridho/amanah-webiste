@@ -16,6 +16,8 @@ export const getAvailableLoan = async ({ params, accessToken }) => {
   }
 };
 
+// Get Loan Detail
+
 export const getDetailLoan = async ({ accessToken, loanId }) => {
   try {
     const response = await axios.get(

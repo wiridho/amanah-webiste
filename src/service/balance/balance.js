@@ -3,7 +3,7 @@ import axios from "axios";
 import apiConfig from "../../api/apiConfig";
 import Swal from "sweetalert2";
 
-// Handle Get Balance
+//  Get Balance
 export const handleGetBalance = createAsyncThunk(
   "balance/getBalance",
   async ({ accessToken }, { rejectWithValue }) => {
@@ -20,7 +20,7 @@ export const handleGetBalance = createAsyncThunk(
     }
   }
 );
-// Handle deposit Balance
+// post deposit Balance
 export const postBalanceDeposit = createAsyncThunk(
   "balance/postBalanceDeposit",
   async ({ accessToken, data, setPaymentStatus }, { rejectWithValue }) => {
@@ -43,6 +43,29 @@ export const postBalanceDeposit = createAsyncThunk(
   }
 );
 
+// Post Withdraw
+export const postBalanceWithdraw = createAsyncThunk(
+  "balance/postBalanceWithdraw",
+  async ({ accessToken, data, navigate }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${apiConfig.baseUrl}/balance/withdraw`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      navigate("/funder/riwayat-transaksi");
+      return response?.data?.data;
+    } catch (error) {
+      const message_error = error.response?.data?.message;
+      return rejectWithValue(message_error);
+    }
+  }
+);
+
 // Get all banks
 export const getBalanceBanks = async ({ accessToken }) => {
   try {
@@ -51,11 +74,13 @@ export const getBalanceBanks = async ({ accessToken }) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+    console.log("get balance banks", response?.data?.data);
     return response?.data?.data;
   } catch (error) {
     console.log(error);
   }
 };
+
 export const getBalanceAccountBank = async ({ accessToken }) => {
   try {
     const response = await axios.get(`${apiConfig.baseUrl}/balance/account`, {
@@ -63,7 +88,10 @@ export const getBalanceAccountBank = async ({ accessToken }) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    return response?.data?.data;
+    let listBank = response?.data?.data.map((item) => {
+      return { ...item, ...{ isChecked: false } };
+    });
+    return listBank;
   } catch (error) {
     console.log(error);
   }

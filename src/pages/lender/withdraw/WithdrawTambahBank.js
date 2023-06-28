@@ -56,7 +56,7 @@ const WithdrawTambahBank = () => {
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-col  gap-4 justify-center">
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-3">
                   <InputLabel
                     placeholder={"1930xxxxx"}
                     name={"Nomor Rekening"}
@@ -75,10 +75,11 @@ const WithdrawTambahBank = () => {
                     data={banks}
                     control={control}
                     name="selectedOption"
+                    errors={errors.selectedOption}
                   />
                 </div>
                 <Button
-                  className={`bg-indigo-500 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-md text-xs`}
+                  className={`bg-indigo-500 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-md text-sm`}
                   type={"submit"}
                 >
                   Tambah Rekening

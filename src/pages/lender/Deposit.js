@@ -6,12 +6,16 @@ import { Button } from "../../components/atom";
 import { useDispatch, useSelector } from "react-redux";
 import { postBalanceDeposit } from "../../service/balance/balance";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Deposit = () => {
   const [paymentStatus, setPaymentStatus] = useState(null);
-  const { paymentLink, message } = useSelector((state) => state.balance);
+  const { message } = useSelector((state) => state.balance);
+  const { paymentLink } = useSelector((state) => state.balance_transaction);
+
   const { accessToken } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -21,8 +25,7 @@ const Deposit = () => {
 
   // Handle Submit
   const onSubmit = (data) => {
-    data["platform"] = "website";
-    console.log(data);
+    data["isWebsite"] = true;
     dispatch(postBalanceDeposit({ accessToken, data, setPaymentStatus }));
   };
 
@@ -32,7 +35,12 @@ const Deposit = () => {
       {paymentStatus === "waitingPayment" ? (
         <div>
           <span>Silahkan klik link untuk </span>
-          <a href={paymentLink} rel="noreferrer" target="_blank">
+          <a
+            href={paymentLink}
+            rel="noreferrer"
+            className="underline"
+            target="_blank"
+          >
             Lanjutkan Pembayaran
           </a>
         </div>
