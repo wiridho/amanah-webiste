@@ -7,6 +7,7 @@ import { getDetailLoan } from "../../service/loans/loan";
 
 // Component
 import { Button, BreadCumb } from "../../components/atom";
+import TransaksiPendanaan from "./Pendanaan/TransaksiPendanaan";
 
 // Icon
 import {
@@ -21,24 +22,23 @@ import { FormatMataUang } from "../../utils/FormatMataUang";
 import { BsPersonFill } from "react-icons/bs";
 import { BiCategoryAlt, BiCoinStack, BiTimer } from "react-icons/bi";
 import { MdOutlineSentimentSatisfied } from "react-icons/md";
-
-import TransaksiPendanaan from "./Pendanaan/TransaksiPendanaan";
+import { TbCalendarDue } from "react-icons/tb";
 
 import { TruncateString } from "../../utils/Truncate";
 import { titleCase } from "../../utils/FormatTitleCase";
 
 const DetailPendanaan = () => {
+  const { loanId } = useParams();
+  const { accessToken, statusKYC } = useSelector((state) => state.auth);
   const [load, setLoad] = useState(true);
+  const [detailData, setDetailData] = useState(null);
+  let progress = (detailData?.totalFunding / detailData?.amount) * 100;
 
   const [openModalVerified, setOpenModalVerified] = useState(false);
   const [openModalPending, setOpenModalPending] = useState(false);
   const [openModalNotVerified, setOpenModalNotVerified] = useState(false);
 
-  const { accessToken, statusKYC } = useSelector((state) => state.auth);
-  const { loanId } = useParams();
-
-  const [detailData, setDetailData] = useState(null);
-  let progress = (detailData?.totalFunding / detailData?.amount) * 100;
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -66,9 +66,9 @@ const DetailPendanaan = () => {
     { to: "#", label: "Detail Pendanaan", bold: true },
   ];
 
-  console.log(detailData ? detailData : "loading");
+  console.log(detailData);
 
-  // console.log("loanId", loanId);
+  // console.log("kontrak", detailData?.contract.split("/"));
 
   return (
     <div className="">
@@ -100,7 +100,10 @@ const DetailPendanaan = () => {
                         <div className="flex items-center gap-4">
                           <BsPersonFill className="text-4xl text-gray-500" />
                           <span className="text-lg font-semibold text-[#303030]">
-                            {detailData?.borrower?.name}
+                            {TruncateString(
+                              titleCase(detailData?.borrower?.name),
+                              20
+                            )}
                           </span>
                         </div>
                         <div className="grid grid-cols-3 gap-3 ">
@@ -168,18 +171,18 @@ const DetailPendanaan = () => {
                       <div className="p-4 sm:p-6">
                         <div className="flex flex-col gap-2">
                           <div>
-                            <div className="flex items-center gap-3  text-gray-600">
+                            <div className="flex items-center gap-2  text-gray-600">
                               <HiOutlineCash size={20} />
                               <span className="font-medium">
                                 Jumlah Pembiayaan
                               </span>
                             </div>
-                            <span className="font-bold font-mono">
+                            <span className="font-bold text-slate-700 text-lg font-mono">
                               {FormatMataUang(detailData?.amount)}
                             </span>
                           </div>
                           <div>
-                            <div className="flex items-center gap-3 text-gray-600">
+                            <div className="flex items-center gap-2 text-gray-600">
                               <HiOutlineCreditCard size={20} />
                               <span className=" font-semibold ">
                                 Skema Pengembalian
@@ -190,7 +193,7 @@ const DetailPendanaan = () => {
                             </span>
                           </div>
                           <div>
-                            <div className="flex items-center gap-3 text-gray-600">
+                            <div className="flex items-center gap-2 text-gray-600">
                               <BiCategoryAlt size={20} />
                               <span className=" font-semibold ">
                                 Kategori Pinjaman
@@ -201,7 +204,16 @@ const DetailPendanaan = () => {
                             </span>
                           </div>
                           <div>
-                            <div className="flex items-center gap-3 text-gray-600">
+                            <div className="flex items-center gap-2 text-gray-600">
+                              <TbCalendarDue size={20} />
+                              <span className=" font-semibold ">Tenor</span>
+                            </div>
+                            <span className="font-semibold text-sm">
+                              {detailData?.tenor} Bulan
+                            </span>
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2 text-gray-600">
                               <BiCoinStack size={20} />
                               <span className=" font-semibold ">
                                 Tujuan Peminjaman
@@ -234,7 +246,7 @@ const DetailPendanaan = () => {
                                   />
                                   Dipercepat
                                 </span>
-                                <span>
+                                <span className="text-gray-600">
                                   {
                                     detailData?.borrower?.performance?.repayment
                                       ?.earlier
@@ -249,7 +261,7 @@ const DetailPendanaan = () => {
                                   />
                                   Tepat Waktu
                                 </span>
-                                <span>
+                                <span className="text-gray-600">
                                   {
                                     detailData?.borrower?.performance?.repayment
                                       ?.onTime
@@ -264,7 +276,7 @@ const DetailPendanaan = () => {
                                   />
                                   Terlambat
                                 </span>
-                                <span>
+                                <span className="text-gray-600">
                                   {
                                     detailData?.borrower?.performance?.repayment
                                       ?.late
@@ -285,10 +297,10 @@ const DetailPendanaan = () => {
             <div className="col-span-1 ">
               <div className="sticky  top-[20px]">
                 {/* Card Funding */}
-                <span className="font-semibold inline-block mb-2 text-sm ">
-                  Progress Pendanaan
-                </span>
-                <div className="block p-5 bg-white border border-gray-200 rounded-lg shadow">
+                <div className="block p-5 bg-white border rounded-md shadow">
+                  <span className="font-semibold inline-block mb-2 text-sm ">
+                    Progress Pendanaan
+                  </span>
                   {/* <h3 className=" text-sm font-semibold ">Status Pendanaan</h3> */}
                   <div className="flex justify-between ">
                     <p className="mt-2 hidden text-sm sm:block font-semibold">
@@ -351,6 +363,7 @@ const DetailPendanaan = () => {
                 sisaPendanaan={detailData?.amount - detailData?.totalFunding}
                 totalImbalHasil={detailData?.yieldReturn}
                 totalPinjaman={detailData?.amount}
+                contract={detailData?.contract}
               />
               <button
                 onClick={() => setOpenModalVerified(false)}

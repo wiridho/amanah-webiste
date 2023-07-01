@@ -1,27 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
+// Component
 import { InputLabel, SelectDropdown } from "../../../components/molekul";
-import { Button } from "../../../components/atom";
+import { Button, ErrorMessage } from "../../../components/atom";
+// Service
 import {
   getBalanceBanks,
   postBalanceAccountBank,
 } from "../../../service/balance/balance";
-import { useNavigate } from "react-router-dom";
+import { setMessage } from "../../../store/reducer/Balance/BalanceAccountReducer";
 
 const WithdrawTambahBank = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [visible, setVisible] = useState(false);
+  const { message } = useSelector((state) => state.balance_account);
+
   const [banks, setBanks] = useState(null);
   const { accessToken } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Calling useForm
   const {
     register,
     handleSubmit,
     control,
-
     formState: { errors },
   } = useForm();
 
@@ -51,8 +57,17 @@ const WithdrawTambahBank = () => {
       {banks ? (
         <div className="max-w-sm w-full rounded-md shadow bg-white">
           <div className="p-5">
-            <div className="text-lg mb-1 text-center font-semibold">
+            <div className="text-lg mb-2 text-center font-semibold">
               Tambah Akun Bank
+            </div>
+            <div className="my-2">
+              {message && (
+                <ErrorMessage
+                  message={message}
+                  visible={message !== null ? true : false}
+                  onClose={() => dispatch(setMessage(null))}
+                />
+              )}
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-col  gap-4 justify-center">

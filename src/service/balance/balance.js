@@ -66,21 +66,7 @@ export const postBalanceWithdraw = createAsyncThunk(
   }
 );
 
-// Get all banks
-export const getBalanceBanks = async ({ accessToken }) => {
-  try {
-    const response = await axios.get(`${apiConfig.baseUrl}/balance/banks`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    console.log("get balance banks", response?.data?.data);
-    return response?.data?.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
+// get balance account
 export const getBalanceAccountBank = async ({ accessToken }) => {
   try {
     const response = await axios.get(`${apiConfig.baseUrl}/balance/account`, {
@@ -97,26 +83,7 @@ export const getBalanceAccountBank = async ({ accessToken }) => {
   }
 };
 
-// Get balance account bank
-// export const getBalanceAccountBank = createAsyncThunk(
-//   "balance/getBalanceAccountBank",
-//   async ({ accessToken }, { rejectWithValue }) => {
-//     try {
-//       const response = await axios.get(`${apiConfig.baseUrl}/balance/account`, {
-//         headers: {
-//           Authorization: `Bearer ${accessToken}`,
-//         },
-//       });
-//       console.log(response?.data?.data);
-//       return response?.data?.data;
-//     } catch (error) {
-//       const message_error = error.response?.data?.message;
-//       return rejectWithValue(message_error);
-//     }
-//   }
-// );
-
-// Add new bank
+// post balance account
 export const postBalanceAccountBank = createAsyncThunk(
   "balance/postBalanceAccountBank",
   async ({ accessToken, data, navigate }, { rejectWithValue }) => {
@@ -135,9 +102,90 @@ export const postBalanceAccountBank = createAsyncThunk(
         "Rekening telah berhasil ditambahkan ",
         "success"
       );
-
       navigate("/funder/withdraw/listBank");
-      console.log(response?.data?.data);
+    } catch (error) {
+      const message_error = error.response?.data?.message;
+      return rejectWithValue(message_error);
+    }
+  }
+);
+
+// Get balance banks (get all available banks)
+export const getBalanceBanks = async ({ accessToken }) => {
+  try {
+    const response = await axios.get(`${apiConfig.baseUrl}/balance/banks`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response?.data?.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Get transaction history (get all transaction history)
+export const getBalanceTransactionWithdraw = createAsyncThunk(
+  "balance/getBalanceTransactionWithdraw",
+  async ({ accessToken, status }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${apiConfig.baseUrl}/balance/transaction/history`,
+        {
+          params: {
+            type: "Withdraw",
+            status: status,
+          },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      return response?.data?.data;
+    } catch (error) {
+      const message_error = error.response?.data?.message;
+      return rejectWithValue(message_error);
+    }
+  }
+);
+export const getBalanceTransactionDeposit = createAsyncThunk(
+  "balance/getBalanceTransactionDeposit",
+  async ({ accessToken, status }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${apiConfig.baseUrl}/balance/transaction/history`,
+        {
+          params: {
+            type: "Deposit",
+            status: status,
+          },
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      return response?.data?.data;
+    } catch (error) {
+      const message_error = error.response?.data?.message;
+      return rejectWithValue(message_error);
+    }
+  }
+);
+export const getBalanceTransactionHistory = createAsyncThunk(
+  "balance/getBalanceTransactionHistory",
+  async ({ accessToken, params }, { rejectWithValue }) => {
+    console.log("params", params);
+    try {
+      const response = await axios.get(
+        `${apiConfig.baseUrl}/balance/transaction/history`,
+        {
+          params: params,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      return response?.data?.data;
     } catch (error) {
       const message_error = error.response?.data?.message;
       return rejectWithValue(message_error);

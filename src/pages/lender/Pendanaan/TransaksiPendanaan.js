@@ -1,14 +1,10 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import {
-  lenderFunding,
-  postLenderFunding,
-} from "../../../service/lender/funding";
+import { useNavigate, useParams } from "react-router-dom";
+import { postLenderFunding } from "../../../service/lender/funding";
 
 // Icon
 import { BiWallet } from "react-icons/bi";
 import { FormatMataUang } from "../../../utils/FormatMataUang";
-import { InputLabel } from "../../../components/molekul";
 import { IoWarningOutline } from "react-icons/io5";
 import { Button } from "../../../components/atom";
 import { Controller, useForm } from "react-hook-form";
@@ -22,6 +18,7 @@ const TransaksiPendanaan = ({
   totalPinjaman,
   totalImbalHasil,
   sisaPendanaan,
+  contract,
 }) => {
   const [getInputValue, setGetInputValue] = useState("");
 
@@ -29,6 +26,7 @@ const TransaksiPendanaan = ({
   const { accessToken } = useSelector((state) => state.auth);
   const { balance } = useSelector((state) => state.balance);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   // Calling useForm
@@ -48,9 +46,13 @@ const TransaksiPendanaan = ({
   }, []);
 
   const onSubmit = (data) => {
-    dispatch(
-      postLenderFunding({ data: { ...data, ...{ loanId } }, accessToken })
-    );
+    navigate("/funder/pendanaan/preview-kontrak", {
+      state: {
+        url: contract,
+        backLink: `/funder/pendanaan/${loanId}`,
+        data: { ...data, ...{ loanId } },
+      },
+    });
   };
 
   const validasiStep = (value) => {
@@ -182,7 +184,6 @@ const TransaksiPendanaan = ({
           </div>
 
           <Button
-            type={"submit"}
             className={
               "mt-5 bg-indigo-500 hover:bg-indigo-700 !rounded-full text-white w-full"
             }

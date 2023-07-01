@@ -20,7 +20,6 @@ import Kyc from "./pages/verifikasiKyc/kyc";
 import Status_KYC from "./pages/lender/statusKYC/status_KYC";
 import DetailPendanaan from "./pages/lender/DetailPendanaan";
 import Deposit from "./pages/lender/Deposit";
-import TransaksiPendanaan from "./pages/lender/Pendanaan/TransaksiPendanaan";
 import Portofolio from "./pages/lender/Portofolio";
 import DepositIntruksi from "./pages/lender/DepositIntruksi";
 
@@ -29,6 +28,8 @@ import WithdrawListBank from "./pages/lender/withdraw/WithdrawListBank";
 import WithdrawTambahBank from "./pages/lender/withdraw/WithdrawTambahBank";
 import Withdraw from "./pages/lender/withdraw/Withdraw";
 import RiwayatTransaksi from "./pages/lender/RiwayatTransaksi";
+import PreviewKontrak from "./pages/lender/Pendanaan/PreviewKontrak";
+import Tes from "./pages/lender/deposit/tes";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
@@ -63,9 +64,10 @@ function App() {
               <Route path="pendanaan" element={<Pendanaan />} />
               <Route path="pendanaan/:loanId" element={<DetailPendanaan />} />
               <Route
-                path="pendanaan/transaksi/:loanId"
-                element={<TransaksiPendanaan />}
+                path="pendanaan/preview-kontrak"
+                element={<PreviewKontrak />}
               />
+
               {/* Withdraw */}
               <Route path="withdraw" element={<Withdraw />} />
               <Route path="withdraw/listBank" element={<WithdrawListBank />} />
@@ -76,6 +78,7 @@ function App() {
               <Route path="riwayat-transaksi" element={<RiwayatTransaksi />} />
               {/* Deposit */}
               <Route path="deposit" element={<Deposit />} />
+              <Route path="tes" element={<Tes />} />
               <Route path="deposit/intruksi" element={<DepositIntruksi />} />
 
               <Route path="portofolio" element={<Portofolio />} />

@@ -26,13 +26,13 @@ const Pendanaan = () => {
   } = useForm();
 
   const filterDefault = async () => {
-    let tenor = { tenor_min: 1, tenor_max: 6 };
+    let tenor = { tenor_min: 1, tenor_max: 11 };
     const response = await getAvailableLoan({
       params: tenor,
       accessToken,
     });
     setListLoan(response?.data);
-    setValue([1, 3]);
+    setValue([1, 11]);
   };
 
   useEffect(() => {
@@ -48,6 +48,7 @@ const Pendanaan = () => {
       ...data,
       ...tenorValue,
     };
+
     const response = await getAvailableLoan({ params, accessToken });
     setListLoan(response?.data);
   };
@@ -83,7 +84,7 @@ const Pendanaan = () => {
                         <div className="">
                           <InputLabel
                             placeholder={"Rp100.000"}
-                            children={"Biaya Minimum"}
+                            children={"Imbal hasil minimum"}
                             type={"number"}
                             register={{
                               ...register("yield_min"),
@@ -94,7 +95,7 @@ const Pendanaan = () => {
                         <div className="pb-5">
                           <InputLabel
                             placeholder={"Rp100.000.000"}
-                            children={"Biaya Maksimum"}
+                            children={"Imbal hasil maksimum"}
                             type={"number"}
                             register={{
                               ...register("yield_max"),

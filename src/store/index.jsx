@@ -1,14 +1,23 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import AuthReducer from "./reducer/AuthReducer";
+
+import LenderFundingReducer from "./reducer/Lender/LenderFundingReducer";
+
 import BalanceReducer from "./reducer/Balance/BalanceReducer";
 import BalanceAccountReducer from "./reducer/Balance/BalanceAccountReducer";
 import BalanceTransactionReducer from "./reducer/Balance/BalanceTransactionReducer";
+
+import BorrowerReducers from "./reducer/Borrower/BorrowerReducer.jsx";
 
 const reducers = combineReducers({
   auth: AuthReducer,
   balance: BalanceReducer,
   balance_transaction: BalanceTransactionReducer,
   balance_account: BalanceAccountReducer,
+
+  lender: LenderFundingReducer,
+
+  borrower: BorrowerReducers,
 });
 
 const rootReducer = (state, action) => {

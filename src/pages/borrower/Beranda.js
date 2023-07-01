@@ -1,31 +1,70 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { ButtonIcon } from "../../components/molekul";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 
+// icon
 import { AiOutlineSchedule } from "react-icons/ai";
 import { Badge, Button } from "../../components/atom";
-import { IoPintOutline } from "react-icons/io5";
-import { MdNotes } from "react-icons/md";
-import {
-  HiInformationCircle,
-  HiOutlineInformationCircle,
-} from "react-icons/hi";
+import { HiOutlineInformationCircle } from "react-icons/hi";
+
+import { getBorrowersPaymentSchedule } from "../../service/Borrower/borrower";
+import { FormatMataUang } from "../../utils/FormatMataUang";
 
 const Beranda = () => {
-  const { statusKYC, roles } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const { accessToken } = useSelector((state) => state.auth);
+
+  const handleGetSchedule = () => {
+    dispatch(getBorrowersPaymentSchedule({ accessToken }));
+  };
+
+  useEffect(() => {
+    handleGetSchedule();
+  }, []);
+
+  const schedule = {
+    currentMonth: 1000000,
+    paymentSchedule: [
+      {
+        date: "2023-06-07",
+        amount: 250000,
+      },
+      {
+        date: "2023-05-21",
+        amount: 250000,
+      },
+      {
+        date: "2023-03-12",
+        amount: 150000,
+      },
+      {
+        date: "2023-02-06",
+        amount: 400000,
+      },
+    ],
+  };
+
   return (
-    <div className="grid grid-cols-6 gap-8">
+    <div className="grid grid-cols-6 gap-8 font-nunito-sans ">
       <div className="col-span-3">
         <article className="flex  flex-col gap-4 rounded-lg border border-gray-100 bg-white p-6">
-          <div className="flex flex-col items-center ">
+          <div className="flex flex-col items-center  gap-4">
             <div>
-              <span>Limit Tersedia</span>
+              <span className="text-lg text-blue-900 font-semibold">
+                Limit Tersedia
+              </span>
             </div>
             <div>
-              <span>Rp.10.000</span>
+              <span className="text-3xl">
+                {FormatMataUang(schedule?.currentMonth)}
+              </span>
             </div>
             <div>
-              <Button className={"bg-blue-900 text-white font-medium"}>
+              <Button
+                className={
+                  "bg-blue-800 hover:bg-blue-900 text-white font-medium"
+                }
+              >
                 Verfikasi Data
               </Button>
             </div>
@@ -39,36 +78,20 @@ const Beranda = () => {
             <span className="text-blue-900 font-medium">Jadwal Pembayaran</span>
           </div>
           <div className=" flex flex-col gap-3 p-5">
-            <div className="flex justify-between">
-              <span>
-                <Badge className={"bg-red-100 text-red-500"}>
-                  04 September 2023
-                </Badge>
-              </span>
-              <span className="font-medium text-gray-700 font-mono">
-                Rp10.000.000
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span>
-                <Badge className={"bg-red-100 text-red-500"}>
-                  18 September 2023
-                </Badge>
-              </span>
-              <span className="font-medium text-gray-700 font-mono">
-                Rp10.000.000
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span>
-                <Badge className={"bg-red-100 text-red-500"}>
-                  20 Desember 2023{" "}
-                </Badge>
-              </span>
-              <span className="font-medium text-gray-700 font-mono">
-                Rp10.000.000
-              </span>
-            </div>
+            {schedule.paymentSchedule.map((item, index) => {
+              return (
+                <div key={index} className="flex justify-between">
+                  <span>
+                    <Badge className={"bg-red-100 text-red-500"}>
+                      {moment(item?.date).format("DD MMMM YYYY")}
+                    </Badge>
+                  </span>
+                  <span className="font-medium text-gray-700 font-mono">
+                    {FormatMataUang(item?.amount)}
+                  </span>
+                </div>
+              );
+            })}
           </div>
           <div className="p-5 border-t border-t-gray-200 mt-3">
             <div className="flex flex-col gap-3">
