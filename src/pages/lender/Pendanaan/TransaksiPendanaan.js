@@ -66,7 +66,6 @@ const TransaksiPendanaan = ({
   const validasiBalance = (value) => {
     const amount = parseFloat(value.replace(/[^\d.-]/g, "")); // Menghapus karakter non-angka dari value input
     const saldo = parseFloat(balance);
-    console.log(value);
     console.log(balance);
     if (amount > saldo) {
       return "Saldo anda tidak cukup!";
@@ -77,9 +76,9 @@ const TransaksiPendanaan = ({
   const validasiSisaPendanaan = (value) => {
     const amount = parseFloat(value.replace(/[^\d.-]/g, "")); // Menghapus karakter non-angka dari value input
     const sisaSlot = parseFloat(sisaPendanaan);
-
     if (amount > sisaSlot) {
-      return "Pendanaan tidak boleh melebihi sisa slot saat ini!";
+      const result = `Pendanaan tidak boleh melebihi sisa slot saat ini! Maksimal ${sisaSlot}`;
+      return result;
     }
     return true;
   };

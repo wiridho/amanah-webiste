@@ -38,7 +38,7 @@ const Deposit = () => {
   const onSubmit = (data) => {
     data["isWebsite"] = true;
     console.log(data);
-    // dispatch(postBalanceDeposit({ accessToken, data, setPaymentStatus }));
+    dispatch(postBalanceDeposit({ accessToken, data, setPaymentStatus }));
   };
 
   const handleInputChange = (value) => {

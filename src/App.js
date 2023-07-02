@@ -13,7 +13,6 @@ import Register from "./pages/authentication/Register";
 import RegisterVerifySucess from "./pages/authentication/RegisterVerifySuccess";
 import VerifyLogin from "./pages/authentication/VerifyLogin";
 import Login from "./pages/authentication/Login";
-import DashboardBorrower from "./components/template/DashboardBorrower";
 import Pendanaan from "./pages/lender/Pendanaan";
 import Profile from "./pages/lender/Profile";
 import Kyc from "./pages/verifikasiKyc/kyc";
@@ -22,6 +21,9 @@ import DetailPendanaan from "./pages/lender/DetailPendanaan";
 import Deposit from "./pages/lender/Deposit";
 import Portofolio from "./pages/lender/Portofolio";
 import DepositIntruksi from "./pages/lender/DepositIntruksi";
+// Borrower
+import DashboardBorrower from "./components/template/DashboardBorrower";
+import KycBorrower from "./pages/verifikasiKyc/KycBorrower";
 
 // Withdraw
 import WithdrawListBank from "./pages/lender/withdraw/WithdrawListBank";
@@ -30,6 +32,7 @@ import Withdraw from "./pages/lender/withdraw/Withdraw";
 import RiwayatTransaksi from "./pages/lender/RiwayatTransaksi";
 import PreviewKontrak from "./pages/lender/Pendanaan/PreviewKontrak";
 import Tes from "./pages/lender/deposit/tes";
+import AjukanPinjaman from "./pages/borrower/AjukanPinjaman";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
@@ -78,7 +81,6 @@ function App() {
               <Route path="riwayat-transaksi" element={<RiwayatTransaksi />} />
               {/* Deposit */}
               <Route path="deposit" element={<Deposit />} />
-              <Route path="tes" element={<Tes />} />
               <Route path="deposit/intruksi" element={<DepositIntruksi />} />
 
               <Route path="portofolio" element={<Portofolio />} />
@@ -113,6 +115,8 @@ function App() {
               }
             >
               <Route index element={<Borrower />} />
+              <Route path="kyc" element={<KycBorrower />} />
+              <Route path="pengajuan-pinjaman" element={<AjukanPinjaman />} />
             </Route>
           </>
         )}

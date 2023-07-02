@@ -1,14 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import CurrencyInput from "react-currency-input-field";
 import { Button, Label } from "../../../components/atom";
-import { useDispatch, useSelector } from "react-redux";
 import {
   handleGetBalance,
   postBalanceWithdraw,
 } from "../../../service/balance/balance";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 const Withdraw = () => {
   const { accessToken } = useSelector((state) => state.auth);

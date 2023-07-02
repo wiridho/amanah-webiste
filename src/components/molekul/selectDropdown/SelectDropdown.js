@@ -9,8 +9,6 @@ const SelectDropdown = ({ data, name, control, errors }) => {
     label: item.name,
   }));
 
-  console.log(errors);
-
   return (
     <div>
       <Label className="block text-sm font-medium text-gray-900">

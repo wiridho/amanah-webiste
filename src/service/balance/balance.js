@@ -171,10 +171,11 @@ export const getBalanceTransactionDeposit = createAsyncThunk(
     }
   }
 );
+
+// History
 export const getBalanceTransactionHistory = createAsyncThunk(
   "balance/getBalanceTransactionHistory",
   async ({ accessToken, params }, { rejectWithValue }) => {
-    console.log("params", params);
     try {
       const response = await axios.get(
         `${apiConfig.baseUrl}/balance/transaction/history`,
@@ -192,3 +193,25 @@ export const getBalanceTransactionHistory = createAsyncThunk(
     }
   }
 );
+
+// get transaction account
+export const getBalanceTransactionHistoryAddList = async ({
+  accessToken,
+  param,
+}) => {
+  try {
+    const response = await axios.get(
+      `${apiConfig.baseUrl}/balance/transaction/history`,
+
+      {
+        params: param,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response?.data?.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

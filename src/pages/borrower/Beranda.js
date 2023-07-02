@@ -45,31 +45,88 @@ const Beranda = () => {
   };
 
   return (
-    <div className="grid grid-cols-6 gap-8 font-nunito-sans ">
+    <div className="grid grid-cols-6 gap-10 font-nunito-sans ">
       <div className="col-span-3">
-        <article className="flex  flex-col gap-4 rounded-lg border border-gray-100 bg-white p-6">
-          <div className="flex flex-col items-center  gap-4">
-            <div>
-              <span className="text-lg text-blue-900 font-semibold">
-                Limit Tersedia
-              </span>
-            </div>
-            <div>
-              <span className="text-3xl">
-                {FormatMataUang(schedule?.currentMonth)}
-              </span>
-            </div>
-            <div>
-              <Button
-                className={
-                  "bg-blue-800 hover:bg-blue-900 text-white font-medium"
-                }
-              >
-                Verfikasi Data
-              </Button>
-            </div>
+        <div className="flex flex-col gap-4">
+          <div>
+            <article className="flex  flex-col gap-4 rounded-lg border border-gray-100 bg-white p-6">
+              <div className="flex flex-col items-center  gap-4">
+                <div>
+                  <span className="text-lg text-blue-900 font-semibold">
+                    Limit Tersedia
+                  </span>
+                </div>
+                <div>
+                  <span className="text-3xl">
+                    {FormatMataUang(schedule?.currentMonth)}
+                  </span>
+                </div>
+                <div>
+                  <Button
+                    className={
+                      "bg-blue-800 hover:bg-blue-900 text-white font-medium"
+                    }
+                  >
+                    Verfikasi Data
+                  </Button>
+                </div>
+              </div>
+            </article>
           </div>
-        </article>
+          <div>
+            <article className="rounded-lg border border-gray-100 bg-white p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-gray-500">Pembayaran bulan ini</p>
+
+                  <p className="text-2xl font-medium text-gray-900">
+                    {FormatMataUang(schedule?.currentMonth)}
+                  </p>
+                </div>
+
+                <span className="rounded-full bg-blue-100 p-3 text-blue-600">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-8 w-8"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
+                    />
+                  </svg>
+                </span>
+              </div>
+
+              {/* <div className="mt-1 flex gap-1 text-green-600">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                  />
+                </svg>
+
+                <p className="flex gap-2 text-xs">
+                  <span className="font-medium"> 67.81% </span>
+
+                  <span className="text-gray-500"> Since last week </span>
+                </p>
+              </div> */}
+            </article>
+          </div>
+        </div>
       </div>
       <div className="col-span-3">
         <article className="flex  flex-col rounded-lg bg-white">

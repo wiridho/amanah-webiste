@@ -66,9 +66,7 @@ const DetailPendanaan = () => {
     { to: "#", label: "Detail Pendanaan", bold: true },
   ];
 
-  console.log(detailData);
-
-  // console.log("kontrak", detailData?.contract.split("/"));
+  let value = 100;
 
   return (
     <div className="">
@@ -320,7 +318,7 @@ const DetailPendanaan = () => {
                       {FormatMataUang(detailData?.totalFunding)}
                     </p>
                   </div>
-                  {/* Progress */}
+                  {/* Progress bar */}
                   <div className="my-3">
                     <span
                       role="progressbar"
@@ -330,23 +328,35 @@ const DetailPendanaan = () => {
                     >
                       <span
                         className="block h-4 rounded-full bg-green-500 text-center text-[10px]/4"
-                        style={{ width: `${progress}%` }}
+                        style={{ width: `${value}%` }}
                       >
                         <span className="font-bold text-white">
-                          {progress.toFixed(2)} %
+                          {/* {progress.toFixed(2)} % */}
+                          {value} %
                         </span>
                       </span>
                     </span>
                   </div>
                   {/* End Progress */}
+
                   <Button
+                    disabled={value === 100 ? true : false}
                     onClick={onClick}
                     type={"button"}
-                    className={
-                      "bg-indigo-700 hover:bg-indigo-800 text-white font-semibold !rounded-full w-full"
-                    }
+                    className={`bg-indigo-700 hover:bg-indigo-800 text-white font-semibold !rounded-full w-full ${
+                      value === 100
+                        ? "!bg-transparent text-white cursor-not-allowed border border-green-500 "
+                        : ""
+                    }`}
                   >
-                    Danai Sekarang
+                    {value === 100 ? (
+                      <span className=" px-4 py-2 rounded text-green-600">
+                        {" "}
+                        Terdanai
+                      </span>
+                    ) : (
+                      "Danai Sekarang"
+                    )}
                   </Button>
                 </div>
               </div>
