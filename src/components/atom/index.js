@@ -4,5 +4,6 @@ export { default as Input } from "./input/Input";
 export { default as Label } from "./label/Label";
 export { default as Accordion } from "./accordion/Accordion";
 export { default as ErrorMessage } from "./errorMessage/ErrorMessage";
+export { default as Message } from "./message/Message";
 export { default as BreadCumb } from "./breadcumb/BreadCumb";
 export { default as Slider } from "./slider/Slider";

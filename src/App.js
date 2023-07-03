@@ -33,6 +33,7 @@ import RiwayatTransaksi from "./pages/lender/RiwayatTransaksi";
 import PreviewKontrak from "./pages/lender/Pendanaan/PreviewKontrak";
 import Tes from "./pages/lender/deposit/tes";
 import AjukanPinjaman from "./pages/borrower/AjukanPinjaman";
+import StatusKYC from "./pages/borrower/statusKYC/StatusKYC";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
@@ -116,6 +117,7 @@ function App() {
             >
               <Route index element={<Borrower />} />
               <Route path="kyc" element={<KycBorrower />} />
+              <Route path="kyc/status" element={<StatusKYC />} />
               <Route path="pengajuan-pinjaman" element={<AjukanPinjaman />} />
             </Route>
           </>

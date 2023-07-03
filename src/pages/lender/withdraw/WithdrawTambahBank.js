@@ -61,13 +61,11 @@ const WithdrawTambahBank = () => {
               Tambah Akun Bank
             </div>
             <div className="my-2">
-              {message && (
-                <ErrorMessage
-                  message={message}
-                  visible={message !== null ? true : false}
-                  onClose={() => dispatch(setMessage(null))}
-                />
-              )}
+              <ErrorMessage
+                message={message}
+                visible={message !== null ? true : false}
+                onClose={() => dispatch(setMessage(null))}
+              />
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-col  gap-4 justify-center">

@@ -6,9 +6,14 @@ import {
   RadioButton,
   SelectInput,
 } from "../../components/molekul";
-import { Button, Label } from "../../components/atom";
+import { Button, Label, Message } from "../../components/atom";
 import Webcam from "./Webcam";
 import { BsFillPersonVcardFill, BsPerson } from "react-icons/bs";
+import { verificationBorrowerKYC } from "../../service/Borrower/borrowerVerificationKYC";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { setMessage } from "../../store/reducer/AuthReducer";
 
 const KycBorrower = () => {
   const [imageUrlSelfie, setImageUrlSelfie] = useState(false);
@@ -17,6 +22,18 @@ const KycBorrower = () => {
   const [ambilGambarKTP, setAmbilGambarKTP] = useState(false);
   const [gambarSelfie, setGambarSelfie] = useState(null);
   const [gambarKTP, setGambarKTP] = useState(null);
+  const { accessToken, statusKYC, message_error, success } = useSelector(
+    (state) => state.auth
+  );
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (statusKYC !== "not verified") {
+      navigate("/borrower/kyc/status");
+    }
+  }, [statusKYC]);
 
   // Calling useForm
   const {
@@ -35,45 +52,52 @@ const KycBorrower = () => {
   ];
 
   const onSubmit = (data) => {
-    // const formData = new FormData();
-    // formData.append("personal.idCardNumber", data.idCardNumber);
-    // formData.append("personal.fullName", data.fullName);
-    // formData.append("personal.gender", data.gender);
-    // formData.append("personal.birthDate", data.birthDate);
-    // formData.append("personal.work.name", data.workName);
-    // formData.append("personal.work.salary", data.salary);
-    // formData.append(
-    //   "relativeContact.firstRelative.name",
-    //   data?.firstRelative?.name
-    // );
-    // formData.append(
-    //   "relativeContact.firstRelative.relation",
-    //   data?.firstRelative?.relation
-    // );
-    // formData.append(
-    //   "relativeContact.firstRelative.phoneNumber",
-    //   data?.firstRelative?.phoneNumber
-    // );
-    // formData.append(
-    //   "relativeContact.secondRelative.name",
-    //   data?.secondRelative?.name
-    // );
-    // formData.append(
-    //   "relativeContact.secondRelative.relation",
-    //   data?.secondRelative?.relation
-    // );
-    // formData.append(
-    //   "relativeContact.secondRelative.phoneNumber",
-    //   data?.secondRelative?.phoneNumber
-    // );
-
-    // formData.append("idCardImage", gambarKTP);
-    // formData.append("faceImage", gambarSelfie);
+    const formData = new FormData();
+    formData.append("personal.idCardNumber", data.idCardNumber);
+    formData.append("personal.fullName", data.fullName);
+    formData.append("personal.gender", data.gender);
+    formData.append("personal.birthDate", data.birthDate);
+    formData.append("personal.work.name", data.workName);
+    formData.append("personal.work.salary", data.salary);
+    formData.append(
+      "relativesContact.firstRelative.name",
+      data?.firstRelative?.name
+    );
+    formData.append(
+      "relativesContact.firstRelative.relation",
+      data?.firstRelative?.relation
+    );
+    formData.append(
+      "relativesContact.firstRelative.phoneNumber",
+      data?.firstRelative?.phoneNumber
+    );
+    formData.append(
+      "relativesContact.secondRelative.name",
+      data?.secondRelative?.name
+    );
+    formData.append(
+      "relativesContact.secondRelative.relation",
+      data?.secondRelative?.relation
+    );
+    formData.append(
+      "relativesContact.secondRelative.phoneNumber",
+      data?.secondRelative?.phoneNumber
+    );
+    formData.append("idCardImage", gambarKTP);
+    formData.append("faceImage", gambarSelfie);
 
     // const formDataObject = Object.fromEntries(formData.entries());
     // console.log("formDataObject", formDataObject);
-    console.log(data);
+
+    dispatch(
+      verificationBorrowerKYC({
+        accessToken,
+        formData,
+      })
+    );
   };
+
+  console.log(statusKYC);
 
   const handleDataKtp = (data) => {
     setGambarKTP(data);
@@ -86,12 +110,23 @@ const KycBorrower = () => {
   };
 
   const isPhotoFilled = () => {
-    return gambarKTP && gambarSelfie;
+    // return gambarKTP && gambarSelfie;
+    const isFormFilled = Object.keys(errors).length === 0;
+    const isStateFilled = gambarKTP && gambarSelfie;
+    // console.log("isFormFilled", isFormFilled);
+    // console.log("isStateFilled", isStateFilled);
+    return isFormFilled && isStateFilled;
   };
 
   return (
     <div>
       <div className="">
+        <Message
+          status={success}
+          message={message_error}
+          visible={message_error !== null ? true : false}
+          onClose={() => dispatch(setMessage(null))}
+        />
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
           <div className="p-5 bg-white rounded-md">
             <h2 className="text-lg font-semibold leading-7 text-gray-600">
@@ -268,7 +303,6 @@ const KycBorrower = () => {
                     }}
                     errors={errors?.["secondRelative"]?.["name"]}
                   >
-                    {console.log(errors)}
                     Nama Lengkap kerabat
                   </InputLabel>
                 </div>

@@ -9,9 +9,12 @@ import { HiOutlineInformationCircle } from "react-icons/hi";
 
 import { getBorrowersPaymentSchedule } from "../../service/Borrower/borrower";
 import { FormatMataUang } from "../../utils/FormatMataUang";
+import { useNavigate } from "react-router-dom";
 
 const Beranda = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const statusKYC = "verified";
   const { accessToken } = useSelector((state) => state.auth);
 
   const handleGetSchedule = () => {
@@ -44,6 +47,37 @@ const Beranda = () => {
     ],
   };
 
+  const checkUserKYC = () => {
+    if (statusKYC === "pending") {
+      return (
+        <Button
+          className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
+          onClick={() => navigate("/borrower/kyc/status")}
+        >
+          Cek Status
+        </Button>
+      );
+    } else if (statusKYC === "not verified") {
+      return (
+        <Button
+          className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
+          onClick={() => navigate("/borrower/kyc")}
+        >
+          Verifikasi Data
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
+          onClick={() => navigate("/borrower/pengajuan-pinjaman")}
+        >
+          Ajukan Pinjaman
+        </Button>
+      );
+    }
+  };
+
   return (
     <div className="grid grid-cols-6 gap-10 font-nunito-sans ">
       <div className="col-span-3">
@@ -62,13 +96,14 @@ const Beranda = () => {
                   </span>
                 </div>
                 <div>
-                  <Button
+                  {/* <Button
                     className={
                       "bg-blue-800 hover:bg-blue-900 text-white font-medium"
                     }
                   >
                     Verfikasi Data
-                  </Button>
+                  </Button> */}
+                  {checkUserKYC()}
                 </div>
               </div>
             </article>
@@ -101,29 +136,6 @@ const Beranda = () => {
                   </svg>
                 </span>
               </div>
-
-              {/* <div className="mt-1 flex gap-1 text-green-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                  />
-                </svg>
-
-                <p className="flex gap-2 text-xs">
-                  <span className="font-medium"> 67.81% </span>
-
-                  <span className="text-gray-500"> Since last week </span>
-                </p>
-              </div> */}
             </article>
           </div>
         </div>

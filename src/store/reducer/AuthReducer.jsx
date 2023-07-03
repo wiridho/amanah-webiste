@@ -6,9 +6,10 @@ import {
   verifyLoginOtp,
 } from "../../service/authentication/authService";
 import jwtDecode from "jwt-decode";
+import { verificationBorrowerKYC } from "../../service/Borrower/borrowerVerificationKYC";
 
 const initialState = {
-  success: null,
+  success: false,
   load: false,
   error: false,
   data: null,
@@ -28,6 +29,9 @@ const authSlice = createSlice({
   reducers: {
     setStatusKYC(state, data) {
       state.statusKYC = data.payload;
+    },
+    setMessage(state, data) {
+      state.message_error = data.payload;
     },
   },
   extraReducers: (builder) => {
@@ -73,7 +77,7 @@ const authSlice = createSlice({
         state.error = true;
         state.message_error = action.payload;
       })
-
+      // Verify Login OTP
       .addCase(verifyLoginOtp.pending, (state) => {
         state.load = true;
       })
@@ -89,9 +93,25 @@ const authSlice = createSlice({
         state.load = false;
         state.error = true;
         state.message_error = action.payload;
+      })
+      // Verifikasi Borrower KYC
+      .addCase(verificationBorrowerKYC.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(verificationBorrowerKYC.fulfilled, (state, action) => {
+        state.load = false;
+        state.success = true;
+        state.statusKYC = action?.payload;
+      })
+      .addCase(verificationBorrowerKYC.rejected, (state, action) => {
+        state.load = false;
+        state.success = false;
+        state.error = true;
+        state.statusKYC = "not verified";
+        state.message_error = action.payload;
       });
   },
 });
 
-export const { setStatusKYC } = authSlice.actions;
+export const { setStatusKYC, setMessage } = authSlice.actions;
 export default authSlice.reducer;

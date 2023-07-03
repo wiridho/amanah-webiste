@@ -2,7 +2,7 @@ import React from "react";
 import { IoIosWarning } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 
-const ErrorMessage = ({ status, message, onClose, visible }) => {
+const ErrorMessage = ({ message, onClose, visible }) => {
   return (
     <>
       <div

@@ -8,6 +8,7 @@ const initialState = {
   load: false,
 
   paymentSchedule: null,
+  loanHistory: null,
 };
 
 const borrowerSlice = createSlice({
