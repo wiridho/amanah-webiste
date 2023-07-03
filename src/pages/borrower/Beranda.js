@@ -95,16 +95,7 @@ const Beranda = () => {
                     {FormatMataUang(schedule?.currentMonth)}
                   </span>
                 </div>
-                <div>
-                  {/* <Button
-                    className={
-                      "bg-blue-800 hover:bg-blue-900 text-white font-medium"
-                    }
-                  >
-                    Verfikasi Data
-                  </Button> */}
-                  {checkUserKYC()}
-                </div>
+                <div>{checkUserKYC()}</div>
               </div>
             </article>
           </div>

@@ -70,7 +70,7 @@ const Sidebar = () => {
             </li>
             <li>
               <CustomLink
-                to="deposit"
+                to="/borrower/pengajuan-pinjaman"
                 icon={<GiReceiveMoney className="text-xl" />}
               >
                 Pengajuan Peminjaman

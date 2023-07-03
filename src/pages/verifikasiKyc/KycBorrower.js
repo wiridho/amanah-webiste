@@ -86,9 +86,6 @@ const KycBorrower = () => {
     formData.append("idCardImage", gambarKTP);
     formData.append("faceImage", gambarSelfie);
 
-    // const formDataObject = Object.fromEntries(formData.entries());
-    // console.log("formDataObject", formDataObject);
-
     dispatch(
       verificationBorrowerKYC({
         accessToken,
