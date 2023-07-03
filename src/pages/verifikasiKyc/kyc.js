@@ -287,7 +287,7 @@ const Kyc = () => {
             type={"submit"}
             disabled={!isPhotoFilled()}
             className={` bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-500 ${
-              !isPhotoFilled() && "disabled:bg-gray-500"
+              !isPhotoFilled() && "disabled:bg-gray-500 cursor-not-allowed"
             }`}
           >
             Verifikasi Diri
