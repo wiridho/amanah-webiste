@@ -90,8 +90,6 @@ const Portofolio = () => {
   //   },
   // };
 
-  console.log(portofolio);
-
   return (
     <div className="font-nunito-sans">
       <div className="flex flex-col mb-4">

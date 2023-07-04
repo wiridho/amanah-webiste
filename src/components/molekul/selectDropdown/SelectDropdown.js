@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Select from "react-select";
-import { useForm, Controller } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import { Label } from "../../atom";
 
 const SelectDropdown = ({ data, name, control, errors }) => {
@@ -24,7 +24,7 @@ const SelectDropdown = ({ data, name, control, errors }) => {
           <Select
             {...field}
             options={options}
-            placeholder="Choose an option"
+            placeholder="Silahkan pilih bank"
             isClearable
           />
         )}

@@ -86,7 +86,7 @@ export const getBalanceAccountBank = async ({ accessToken }) => {
 // post balance account
 export const postBalanceAccountBank = createAsyncThunk(
   "balance/postBalanceAccountBank",
-  async ({ accessToken, data, navigate }, { rejectWithValue }) => {
+  async ({ accessToken, data, navigate, to }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${apiConfig.baseUrl}/balance/account`,
@@ -102,7 +102,7 @@ export const postBalanceAccountBank = createAsyncThunk(
         "Rekening telah berhasil ditambahkan ",
         "success"
       );
-      navigate("/funder/withdraw/listBank");
+      navigate(to);
     } catch (error) {
       const message_error = error.response?.data?.message;
       return rejectWithValue(message_error);

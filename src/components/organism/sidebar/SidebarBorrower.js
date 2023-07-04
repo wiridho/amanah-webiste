@@ -56,7 +56,10 @@ const Sidebar = () => {
               </CustomLink>
             </li>
             <li>
-              <CustomLink to="#" icon={<MdHistory className="text-xl" />}>
+              <CustomLink
+                to="riwayat-peminjaman"
+                icon={<MdHistory className="text-xl" />}
+              >
                 Riwayat Peminjaman
               </CustomLink>
             </li>
@@ -70,7 +73,7 @@ const Sidebar = () => {
             </li>
             <li>
               <CustomLink
-                to="/borrower/pengajuan-pinjaman"
+                to="pengajuan-pinjaman"
                 icon={<GiReceiveMoney className="text-xl" />}
               >
                 Pengajuan Peminjaman
@@ -78,7 +81,7 @@ const Sidebar = () => {
             </li>
             <li>
               <CustomLink
-                to="withdraw"
+                to="pembayaran"
                 icon={<MdPayment className="text-xl" />}
               >
                 Pembayaran
@@ -93,7 +96,10 @@ const Sidebar = () => {
               </div>
             </li>
             <li>
-              <CustomLink to="profile" icon={<BiUser className="text-xl" />}>
+              <CustomLink
+                to="/borrower/profile"
+                icon={<BiUser className="text-xl" />}
+              >
                 Profile
               </CustomLink>
             </li>

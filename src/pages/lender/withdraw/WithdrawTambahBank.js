@@ -31,6 +31,8 @@ const WithdrawTambahBank = () => {
     formState: { errors },
   } = useForm();
 
+  let to = "/funder/withdraw/listBank";
+
   const onSubmit = (params) => {
     const { accountNumber, selectedOption } = params;
     const data = {
@@ -38,7 +40,8 @@ const WithdrawTambahBank = () => {
       bankName: selectedOption.label,
       bankCode: selectedOption.value,
     };
-    dispatch(postBalanceAccountBank({ accessToken, data, navigate }));
+
+    dispatch(postBalanceAccountBank({ accessToken, data, navigate, to }));
   };
 
   useEffect(() => {

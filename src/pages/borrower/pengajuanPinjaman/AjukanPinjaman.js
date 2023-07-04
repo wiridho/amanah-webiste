@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { Controller, useForm } from "react-hook-form";
-import { Button, Label } from "../../components/atom";
-import { InputLabel, RadioButton, SelectInput } from "../../components/molekul";
+import { Button, Label } from "../../../components/atom";
+import {
+  InputLabel,
+  RadioButton,
+  SelectInput,
+} from "../../../components/molekul";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +21,9 @@ const AjukanPinjaman = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    navigate("/borrower/konfirmasi-pinjaman", {
+      state: data,
+    });
   };
 
   const opsiKategori = [
@@ -53,8 +59,8 @@ const AjukanPinjaman = () => {
 
   return (
     <div className="h-screen flex justify-center items-center font-nunito-sans">
-      <div className="w-full rounded-md shadow bg-white">
-        <div className="p-5">
+      <div className="w-1/2 rounded-md shadow bg-white">
+        <div className="p-8">
           <span className="text-lg mb-2 text-center font-semibold">
             Ajukan Pinjaman
           </span>
@@ -134,82 +140,80 @@ const AjukanPinjaman = () => {
                 )}
               </div>
               <div>
-                <div>
-                  <SelectInput
-                    field={"Hubungan kerabat"}
-                    name="borrowringCategory"
-                    control={control}
-                    options={opsiKategori}
-                    defaultValue={opsiKategori[0]}
-                    errors={errors?.["borrowringCategory"]}
-                  >
-                    Kategori Pinjaman
-                  </SelectInput>
-                </div>
-                <div>
-                  <SelectInput
-                    field={"Tenor"}
-                    name="tenor"
-                    control={control}
-                    options={opsiTenor}
-                    defaultValue={opsiTenor[0]}
-                    errors={errors?.["tenor"]}
-                  >
-                    Tenor
-                  </SelectInput>
-                </div>
-                <div>
-                  <InputLabel
-                    type={"text"}
-                    name={"Tujuan Peminjaman"}
-                    register={{
-                      ...register("purpose", {
-                        required: true,
-                      }),
-                    }}
-                    errors={errors.purpose}
-                  >
-                    Tujuan Peminjaman
-                  </InputLabel>
-                </div>
-                <div>
-                  <div className="">
-                    <Label>Jenis Kelamin</Label>
-                    <div className="flex">
-                      <div>
-                        <RadioButton
-                          name="Skema Pembayaran"
-                          register={{
-                            ...register("paymentSchema", {
-                              required: true,
-                            }),
-                          }}
-                          value={"Pelunasan Langsung"}
-                          errors={errors.paymentSchema}
-                        >
-                          Pelunasan Langsung
-                        </RadioButton>
-                      </div>
-                      <div>
-                        <RadioButton
-                          name=""
-                          register={{
-                            ...register("paymentSchema", {
-                              required: true,
-                            }),
-                          }}
-                          value={"Pelunasan Cicilan"}
-                        >
-                          Pelunasan Cicilan
-                        </RadioButton>
-                      </div>
-                    </div>
+                <SelectInput
+                  field={"Tenor"}
+                  name="tenor"
+                  control={control}
+                  options={opsiTenor}
+                  defaultValue={opsiTenor[0]}
+                  errors={errors?.["tenor"]}
+                >
+                  Tenor
+                </SelectInput>
+              </div>
+              <div>
+                <SelectInput
+                  field={"Hubungan kerabat"}
+                  name="borrowingCategory"
+                  control={control}
+                  options={opsiKategori}
+                  defaultValue={opsiKategori[0]}
+                  errors={errors?.["borrowingCategory"]}
+                >
+                  Kategori Pinjaman
+                </SelectInput>
+              </div>
+              <div>
+                <InputLabel
+                  type={"text"}
+                  name={"Tujuan Peminjaman"}
+                  register={{
+                    ...register("purpose", {
+                      required: true,
+                    }),
+                  }}
+                  errors={errors.purpose}
+                >
+                  Tujuan Peminjaman
+                </InputLabel>
+              </div>
+              <div className="">
+                <Label className={"!my-0 !mt-2"}>Jenis Kelamin</Label>
+                <div className="flex gap-3">
+                  <div>
+                    <RadioButton
+                      name="Skema Pembayaran"
+                      register={{
+                        ...register("paymentSchema", {
+                          required: true,
+                        }),
+                      }}
+                      value={"Pelunasan Langsung"}
+                      errors={errors.paymentSchema}
+                    >
+                      Pelunasan Langsung
+                    </RadioButton>
+                  </div>
+                  <div>
+                    <RadioButton
+                      name=""
+                      register={{
+                        ...register("paymentSchema", {
+                          required: true,
+                        }),
+                      }}
+                      value={"Pelunasan Cicilan"}
+                    >
+                      Pelunasan Cicilan
+                    </RadioButton>
                   </div>
                 </div>
               </div>
               <div>
                 <Button
-                  className={"mt-3 bg-indigo-500 px-4 py-2 text-white"}
+                  className={
+                    "mt-3 bg-blue-500 hover:bg-blue-700 px-4 py-2 text-white"
+                  }
                   type="submit"
                 >
                   Ajukan Pinjaman

@@ -103,13 +103,13 @@ const Beranda = () => {
             <article className="rounded-lg border border-gray-100 bg-white p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-500">Pembayaran bulan ini</p>
+                  <p className="text-sm text-gray-500 ">Pembayaran bulan ini</p>
 
                   <p className="text-2xl font-medium text-gray-900">
                     {FormatMataUang(schedule?.currentMonth)}
                   </p>
                 </div>
-
+                {/* <div onClick={handlePembayaran} className="cursor-pointer"> */}
                 <span className="rounded-full bg-blue-100 p-3 text-blue-600">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -126,6 +126,7 @@ const Beranda = () => {
                     />
                   </svg>
                 </span>
+                {/* </div> */}
               </div>
             </article>
           </div>
