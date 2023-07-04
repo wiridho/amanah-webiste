@@ -14,8 +14,7 @@ import { useNavigate } from "react-router-dom";
 const Beranda = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const statusKYC = "verified";
-  const { accessToken } = useSelector((state) => state.auth);
+  const { accessToken, statusKYC } = useSelector((state) => state.auth);
 
   const handleGetSchedule = () => {
     dispatch(getBorrowersPaymentSchedule({ accessToken }));

@@ -56,17 +56,15 @@ export const resendRegisterVerify = createAsyncThunk(
 
 export const handleLogin = createAsyncThunk(
   "auth/login",
-  async (params, { rejectWithValue }) => {
+  async ({ data, navigate }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${apiConfig.baseUrl}/authentication/login?action=email-otp`,
-        params.data
+        data
       );
-      console.log("response login", response);
-      params.navigate("/verifylogin");
+      navigate("/verifylogin");
       return response?.data?.data;
     } catch (error) {
-      params.setVisible(true);
       const message_error = error.response?.data?.message;
       return rejectWithValue(message_error);
     }
@@ -76,18 +74,16 @@ export const handleLogin = createAsyncThunk(
 // Handle Verify Login OTP
 export const verifyLoginOtp = createAsyncThunk(
   "auth/verifyLoginOtp",
-  async (params, { rejectWithValue }) => {
-    console.log("params ", params);
+  async ({ body, navigate }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${apiConfig.baseUrl}/authentication/login?action=login`,
-        params.body
+        body
       );
       console.log("response verify login otp", response.data.data);
-      params.navigate("/");
+      navigate("/");
       return response?.data.data;
     } catch (err) {
-      params.setVisible(true);
       const message_error = err.response?.data?.message;
       return rejectWithValue(message_error);
     }

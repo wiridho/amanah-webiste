@@ -1,6 +1,7 @@
 import axios from "axios";
 import apiConfig from "../../api/apiConfig";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import Swal from "sweetalert2";
 
 // get current loan history
 export const getBorrowersLoan = createAsyncThunk(
@@ -56,6 +57,8 @@ export const postBorrowersLoan = createAsyncThunk(
           },
         }
       );
+      Swal.fire("Berhasil!", `${response?.data?.message}`, "success");
+      return response?.data;
     } catch (error) {
       const message_error = error.response?.data?.message;
       return rejectWithValue(message_error);

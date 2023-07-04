@@ -7,15 +7,20 @@ import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
 import { handleLogin } from "../../service/authentication/authService";
 
-import { Button, ErrorMessage } from "../../components/atom";
+import { Button, Message } from "../../components/atom";
 import { InputPassword } from "../../components/molekul";
 
+import { setMessage, setSuccess } from "../../store/reducer/AuthReducer";
+
 const Login = () => {
-  const [visible, setVisible] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { message_error, load, success } = useSelector((state) => state.auth);
+  const { message, load, success } = useSelector((state) => state.auth);
+
+  const auth = useSelector((state) => state.auth);
+
+  // console.log(auth);
 
   // Calling useForm
   const {
@@ -26,9 +31,11 @@ const Login = () => {
 
   // Handle Submit
   const onSubmit = (data) => {
-    console.log(data);
-    dispatch(handleLogin({ data, navigate, setVisible }));
+    dispatch(handleLogin({ data, navigate }));
   };
+
+  console.log(message, success);
+  console.log(message !== null && !success ? true : false);
 
   return (
     <>
@@ -56,22 +63,21 @@ const Login = () => {
 
           {/* Form */}
           <div className="max-w-[400px] w-full mx-auto bg-zinc-50 p-4 sm:p-6 sm:px-8 shadow-md rounded-md">
+            <div>
+              <h1 className="text-xl font-sans font-semibold pb-4">
+                Welcome back !
+              </h1>
+            </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div>
-                <h1 className="text-xl font-sans font-semibold pb-4">
-                  Welcome back !
-                </h1>
-              </div>
-              <div className="mb-3">
-                {/* {visible && ( */}
-                <ErrorMessage
-                  status={success}
-                  visible={visible}
-                  message={message_error}
-                  onClose={() => setVisible(false)}
-                />
-                {/* )} */}
-              </div>
+              <div className="mb-3"></div>
+              <Message
+                status={success}
+                message={message}
+                visible={message !== null && !success ? true : false}
+                onClose={() => {
+                  dispatch(setMessage(null));
+                }}
+              />
               <div>
                 <InputLabel
                   placeholder={"name@example.com"}

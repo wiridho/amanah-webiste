@@ -23,7 +23,7 @@ const Message = ({ status, message, onClose, visible }) => {
           <div className="flex-1  text-left">
             <span className="font-normal text-sm">{message}</span>
           </div>
-          <button role="button" onClick={onClose}>
+          <button role="button" type="button" onClick={onClose}>
             {<MdClose />}
           </button>
         </div>

@@ -72,9 +72,9 @@ const Withdraw = () => {
     <div className="h-screen flex justify-center items-center font-nunito-sans">
       <div className="max-w-md w-full rounded-md overflow-hidden shadow bg-white">
         <div className="p-5">
-          <div className="text-xl mb-4 text-center font-semibold">
+          <span className="text-xl mb-4 text-center font-semibold">
             Tambah Akun Bank
-          </div>
+          </span>
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between  border px-3 py-2 rounded-md text-sm">
               <span className="text-gray-500 ">Pilih akun</span>

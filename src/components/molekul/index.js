@@ -6,3 +6,4 @@ export { default as RadioButton } from "./radioButton/RadioButton";
 export { default as CheckboxList } from "./checkboxList/checkboxList";
 export { default as SelectDropdown } from "./selectDropdown/SelectDropdown";
 export { default as SelectInput } from "./selectInput/SelectInput";
+export { default as CardOtp } from "./cardOtp/CardOtp";

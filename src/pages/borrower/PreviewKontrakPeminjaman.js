@@ -3,9 +3,16 @@ import { useLocation } from "react-router-dom";
 import { PDFDocument, PDFPage, PDFText } from "pdf-lib";
 import { PDFViewer, Document, Page, Text } from "@react-pdf/renderer";
 import { useEffect } from "react";
+import { Button, Message } from "../../components/atom";
+import { useDispatch, useSelector } from "react-redux";
+import { postBorrowersLoan } from "../../service/Borrower/borrower";
+import { setMessage } from "../../store/reducer/Borrower/BorrowerReducer";
 
 const PreviewKontrakPeminjaman = () => {
   const { state } = useLocation();
+  const { accessToken } = useSelector((state) => state.auth);
+  const { success, message } = useSelector((state) => state.borrower);
+
   const {
     amount,
     borrowingCategory,
@@ -14,6 +21,8 @@ const PreviewKontrakPeminjaman = () => {
     tenor,
     yieldReturn,
   } = state;
+
+  const dispatch = useDispatch();
 
   const profile = {
     email: "tambunanwiridho@gmail.com",
@@ -53,16 +62,36 @@ const PreviewKontrakPeminjaman = () => {
   //   })();
   // }, []);
 
+  const handleOnClick = () => {
+    dispatch(postBorrowersLoan({ accessToken, data: state }));
+  };
+
   return (
     <div>
       <span>Kontrak</span>
+      <Message
+        status={success}
+        message={message}
+        visible={message !== null ? true : false}
+        onClose={() => dispatch(setMessage(null))}
+      />
       <PDFViewer>
         <Document>
           <Page>
             <Text>Preview PDF</Text>
+            <Text>Preview PDF</Text>
+            <Text>{profile?.name}</Text>
           </Page>
         </Document>
       </PDFViewer>
+      <Button
+        onClick={handleOnClick}
+        type={"button"}
+        className={`px-4 py-2 bg-blue-500 text-white
+      `}
+      >
+        Tanda Tangani Kontrak
+      </Button>
     </div>
   );
 };

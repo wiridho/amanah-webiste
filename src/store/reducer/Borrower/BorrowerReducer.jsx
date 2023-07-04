@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getBorrowersPaymentSchedule } from "../../../service/Borrower/borrower";
+import {
+  getBorrowersPaymentSchedule,
+  postBorrowersLoan,
+} from "../../../service/Borrower/borrower";
 
 const initialState = {
   message: null,
-  success: null,
+  success: false,
   error: false,
   load: false,
 
@@ -14,7 +17,11 @@ const initialState = {
 const borrowerSlice = createSlice({
   name: "balance",
   initialState,
-  reducers: {},
+  reducers: {
+    setMessage(state, data) {
+      state.message = data.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       //get paymanet schedule
@@ -30,8 +37,25 @@ const borrowerSlice = createSlice({
         state.load = false;
         state.load = true;
         state.message = action.payload;
+      })
+
+      // post request loan
+      .addCase(postBorrowersLoan.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(postBorrowersLoan.fulfilled, (state) => {
+        state.success = true;
+        state.load = false;
+        state.error = false;
+      })
+      .addCase(postBorrowersLoan.rejected, (state, action) => {
+        state.success = false;
+        state.load = false;
+        state.error = true;
+        state.message = action.payload;
       });
   },
 });
 
+export const { setMessage } = borrowerSlice.actions;
 export default borrowerSlice.reducer;
