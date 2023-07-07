@@ -3,6 +3,7 @@ import {
   getBorrowersPaymentSchedule,
   postBorrowersLoan,
 } from "../../../service/Borrower/borrower";
+import { getProfileBorrower } from "../../../service/Borrower/profile";
 
 const initialState = {
   message: null,
@@ -12,6 +13,7 @@ const initialState = {
 
   paymentSchedule: null,
   loanHistory: null,
+  profile: null,
 };
 
 const borrowerSlice = createSlice({
@@ -49,6 +51,23 @@ const borrowerSlice = createSlice({
         state.error = false;
       })
       .addCase(postBorrowersLoan.rejected, (state, action) => {
+        state.success = false;
+        state.load = false;
+        state.error = true;
+        state.message = action.payload;
+      })
+
+      // Get profile borrower
+      .addCase(getProfileBorrower.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(getProfileBorrower.fulfilled, (state, action) => {
+        state.success = true;
+        state.load = false;
+        state.error = false;
+        state.profile = action.payload;
+      })
+      .addCase(getProfileBorrower.rejected, (state, action) => {
         state.success = false;
         state.load = false;
         state.error = true;

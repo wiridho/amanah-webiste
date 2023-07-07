@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getProfileLender } from "../../service/lender/profile";
+import { Link } from "react-router-dom";
 
 export default function Example() {
   const [profile, setProfile] = useState("");
@@ -24,7 +25,7 @@ export default function Example() {
             src={`https://ui-avatars.com/api/?name=${profile?.name}`}
             alt="imgProfile"
           />
-          Applicant Information
+          Informasi Pendana
         </h3>
         <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
           Personal details and application.
@@ -34,7 +35,7 @@ export default function Example() {
         <dl className="divide-y divide-gray-100">
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">
-              Full name
+              Nama Lengkap
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               {profile?.name}
@@ -42,7 +43,7 @@ export default function Example() {
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">
-              Email address
+              Alamat Email
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               {profile?.email}
@@ -50,7 +51,7 @@ export default function Example() {
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">
-              Phone Number
+              Nomor Telepon
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               {profile?.phoneNumber}
@@ -58,10 +59,19 @@ export default function Example() {
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <dt className="text-sm font-medium leading-6 text-gray-900">
-              Verified
+              Verifikasi KYC
             </dt>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              {`${profile?.verified}`}
+              {`${
+                profile?.verified === true ? (
+                  "Sudah Terverifikasi"
+                ) : (
+                  <div>
+                    <span>Silahkan Verifikasi Ke</span>
+                    <Link to={"/lender/kyc"}>Halaman Ini</Link>
+                  </div>
+                )
+              }`}
             </dd>
           </div>
         </dl>

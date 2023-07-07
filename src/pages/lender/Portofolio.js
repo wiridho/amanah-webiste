@@ -149,7 +149,7 @@ const Portofolio = () => {
         </div>
         {/* Summary / Ringkasan */}
         <div className="col-span-2">
-          <div className="bg-gradient-to-b from-[#003b65] to-[#004c7f] shadow-lg rounded-md text-white">
+          <div className="bg-gradient-to-b from-[#003b65] to-[#004c7f] shadow-lg rounded-md text-white sticky  top-[20px]">
             <div className="py-6">
               <div className="mb-2 flex items-center gap-2 justify-center">
                 <span className="text-xl">

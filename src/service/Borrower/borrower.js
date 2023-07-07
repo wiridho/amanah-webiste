@@ -34,7 +34,7 @@ export const getBorrowersPaymentSchedule = createAsyncThunk(
           },
         }
       );
-      console.log(response);
+      console.log(response?.data?.data);
       return response?.data?.data;
     } catch (error) {
       const message_error = error.response?.data?.message;
@@ -46,7 +46,7 @@ export const getBorrowersPaymentSchedule = createAsyncThunk(
 // Post Request Loan
 export const postBorrowersLoan = createAsyncThunk(
   "borrowers/postLoan",
-  async ({ accessToken, data }, { rejectWithValue }) => {
+  async ({ accessToken, data, navigate }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${apiConfig.baseUrl}/borrowers/loan`,
@@ -58,6 +58,7 @@ export const postBorrowersLoan = createAsyncThunk(
         }
       );
       Swal.fire("Berhasil!", `${response?.data?.message}`, "success");
+      navigate();
       return response?.data;
     } catch (error) {
       const message_error = error.response?.data?.message;
@@ -65,3 +66,20 @@ export const postBorrowersLoan = createAsyncThunk(
     }
   }
 );
+
+// get loan disbursement (get data status pencairan pinjaman)
+export const getLoanDisbursement = async ({ accessToken }) => {
+  try {
+    const response = await axios.get(
+      `${apiConfig.baseUrl}/borrowers/loan/disbursement`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response?.data?.data;
+  } catch (error) {
+    return null;
+  }
+};

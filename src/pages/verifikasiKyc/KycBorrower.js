@@ -22,7 +22,7 @@ const KycBorrower = () => {
   const [ambilGambarKTP, setAmbilGambarKTP] = useState(false);
   const [gambarSelfie, setGambarSelfie] = useState(null);
   const [gambarKTP, setGambarKTP] = useState(null);
-  const { accessToken, statusKYC, message_error, success } = useSelector(
+  const { accessToken, statusKYC, message, success } = useSelector(
     (state) => state.auth
   );
 
@@ -94,8 +94,6 @@ const KycBorrower = () => {
     );
   };
 
-  console.log(statusKYC);
-
   const handleDataKtp = (data) => {
     setGambarKTP(data);
     setAmbilGambarKTP(false);
@@ -115,13 +113,14 @@ const KycBorrower = () => {
     return isFormFilled && isStateFilled;
   };
 
+  console.log(message);
   return (
     <div>
       <div className="">
         <Message
           status={success}
-          message={message_error}
-          visible={message_error !== null ? true : false}
+          message={message}
+          visible={message !== null ? true : false}
           onClose={() => dispatch(setMessage(null))}
         />
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">

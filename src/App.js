@@ -42,6 +42,7 @@ import StatusKYC from "./pages/borrower/statusKYC/StatusKYC";
 import ListBankBorrower from "./pages/borrower/bank/ListBankBorrower";
 import AddBankBorrower from "./pages/borrower/bank/AddBankBorrower";
 import PreviewKontrakPeminjaman from "./pages/borrower/PreviewKontrakPeminjaman";
+import Pembayaran from "./pages/borrower/Pembayaran";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
@@ -135,6 +136,9 @@ function App() {
                 path="preview-kontrak"
                 element={<PreviewKontrakPeminjaman />}
               />
+              <Route path="pembayaran" element={<Pembayaran />} />
+              <Route path="profile" element={<ProfileBorrower />} />
+
               <Route path="list-bank" element={<ListBankBorrower />} />
               <Route path="add-bank" element={<AddBankBorrower />} />
             </Route>

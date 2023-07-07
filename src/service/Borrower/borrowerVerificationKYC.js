@@ -61,6 +61,6 @@ export const getBorrowerStatusKYC = async ({ accessToken }) => {
     );
     return response?.data?.data?.kyc;
   } catch (error) {
-    console.log(error);
+    return null;
   }
 };

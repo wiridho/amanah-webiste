@@ -16,7 +16,6 @@ import { GiReceiveMoney } from "react-icons/gi";
 // End Icon
 
 const Sidebar = () => {
-  const [active, setActive] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

@@ -8,12 +8,8 @@ const StatusKYC = () => {
   const dispatch = useDispatch();
 
   const getStatusKYC = async () => {
-    try {
-      const response = await getBorrowerStatusKYC({ accessToken });
-      dispatch(setStatusKYC(response));
-    } catch (error) {
-      console.log(error);
-    }
+    const response = await getBorrowerStatusKYC({ accessToken });
+    dispatch(setStatusKYC(response));
   };
 
   useEffect(() => {

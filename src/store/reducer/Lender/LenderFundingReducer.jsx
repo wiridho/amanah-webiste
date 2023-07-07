@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { postLenderFunding } from "../../../service/lender/funding";
 import { getLenderFunding } from "../../../service/lender/portofolio";
+import { getLenderProfit } from "../../../service/lender/profit";
 
 const initialState = {
   success: null,
@@ -9,6 +10,7 @@ const initialState = {
   data: null,
   message: null,
   portofolio: null,
+  profit: null,
 };
 
 const lenderFundingSlice = createSlice({
@@ -41,6 +43,21 @@ const lenderFundingSlice = createSlice({
         state.portofolio = action.payload;
       })
       .addCase(getLenderFunding.rejected, (state, action) => {
+        state.load = false;
+        state.error = true;
+        state.message = action.payload;
+      })
+
+      // get lender profit
+      .addCase(getLenderProfit.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(getLenderProfit.fulfilled, (state, action) => {
+        state.load = false;
+        state.error = false;
+        state.profit = action.payload;
+      })
+      .addCase(getLenderProfit.rejected, (state, action) => {
         state.load = false;
         state.error = true;
         state.message = action.payload;

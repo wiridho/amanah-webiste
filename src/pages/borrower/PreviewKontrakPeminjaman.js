@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { PDFDocument, PDFPage, PDFText } from "pdf-lib";
 import { PDFViewer, Document, Page, Text } from "@react-pdf/renderer";
 import { useEffect } from "react";
@@ -22,7 +22,10 @@ const PreviewKontrakPeminjaman = () => {
     yieldReturn,
   } = state;
 
+  console.log(state);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const profile = {
     email: "tambunanwiridho@gmail.com",
@@ -63,7 +66,9 @@ const PreviewKontrakPeminjaman = () => {
   // }, []);
 
   const handleOnClick = () => {
-    dispatch(postBorrowersLoan({ accessToken, data: state }));
+    navigate("/borrower/konfirmasi-pinjaman", {
+      state: state,
+    });
   };
 
   return (
@@ -79,7 +84,6 @@ const PreviewKontrakPeminjaman = () => {
         <Document>
           <Page>
             <Text>Preview PDF</Text>
-            <Text>Preview PDF</Text>
             <Text>{profile?.name}</Text>
           </Page>
         </Document>
@@ -90,7 +94,7 @@ const PreviewKontrakPeminjaman = () => {
         className={`px-4 py-2 bg-blue-500 text-white
       `}
       >
-        Tanda Tangani Kontrak
+        Konfirmasi Pinjaman
       </Button>
     </div>
   );

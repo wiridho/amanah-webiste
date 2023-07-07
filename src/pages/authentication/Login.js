@@ -18,10 +18,6 @@ const Login = () => {
 
   const { message, load, success } = useSelector((state) => state.auth);
 
-  const auth = useSelector((state) => state.auth);
-
-  // console.log(auth);
-
   // Calling useForm
   const {
     register,
@@ -42,20 +38,19 @@ const Login = () => {
       <div className="h-screen grid grid-cols-1 sm:grid-cols-2 overflow-hidden">
         {/* Left Wrapper */}
         <div className="hidden bg-primary md:flex sm:block items-center relative">
-          <div className="absolute bg-indigo-600 opacity-100 h-screen w-full z-20 "></div>
+          <div className="absolute bg-blue-600 opacity-100 h-screen w-full z-20 "></div>
           <span className="px-16 leading-[70px] text-white text-5xl z-50">
             Investasi{" "}
             <span className="font-bold font-inter">Pinjaman P2P Syariah</span>{" "}
             Berkah Menggapai Kesuksesan Bersama
           </span>
-          <img src={BackgroundAuth} alt="imgLogin" className="z-10 absolute" />
         </div>
         {/* Right Wrapper */}
         <div className="flex flex-col bg-slate-100  justify-between p-2 ">
           {/* Logo  */}
           <div className="max-w-[400px] w-full mx-auto pt-6 flex justify-center items-center">
             <img
-              className="w-20 h-20 bg-indigo-700 p-2 rounded-full flex justify-center items-end"
+              className="w-20 h-20 bg-blue-600 p-2 rounded-full flex justify-center items-end"
               src={LogoAmana}
               alt="Rounded avatar"
             />
@@ -69,7 +64,6 @@ const Login = () => {
               </h1>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-3"></div>
               <Message
                 status={success}
                 message={message}
@@ -109,7 +103,7 @@ const Login = () => {
               </div>
               <Button
                 type="submit"
-                className="w-full mt-3 bg-indigo-700 text-white hover:bg-indigo-600"
+                className="w-full mt-3 bg-blue-600 text-white hover:bg-blue-700"
               >
                 {load ? "Loading..." : "Login"}
               </Button>
@@ -119,13 +113,13 @@ const Login = () => {
                     Belum punya akun?
                   </p>
                   <Link
-                    className="text-xs text-indigo-500 font-semibold  hover:text-blue-800"
+                    className="text-xs text-blue-600 font-semibold  hover:text-blue-700"
                     to="/register-init"
                   >
                     Daftar Disini!
                   </Link>
                 </div>
-                <p className="p-2 text-xs text-right text-indigo-500 hover:text-blue-800">
+                <p className="p-2 text-xs text-right text-blue-600 hover:text-blue-700">
                   <Link to="/reset-password">Forgot Password?</Link>
                 </p>
               </div>

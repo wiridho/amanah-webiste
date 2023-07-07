@@ -83,15 +83,6 @@ const TransaksiPendanaan = ({
     return true;
   };
 
-  // const disableButton = () => {
-  //   let disable = true;
-  //   let amount = getValues("amount");
-  //   if (balance > amount || amount > 100000) {
-  //     disable = false;
-  //   }
-  //   return disable;
-  // };
-
   let estImbalHasil = estimasiImbalHasil({
     totalPinjaman,
     totalImbalHasil,

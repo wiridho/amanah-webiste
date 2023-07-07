@@ -2,10 +2,14 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FormatMataUang } from "../../../utils/FormatMataUang";
 import { Button } from "../../../components/atom";
+import { postBorrowersLoan } from "../../../service/Borrower/borrower";
+import { useDispatch, useSelector } from "react-redux";
 
 const KonfirmasiPinjaman = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { accessToken } = useSelector((state) => state.auth);
   const {
     amount,
     borrowingCategory,
@@ -15,10 +19,19 @@ const KonfirmasiPinjaman = () => {
     yieldReturn,
   } = state;
 
+  console.log(state);
   const onClick = () => {
-    navigate("/borrower/preview-kontrak", {
-      state: state,
-    });
+    dispatch(
+      postBorrowersLoan({
+        accessToken,
+        data: state,
+        navigate: () => navigate("/borrower"),
+      })
+    );
+
+    // navigate("/borrower/preview-kontrak", {
+    //   state: state,
+    // });
   };
 
   return (
@@ -61,7 +74,7 @@ const KonfirmasiPinjaman = () => {
                 className={`px-4 py-2 bg-blue-500 hover:bg-blue-700 w-full text-white
               `}
               >
-                Lanjut
+                Ajukan Pinjaman
               </Button>
             </div>
           </div>

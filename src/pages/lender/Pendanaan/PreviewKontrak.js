@@ -14,8 +14,13 @@ const PreviewKontrak = () => {
   console.log(state);
 
   const onClick = () => {
-    dispatch(postLenderFunding({ data, accessToken }));
-    navigate("/funder/riwayat-transaksi");
+    dispatch(
+      postLenderFunding({
+        data,
+        accessToken,
+        navigate: () => navigate("/funder/riwayat-transaksi"),
+      })
+    );
   };
 
   return (

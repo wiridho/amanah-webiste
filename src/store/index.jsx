@@ -7,7 +7,7 @@ import BalanceReducer from "./reducer/Balance/BalanceReducer";
 import BalanceAccountReducer from "./reducer/Balance/BalanceAccountReducer";
 import BalanceTransactionReducer from "./reducer/Balance/BalanceTransactionReducer";
 
-import BorrowerReducers from "./reducer/Borrower/BorrowerReducer.jsx";
+import BorrowerReducer from "./reducer/Borrower/BorrowerReducer.jsx";
 
 const reducers = combineReducers({
   auth: AuthReducer,
@@ -17,7 +17,7 @@ const reducers = combineReducers({
 
   lender: LenderFundingReducer,
 
-  borrower: BorrowerReducers,
+  borrower: BorrowerReducer,
 });
 
 const rootReducer = (state, action) => {
