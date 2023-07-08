@@ -33,10 +33,11 @@ const authSlice = createSlice({
     setStatusKYC(state, data) {
       state.statusKYC = data.payload;
     },
+    setMessage(state, data) {
+      state.message = data.payload;
+    },
   },
-  setMessage(state, data) {
-    state.message = data.payload;
-  },
+
   extraReducers: (builder) => {
     builder
       // Handle Register
@@ -95,7 +96,7 @@ const authSlice = createSlice({
       .addCase(handleLoginAdmin.rejected, (state, action) => {
         state.load = false;
         state.error = true;
-        state.message_error = action.payload;
+        state.message = action.payload;
       })
       // Verify Login OTP
       .addCase(verifyLoginOtp.pending, (state) => {
