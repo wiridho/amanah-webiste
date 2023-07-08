@@ -15,7 +15,7 @@ import { InputPassword } from "../../components/molekul";
 
 import { setMessage, setSuccess } from "../../store/reducer/AuthReducer";
 
-const Login = () => {
+const LoginAdmin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -30,7 +30,7 @@ const Login = () => {
 
   // Handle Submit
   const onSubmit = (data) => {
-    dispatch(handleLogin({ data, navigate }));
+    dispatch(handleLoginAdmin({ data, navigate }));
   };
 
   console.log(message, success);
@@ -43,9 +43,7 @@ const Login = () => {
         <div className="hidden bg-primary md:flex sm:block items-center relative">
           <div className="absolute bg-blue-600 opacity-100 h-screen w-full z-20 "></div>
           <span className="px-16 leading-[70px] text-white text-5xl z-50">
-            Investasi{" "}
-            <span className="font-bold font-inter">Pinjaman P2P Syariah</span>{" "}
-            Berkah Menggapai Kesuksesan Bersama
+            <span className="font-bold font-inter">Admin</span>{" "}
           </span>
         </div>
         {/* Right Wrapper */}
@@ -110,22 +108,6 @@ const Login = () => {
               >
                 {load ? "Loading..." : "Login"}
               </Button>
-              <div className="flex justify-between text-primary">
-                <div className="flex items-center">
-                  <p className="pr-1 text-xs text-right text-gray-500">
-                    Belum punya akun?
-                  </p>
-                  <Link
-                    className="text-xs text-blue-600 font-semibold  hover:text-blue-700"
-                    to="/register-init"
-                  >
-                    Daftar Disini!
-                  </Link>
-                </div>
-                <p className="p-2 text-xs text-right text-blue-600 hover:text-blue-700">
-                  <Link to="/reset-password">Forgot Password?</Link>
-                </p>
-              </div>
             </form>
           </div>
           <div className="text-center text-sm text-[#959292] pb-2">
@@ -139,4 +121,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginAdmin;
