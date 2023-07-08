@@ -15,13 +15,11 @@ const InputLabel = ({
       <Label>{children}</Label>
       <Input
         placeholder={placeholder}
-        errors={errors}
         type={type}
         className={className}
         name={name}
         register={register}
       />
-
       {errors?.type === "required" && (
         <span className="text-xs text-red-500 block">{name} wajib diisi.</span>
       )}

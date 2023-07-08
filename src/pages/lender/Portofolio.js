@@ -1,101 +1,102 @@
 import React, { useEffect, useState } from "react";
-import { handlePortofolio } from "../../service/lender/portofolio";
+import { getLenderFunding } from "../../service/lender/portofolio";
 import { useDispatch, useSelector } from "react-redux";
 
 // Icon
 import { FaChartPie } from "react-icons/fa";
 
-// Komponen
 import CardPortofolio from "../../components/organism/cardPortofolio/CardPortofolio";
+import { FormatMataUang } from "../../utils/FormatMataUang";
 const Portofolio = () => {
   const [tab, setTab] = useState("active");
   const { accessToken } = useSelector((state) => state.auth);
+  const { portofolio } = useSelector((state) => state.lender);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(handlePortofolio({ accessToken }));
+    dispatch(getLenderFunding({ accessToken }));
   }, [dispatch, accessToken]);
 
-  const portofolio = {
-    active: {
-      summary: {
-        totalFunding: 120000,
-        totalYield: 70000,
-      },
-      funding: [
-        {
-          funds: {
-            amount: 500000,
-            yieldReturn: 50000,
-            repaymentDate: "2023-09-10T00:00:00.000Z",
-          },
-          Loan: {
-            borrower: {
-              name: "John Doe",
-              creditScore: 500,
-            },
-            loan: {
-              loanId: "tes",
-              amount: 5000000,
-              tenor: 5,
-            },
-          },
-        },
-        {
-          funds: {
-            amount: 1200000,
-            yieldReturn: 40000,
-            repaymentDate: "2023-10-10T00:00:00.000Z",
-          },
-          Loan: {
-            borrower: {
-              name: "The Undertaker",
-              creditScore: 500,
-            },
-            loan: {
-              loanId: "tes2",
-              amount: 5000000,
-              tenor: 2,
-            },
-          },
-        },
-      ],
-    },
-    done: {
-      summary: {
-        totalFunding: 5000000,
-        totalYield: 200000,
-      },
-      funding: [
-        {
-          funds: {
-            amount: 500000,
-            yieldReturn: 50000,
-            repaymentDate: "2023-08-10T00:00:00.000Z",
-          },
-          Loan: {
-            borrower: {
-              name: "Lionel Messi",
-              creditScore: 500,
-            },
-            loan: {
-              loanId: "640410c5465ed9af9ccb8912",
-              amount: 5000000,
-              tenor: 5,
-            },
-          },
-        },
-      ],
-    },
-  };
+  // const portofolio = {
+  //   active: {
+  //     summary: {
+  //       totalFunding: 120000,
+  //       totalYield: 70000,
+  //     },
+  //     funding: [
+  //       {
+  //         funds: {
+  //           amount: 500000,
+  //           yieldReturn: 50000,
+  //           repaymentDate: "2023-09-10T00:00:00.000Z",
+  //         },
+  //         Loan: {
+  //           borrower: {
+  //             name: "John Doe",
+  //             creditScore: 500,
+  //           },
+  //           loan: {
+  //             loanId: "tes",
+  //             amount: 5000000,
+  //             tenor: 5,
+  //           },
+  //         },
+  //       },
+  //       {
+  //         funds: {
+  //           amount: 1200000,
+  //           yieldReturn: 40000,
+  //           repaymentDate: "2023-10-10T00:00:00.000Z",
+  //         },
+  //         Loan: {
+  //           borrower: {
+  //             name: "The Undertaker",
+  //             creditScore: 500,
+  //           },
+  //           loan: {
+  //             loanId: "tes2",
+  //             amount: 5000000,
+  //             tenor: 2,
+  //           },
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   done: {
+  //     summary: {
+  //       totalFunding: 5000000,
+  //       totalYield: 200000,
+  //     },
+  //     funding: [
+  //       {
+  //         funds: {
+  //           amount: 500000,
+  //           yieldReturn: 50000,
+  //           repaymentDate: "2023-08-10T00:00:00.000Z",
+  //         },
+  //         Loan: {
+  //           borrower: {
+  //             name: "Lionel Messi",
+  //             creditScore: 500,
+  //           },
+  //           loan: {
+  //             loanId: "640410c5465ed9af9ccb8912",
+  //             amount: 5000000,
+  //             tenor: 5,
+  //           },
+  //         },
+  //       },
+  //     ],
+  //   },
+  // };
 
   return (
-    <div>
+    <div className="font-nunito-sans">
       <div className="flex flex-col mb-4">
         <span className="font-semibold text-xl">Portofolio</span>
         <span>
-          Total {portofolio.active.funding.length} berjalan,{" "}
-          {portofolio.done.funding.length} selesai
+          Total {portofolio?.[tab]?.funding?.length || 0} berjalan,{" "}
+          {portofolio?.[tab]?.funding?.length || 0} selesai
         </span>
       </div>
       <div className="mb-4">
@@ -103,8 +104,8 @@ const Portofolio = () => {
           <span
             className={`px-4 py-2  flex border-b  ${
               tab === "active"
-                ? "-mb-px border-b-2 border-current p-4 text-indigo-500 font-semibold"
-                : "  text-gray-400 hover:cursor-pointer hover:text-indigo-600"
+                ? "-mb-px border-b-2 border-current p-4 text-indigo-500 font-bold"
+                : "  text-gray-400 hover:cursor-pointer hover:text-indigo-600 "
             }`}
             onClick={() => setTab("active")}
           >
@@ -113,7 +114,7 @@ const Portofolio = () => {
           <span
             className={`px-4 py-2 flex border-b  ${
               tab === "done"
-                ? "-mb-px border-b-2 border-current p-4 text-indigo-500 font-semibold"
+                ? "-mb-px border-b-2 border-current p-4 text-indigo-500 font-bold"
                 : " text-gray-400 hover:text-indigo-700 hover:cursor-pointer "
             }`}
             onClick={() => setTab("done")}
@@ -125,29 +126,30 @@ const Portofolio = () => {
       <div className="grid grid-cols-5 gap-14">
         {/* Card Portofolio */}
         <div className="col-span-3">
-          {portofolio[tab].funding.map((item, index) => {
+          {portofolio?.[tab]?.funding?.map((item, index) => {
             const { name, creditScore } = item?.Loan?.borrower;
             const { repaymentDate, amount, yieldReturn } = item?.funds;
             const { tenor, loanId } = item?.Loan?.loan;
             return (
-              <div className="mb-2.5" key={index}>
-                <CardPortofolio
-                  name={name}
-                  creditScore={creditScore}
-                  repaymentDate={repaymentDate}
-                  amount={amount}
-                  yieldReturn={yieldReturn}
-                  tenor={tenor}
-                  loanId={loanId}
-                />
+              <div className="mb-5" key={index}>
+                <div>
+                  <CardPortofolio
+                    name={name}
+                    creditScore={creditScore}
+                    repaymentDate={repaymentDate}
+                    amount={amount}
+                    yieldReturn={yieldReturn}
+                    tenor={tenor}
+                    loanId={loanId}
+                  />
+                </div>
               </div>
             );
           })}
         </div>
-        {/* Card Portofolio */}
         {/* Summary / Ringkasan */}
         <div className="col-span-2">
-          <div className="bg-gradient-to-b from-[#003b65] to-[#004c7f] shadow-lg rounded-md text-white">
+          <div className="bg-gradient-to-b from-[#003b65] to-[#004c7f] shadow-lg rounded-md text-white sticky  top-[20px]">
             <div className="py-6">
               <div className="mb-2 flex items-center gap-2 justify-center">
                 <span className="text-xl">
@@ -156,7 +158,7 @@ const Portofolio = () => {
                 <div>
                   <span>Ringkasan </span>
                   <span className="font-semibold">
-                    {portofolio[tab].funding.length} Pendanaan
+                    {portofolio?.[tab]?.funding?.length || 0} Pendanaan
                     {tab === "active" ? " berjalan" : " selesai"}
                   </span>
                 </div>
@@ -166,16 +168,18 @@ const Portofolio = () => {
                   <div className="flex flex-col">
                     <span className="text-sm">Total Pendanaan</span>
                     <span className="font-semibold text-2xl">
-                      {portofolio[tab].summary.totalFunding}
+                      {FormatMataUang(
+                        portofolio?.[tab]?.summary?.totalFunding
+                      ) || 0}
                     </span>
                   </div>
                 </span>
                 <span className=" text-center mt-2">
                   <div className="flex flex-col">
-                    <span className="text-sm">Est.Imbal Hasil</span>
+                    <span className="text-sm">Total Imbal Hasil</span>
                     <span className="font-semibold text-2xl">
-                      {" "}
-                      {portofolio[tab].summary.totalYield}
+                      {FormatMataUang(portofolio?.[tab]?.summary?.totalYield) ||
+                        0}
                     </span>
                   </div>
                 </span>
@@ -183,7 +187,6 @@ const Portofolio = () => {
             </div>
           </div>
         </div>
-        {/* Summary / Ringkasan */}
       </div>
     </div>
   );

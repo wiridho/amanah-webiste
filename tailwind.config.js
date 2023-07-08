@@ -15,12 +15,11 @@ module.exports = {
           800: "#C62828",
         },
         grayCustom1: "#303030",
+        blackAccent: "#011419",
       },
       fontFamily: {
         "nunito-sans": ["Nunito Sans", "sans-serif"],
         lato: ["Lato", "sans-serif"],
-        // inter: ["Inter", "sans-serif"],
-        // testing: ["Kanit", "sans-serif"],
       },
     },
   },

@@ -7,6 +7,7 @@ import { getDetailLoan } from "../../service/loans/loan";
 
 // Component
 import { Button, BreadCumb } from "../../components/atom";
+import TransaksiPendanaan from "./Pendanaan/TransaksiPendanaan";
 
 // Icon
 import {
@@ -21,21 +22,22 @@ import { FormatMataUang } from "../../utils/FormatMataUang";
 import { BsPersonFill } from "react-icons/bs";
 import { BiCategoryAlt, BiCoinStack, BiTimer } from "react-icons/bi";
 import { MdOutlineSentimentSatisfied } from "react-icons/md";
+import { TbCalendarDue } from "react-icons/tb";
+import { FaBalanceScale } from "react-icons/fa";
 
-import TransaksiPendanaan from "./Pendanaan/TransaksiPendanaan";
+import { TruncateString } from "../../utils/Truncate";
+import { titleCase } from "../../utils/FormatTitleCase";
 
 const DetailPendanaan = () => {
+  const { loanId } = useParams();
+  const { accessToken, statusKYC } = useSelector((state) => state.auth);
   const [load, setLoad] = useState(true);
+  const [detailData, setDetailData] = useState(null);
+  let progress = (detailData?.totalFunding / detailData?.amount) * 100;
 
   const [openModalVerified, setOpenModalVerified] = useState(false);
   const [openModalPending, setOpenModalPending] = useState(false);
   const [openModalNotVerified, setOpenModalNotVerified] = useState(false);
-
-  const { accessToken } = useSelector((state) => state.auth);
-  const statusKYC = "verified";
-  const { loanId } = useParams();
-  const [detailData, setDetailData] = useState(null);
-  let progress = (detailData?.totalFunding / detailData?.amount) * 100;
 
   const navigate = useNavigate();
 
@@ -66,11 +68,11 @@ const DetailPendanaan = () => {
   ];
 
   return (
-    <div>
+    <div className="">
       {detailData === null ? (
         <div>'Data Kosong'</div>
       ) : (
-        <div className="font-sans">
+        <div className="font-nunito-sans">
           <BreadCumb links={breadCumbLinks} />
           <div className="grid grid-cols-3 gap-3 pt-10">
             <div className="col-span-2 ">
@@ -85,15 +87,20 @@ const DetailPendanaan = () => {
                       <div className=" inset-0 bg-[#4381cf] text-white px-2 py-2 ">
                         <span className="transititext-primary flex items-center gap-2 text-base font-semibold ">
                           <HiClipboardCheck className="text-2xl" />
-                          Personal
-                          {/* {TruncateString(titleCase(item.borrowingCategory), 20)} */}
+                          {TruncateString(
+                            titleCase(detailData?.borrowingCategory),
+                            20
+                          )}
                         </span>
                       </div>
                       <div className="flex  flex-col  gap-3 px-6 py-4">
                         <div className="flex items-center gap-4">
                           <BsPersonFill className="text-4xl text-gray-500" />
                           <span className="text-lg font-semibold text-[#303030]">
-                            John Cena
+                            {TruncateString(
+                              titleCase(detailData?.borrower?.name),
+                              20
+                            )}
                           </span>
                         </div>
                         <div className="grid grid-cols-3 gap-3 ">
@@ -101,19 +108,32 @@ const DetailPendanaan = () => {
                             <span className="text-gray-500 text-sm">
                               Total dana dipinjam
                             </span>
-                            <span className="font-semibold">1 pinjaman </span>
+                            <span className="font-semibold">
+                              {FormatMataUang(
+                                detailData?.borrower?.performance
+                                  ?.borrowingRecord?.borrowerFund
+                              )}
+                            </span>
                           </div>
                           <div className="flex flex-col ">
                             <span className="text-gray-500 text-sm">
                               Total peminjaman
                             </span>
-                            <span className="font-semibold">1 pinjaman </span>
+                            <span className="font-semibold">
+                              {
+                                detailData?.borrower?.performance
+                                  ?.borrowingRecord?.totalBorrowing
+                              }{" "}
+                              Pinjaman
+                            </span>
                           </div>
                           <div className="flex flex-col">
                             <span className="text-gray-500 text-sm">
                               Kredit skor
                             </span>
-                            <span className="font-semibold">2.4</span>
+                            <span className="font-semibold">
+                              {detailData?.risk}
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -125,7 +145,7 @@ const DetailPendanaan = () => {
                   <div className="block rounded bg-white shadow sm:p-3 lg:p-3">
                     <div className="flex items-center justify-between gap-2 px-2">
                       <div className="flex items-center gap-3">
-                        <FaFilePdf className="text-gray-300 w-8 h-8" />
+                        <FaFilePdf className="text-gray-400 w-8 h-8" />
                         <p className="text-md font-semibold text-gray-800">
                           Kontrak pembiayaan
                         </p>
@@ -143,23 +163,34 @@ const DetailPendanaan = () => {
                   {/* Kontrak */}
 
                   {/* Keterangan Funding */}
-                  <div className="mb-5">
+                  <div>
                     <article className="overflow-hidden rounded-md border border-gray-100 bg-white shadow">
                       <div className="p-4 sm:p-6">
                         <div className="flex flex-col gap-2">
                           <div>
-                            <div className="flex items-center gap-3  text-gray-600">
+                            <div className="flex items-center gap-2  text-gray-600">
                               <HiOutlineCash size={20} />
                               <span className="font-medium">
                                 Jumlah Pembiayaan
                               </span>
                             </div>
-                            <span className="font-bold font-mono">
+                            <span className="font-bold text-slate-700 text-lg font-mono">
                               {FormatMataUang(detailData?.amount)}
                             </span>
                           </div>
                           <div>
-                            <div className="flex items-center gap-3 text-gray-600">
+                            <div className="flex items-center gap-2 text-gray-600">
+                              <FaBalanceScale size={20} />
+                              <span className=" font-semibold ">
+                                Imbal Hasil
+                              </span>
+                            </div>
+                            <span className=" font-mono">
+                              {FormatMataUang(detailData?.yieldReturn)}
+                            </span>
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2 text-gray-600">
                               <HiOutlineCreditCard size={20} />
                               <span className=" font-semibold ">
                                 Skema Pengembalian
@@ -170,7 +201,7 @@ const DetailPendanaan = () => {
                             </span>
                           </div>
                           <div>
-                            <div className="flex items-center gap-3 text-gray-600">
+                            <div className="flex items-center gap-2 text-gray-600">
                               <BiCategoryAlt size={20} />
                               <span className=" font-semibold ">
                                 Kategori Pinjaman
@@ -181,7 +212,16 @@ const DetailPendanaan = () => {
                             </span>
                           </div>
                           <div>
-                            <div className="flex items-center gap-3 text-gray-600">
+                            <div className="flex items-center gap-2 text-gray-600">
+                              <TbCalendarDue size={20} />
+                              <span className=" font-semibold ">Tenor</span>
+                            </div>
+                            <span className="font-semibold text-sm">
+                              {detailData?.tenor} Bulan
+                            </span>
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2 text-gray-600">
                               <BiCoinStack size={20} />
                               <span className=" font-semibold ">
                                 Tujuan Peminjaman
@@ -197,68 +237,54 @@ const DetailPendanaan = () => {
                   </div>
 
                   {/* Performa Peminjam */}
-                  <div className="">
-                    <div>
-                      <span className="inline-block font-semibold text-sm mb-2">
-                        Performa Penerima Pendanaan
-                      </span>
-                      <div className="rounded-md  bg-white overflow-hidden shadow flex flex-col px-6 py-4">
-                        <div className="flex flex-col gap-6">
-                          <div className="flex flex-col gap-2">
-                            <span className="font-bold text-gray-700">
-                              Track Record Pembiayaan
+                  <div className="rounded-md  bg-white overflow-hidden shadow flex flex-col px-6 py-4">
+                    <div className="flex flex-col gap-6">
+                      <div className="flex flex-col gap-2">
+                        <span className="font-semibold  text-[#545454]">
+                          Performa Pengembalian Dana
+                        </span>
+                        <div className="flex flex-col gap-1">
+                          <div className="flex justify-between">
+                            <span className="flex items-center gap-2 font-semibold text-gray-700">
+                              <HiOutlineFastForward
+                                size={30}
+                                className="text-gray-400 "
+                              />
+                              Dipercepat
                             </span>
-                            <div className="flex flex-col gap-1">
-                              <div className="flex justify-between">
-                                <span className="text-gray-600 font-semibold">
-                                  Dana Tersalurkan
-                                </span>
-                                <span>Rp2.000.000</span>
-                              </div>
-                              <div className="flex justify-between ">
-                                <span className="text-[#545454] font-semibold">
-                                  Pembiayaan Tersalurkan
-                                </span>
-                                <span>Rp4.000.000</span>
-                              </div>
-                            </div>
+                            <span className="text-gray-600">
+                              {
+                                detailData?.borrower?.performance?.repayment
+                                  ?.earlier
+                              }
+                            </span>
                           </div>
-                          <div className="flex flex-col gap-2">
-                            <span className="font-bold text-[#545454]">
-                              Performa Pengembalian Dana
+                          <div className="flex justify-between">
+                            <span className="flex items-center gap-2 font-semibold text-gray-700">
+                              <MdOutlineSentimentSatisfied
+                                size={30}
+                                className=" text-gray-400"
+                              />
+                              Tepat Waktu
                             </span>
-                            <div className="flex flex-col gap-1">
-                              <div className="flex justify-between">
-                                <span className="flex items-center gap-2 font-semibold text-gray-700">
-                                  <HiOutlineFastForward
-                                    size={30}
-                                    className="text-gray-600 "
-                                  />
-                                  Dipercepat
-                                </span>
-                                <span>0</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="flex items-center gap-2 font-semibold text-gray-700">
-                                  <MdOutlineSentimentSatisfied
-                                    size={30}
-                                    className=" text-gray-400"
-                                  />
-                                  Tepat waktu
-                                </span>
-                                <span>0</span>
-                              </div>
-                              <div className="flex justify-between gap-2">
-                                <span className="flex items-center gap-2">
-                                  <BiTimer
-                                    size={30}
-                                    className=" text-gray-400"
-                                  />
-                                  Terlambat
-                                </span>
-                                <span>0</span>
-                              </div>
-                            </div>
+                            <span className="text-gray-600">
+                              {
+                                detailData?.borrower?.performance?.repayment
+                                  ?.onTime
+                              }
+                            </span>
+                          </div>
+                          <div className="flex justify-between gap-2">
+                            <span className="flex items-center gap-2 font-semibold text-gray-700">
+                              <BiTimer size={30} className=" text-gray-400" />
+                              Terlambat
+                            </span>
+                            <span className="text-gray-600">
+                              {
+                                detailData?.borrower?.performance?.repayment
+                                  ?.late
+                              }
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -269,13 +295,14 @@ const DetailPendanaan = () => {
               </div>
             </div>
 
+            {/* Progress */}
             <div className="col-span-1 ">
               <div className="sticky  top-[20px]">
                 {/* Card Funding */}
-                <span className="font-semibold inline-block mb-2 text-sm ">
-                  Progress Pendanaan
-                </span>
-                <div className="block p-5 bg-white border border-gray-200 rounded-lg shadow">
+                <div className="block p-5 bg-white border rounded-md shadow">
+                  <span className="font-semibold inline-block mb-2 text-sm ">
+                    Progress Pendanaan
+                  </span>
                   {/* <h3 className=" text-sm font-semibold ">Status Pendanaan</h3> */}
                   <div className="flex justify-between ">
                     <p className="mt-2 hidden text-sm sm:block font-semibold">
@@ -295,12 +322,8 @@ const DetailPendanaan = () => {
                       {FormatMataUang(detailData?.totalFunding)}
                     </p>
                   </div>
-                  {/* Progress */}
+                  {/* Progress bar */}
                   <div className="my-3">
-                    <span id="ProgressLabel" className="sr-only">
-                      Loading
-                    </span>
-
                     <span
                       role="progressbar"
                       aria-labelledby="ProgressLabel"
@@ -318,38 +341,54 @@ const DetailPendanaan = () => {
                     </span>
                   </div>
                   {/* End Progress */}
+
                   <Button
+                    disabled={progress === 100 ? true : false}
                     onClick={onClick}
                     type={"button"}
-                    className={
-                      "bg-indigo-700 hover:bg-indigo-800 text-white font-semibold w-full"
-                    }
+                    className={`bg-indigo-700 hover:bg-indigo-800 text-white font-semibold !rounded-full w-full ${
+                      progress === 100
+                        ? "!bg-transparent text-white cursor-not-allowed border border-green-500 "
+                        : ""
+                    }`}
                   >
-                    Danai Sekarang
+                    {progress === 100 ? (
+                      <span className=" px-4 py-2 rounded text-green-600">
+                        {" "}
+                        Terdanai
+                      </span>
+                    ) : (
+                      "Danai Sekarang"
+                    )}
                   </Button>
                 </div>
               </div>
             </div>
           </div>
+          {/* Modal Verified */}
           <div
-            className={`z-10 fixed flex items-center justify-center inset-0 backdrop-brightness-50 transition-opacity ${
+            className={`z-10 fixed flex items-center justify-center  inset-0 backdrop-brightness-50 transition-opacity ${
               openModalVerified ? "" : "hidden"
             }`}
           >
-            <div className="bg-white flex flex-col gap-4">
-              <TransaksiPendanaan />
-              <div className="flex items-center  justify-end  ">
-                <button
-                  onClick={() => setOpenModalVerified(false)}
-                  className="bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
-                >
-                  Tutup
-                </button>
-              </div>
+            <div className=" max-w-md w-full bg-white p-6 rounded-md flex flex-col gap-3">
+              <TransaksiPendanaan
+                sisaPendanaan={detailData?.amount - detailData?.totalFunding}
+                totalImbalHasil={detailData?.yieldReturn}
+                totalPinjaman={detailData?.amount}
+                contract={detailData?.contract}
+              />
+              <button
+                onClick={() => setOpenModalVerified(false)}
+                className="w-full rounded-full bg-red-500 text-white font-semibold  py-2 px-4"
+              >
+                Tutup
+              </button>
             </div>
           </div>
+          {/* Modal Pending */}
           <div
-            className={`z-10 fixed flex items-center justify-center transition-transform duration-1000 inset-0 backdrop-brightness-50     ${
+            className={`z-10 fixed flex items-center justify-center transition-transform duration-1000 inset-0 backdrop-brightness-50 ${
               openModalPending ? "" : "hidden"
             }`}
           >
@@ -386,6 +425,7 @@ const DetailPendanaan = () => {
               </div>
             </div>
           </div>
+          {/* Modal Not Verified */}
           <div
             className={`z-10 flex items-center justify-center fixed inset-0 backdrop-brightness-50 transition-opacity  ${
               openModalNotVerified

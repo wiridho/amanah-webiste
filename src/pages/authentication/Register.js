@@ -35,17 +35,20 @@ const Register = () => {
     <>
       <div className="h-screen grid grid-cols-1 sm:grid-cols-2 font-inter">
         {/* Background */}
-        <div className="bg-indigo-600 justify-center items-center hidden  md:flex">
-          <div className="flex sm:w-2/3  items-center  justify-center">
-            <img src={BackgroundAuth} className="" alt="" />
-          </div>
+        {/* {/* Left Wrapper */}
+        <div className="hidden bg-primary md:flex sm:block items-center relative">
+          <div className="absolute bg-blue-600 opacity-100 h-screen w-full z-20 "></div>
+          <span className="px-16 leading-[70px] text-white text-5xl z-50">
+            Berkah Finansial melalui{" "}
+            <span className="font-bold font-inter"> P2P Lending Syariah</span>{" "}
+            Investasi yang Menginspirasi.
+          </span>
         </div>
-
         {/* Form */}
         <div className=" flex flex-col  justify-around bg-slate-100 ">
           <div className="max-w-[400px] w-full mx-auto sm:pb-4 pt-3 flex justify-center items-center">
             <img
-              className="w-20 h-20 bg-indigo-700 p-2 rounded-full"
+              className="w-20 h-20 bg-blue-600 p-2 rounded-full"
               src={LogoAmana}
               alt="Rounded avatar"
             />
@@ -90,7 +93,7 @@ const Register = () => {
                   type={"text"}
                   name={"Nama lengkap"}
                   register={{
-                    ...register("fullName", {
+                    ...register("name", {
                       required: true,
                     }),
                   }}
@@ -137,7 +140,7 @@ const Register = () => {
             <div className="pt-2">
               <Button
                 type="submit"
-                className="w-full bg-indigo-700 hover:bg-indigo-600 text-white text-sm  py-2 px-4 rounded-lg"
+                className="w-full bg-blue-600 hover:bg-indigo-700 text-white text-sm  py-2 px-4 rounded-lg"
               >
                 {load ? "Loading..." : "Daftar"}
               </Button>

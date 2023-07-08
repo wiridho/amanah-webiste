@@ -7,13 +7,10 @@ import thunk from "redux-thunk";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth"],
+  whitelist: ["auth", "borrower", "balance_transaction"],
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-/**
- * Configuration for store redux.
- */
 const store = configureStore({
   reducer: persistedReducer,
   middleware: [thunk],

@@ -1,63 +1,97 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import { lenderFunding } from "../../../service/lender/funding";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { postLenderFunding } from "../../../service/lender/funding";
 
 // Icon
 import { BiWallet } from "react-icons/bi";
 import { FormatMataUang } from "../../../utils/FormatMataUang";
-import { InputLabel } from "../../../components/molekul";
 import { IoWarningOutline } from "react-icons/io5";
 import { Button } from "../../../components/atom";
-import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { Controller, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { estimasiImbalHasil } from "../../../utils/EstimasiImbalHasil";
+import { handleGetBalance } from "../../../service/balance/balance";
+import CurrencyInput from "react-currency-input-field";
 
-const TransaksiPendanaan = () => {
-  const [,] = useState();
+const TransaksiPendanaan = ({
+  totalPinjaman,
+  totalImbalHasil,
+  sisaPendanaan,
+  contract,
+}) => {
+  const [getInputValue, setGetInputValue] = useState("");
+
   const { loanId } = useParams();
+  const { accessToken } = useSelector((state) => state.auth);
+  const { balance } = useSelector((state) => state.balance);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   // Calling useForm
   const {
-    register,
     handleSubmit,
     getValues,
+    control,
     formState: { errors },
   } = useForm();
 
-  const { accessToken } = useSelector((state) => state.auth);
-  const balance = 150000;
+  const getBalance = async () => {
+    dispatch(handleGetBalance({ accessToken }));
+  };
+
+  useEffect(() => {
+    getBalance();
+  }, []);
 
   const onSubmit = (data) => {
-    lenderFunding({ data: { ...data, ...{ loanId } }, accessToken });
+    navigate("/funder/pendanaan/preview-kontrak", {
+      state: {
+        url: contract,
+        backLink: `/funder/pendanaan/${loanId}`,
+        data: { ...data, ...{ loanId } },
+      },
+    });
   };
 
-  const validateSalary = (value) => {
-    const numericValue = Number(value);
-
-    if (numericValue < 100000) {
-      return "Nominal minimal Rp100.000";
+  const validasiStep = (value) => {
+    const amount = parseFloat(value.replace(/[^\d.-]/g, "")); // Menghapus karakter non-angka dari value input
+    if (amount % 50000 !== 0) {
+      return "Kelipatan harus Rp50,000";
     }
-    if (numericValue > balance) {
-      return `Nominal maksimal Rp${balance}`;
-    }
-    if (numericValue % 50000 !== 0) {
-      return "Kelipatan nominal harus Rp50.000";
-    }
-
-    return true; // Return true for valid value
+    return true;
   };
 
-  const disableButton = () => {
-    let disable = true;
-    let amount = getValues("amount");
-    if (balance > amount || amount > 100000) {
-      disable = false;
+  const validasiBalance = (value) => {
+    const amount = parseFloat(value.replace(/[^\d.-]/g, "")); // Menghapus karakter non-angka dari value input
+    const saldo = parseFloat(balance);
+    console.log(balance);
+    if (amount > saldo) {
+      return "Saldo anda tidak cukup!";
     }
-    return disable;
+    return true;
   };
+
+  const validasiSisaPendanaan = (value) => {
+    const amount = parseFloat(value.replace(/[^\d.-]/g, "")); // Menghapus karakter non-angka dari value input
+    const sisaSlot = parseFloat(sisaPendanaan);
+    if (amount > sisaSlot) {
+      const result = `Pendanaan tidak boleh melebihi sisa slot saat ini! Maksimal ${sisaSlot}`;
+      return result;
+    }
+    return true;
+  };
+
+  let estImbalHasil = estimasiImbalHasil({
+    totalPinjaman,
+    totalImbalHasil,
+    getInputValue,
+  });
 
   return (
-    <div className="">
-      <div className=" bg-white rounded">
+    <div>
+      <div className="">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex items-center gap-3 text-gray-500">
             <BiWallet className="w-6 h-6" />
@@ -65,7 +99,6 @@ const TransaksiPendanaan = () => {
           </div>
           <div>
             <span className="text-2xl font-semibold">
-              {/* {FormatMataUang(1000000)} */}
               {FormatMataUang(balance)}
             </span>
           </div>
@@ -73,17 +106,46 @@ const TransaksiPendanaan = () => {
           <div>
             <div>
               <div className="relative mt-2 rounded-md shadow-sm">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2">
-                  <span className="text-gray-500 sm:text-sm">Rp</span>
-                </div>
-                <input
-                  type="text"
-                  name="price"
-                  id="price"
-                  className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 focus:outline-none"
-                  placeholder="10.000"
+                <Controller
+                  name="amount"
+                  control={control}
+                  rules={{
+                    required: "Nominal wajib diisi!",
+                    min: {
+                      value: 100000,
+                      message: `Minimal Pendanaan Rp100.000`,
+                    },
+                    validate: {
+                      validasiStep,
+                      validasiBalance,
+                      validasiSisaPendanaan,
+                    },
+                  }}
+                  render={({ field }) => (
+                    <div>
+                      <CurrencyInput
+                        placeholder="Rp100.000"
+                        className="w-full border border-gray-300 px-4 py-2 rounded-lg bg-gray-50 focus:ring-1 outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                        value={field.value}
+                        onValueChange={(value) => {
+                          setGetInputValue(value);
+                          field.onChange(value);
+                        }}
+                        onBlur={field.onBlur}
+                        decimalSeparator=","
+                        groupSeparator="."
+                        prefix="Rp"
+                        decimalsLimit={2}
+                      />
+                    </div>
+                  )}
                 />
               </div>
+              {errors.amount && (
+                <span className="text-red-500 text-xs">
+                  {errors.amount.message}
+                </span>
+              )}
             </div>
             {errors.nominal && (
               <span className="flex gap-2 items-center text-xs  text-red-500">
@@ -91,28 +153,6 @@ const TransaksiPendanaan = () => {
                 {errors.nominal?.message}
               </span>
             )}
-            {/* <InputLabel
-            type={"number"}
-            name={"amount"}
-            register={{
-              ...register("amount", {
-                required: true,
-                min: {
-                  value: 100000,
-                  message: "Minimal Rp100.000",
-                },
-                max: {
-                  value: balance,
-                  message: `Maksimal dengan isi saldo kamu Rp.${balance}`,
-                },
-                validate: validateSalary,
-              }),
-            }}
-            errors={errors.amount}
-            placeholder={"100.000"}
-          >
-            Masukkan uang yang akan anda dipinjamkan
-          </InputLabel> */}
           </div>
 
           <div className="mt-2">
@@ -120,19 +160,22 @@ const TransaksiPendanaan = () => {
               <span className="font-semibold">Ringkasan</span>
             </div>
             <div className="flex justify-between">
-              <span>Est. Imbal hasil</span>
-              <span>Rp100.000</span>
+              <span>Estimasi Imbal hasil</span>
+              <span>{FormatMataUang(estImbalHasil)}</span>
             </div>
             <div className="flex justify-between">
-              <span>Est. Total dana kembali</span>
-              <span>Rp100.000</span>
+              <span>Estimasi total dana kembali</span>
+              <span>
+                {FormatMataUang(
+                  parseInt(getInputValue) + parseInt(estImbalHasil)
+                )}
+              </span>
             </div>
           </div>
 
           <Button
-            type={"submit"}
             className={
-              "mt-4 bg-indigo-500 hover:bg-indigo-700 !rounded-full text-white w-full"
+              "mt-5 bg-indigo-500 hover:bg-indigo-700 !rounded-full text-white w-full"
             }
           >
             Danai

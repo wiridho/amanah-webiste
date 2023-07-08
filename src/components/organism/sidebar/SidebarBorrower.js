@@ -16,7 +16,6 @@ import { GiReceiveMoney } from "react-icons/gi";
 // End Icon
 
 const Sidebar = () => {
-  const [active, setActive] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -56,7 +55,10 @@ const Sidebar = () => {
               </CustomLink>
             </li>
             <li>
-              <CustomLink to="#" icon={<MdHistory className="text-xl" />}>
+              <CustomLink
+                to="riwayat-pinjaman"
+                icon={<MdHistory className="text-xl" />}
+              >
                 Riwayat Peminjaman
               </CustomLink>
             </li>
@@ -70,7 +72,7 @@ const Sidebar = () => {
             </li>
             <li>
               <CustomLink
-                to="deposit"
+                to="pengajuan-pinjaman"
                 icon={<GiReceiveMoney className="text-xl" />}
               >
                 Pengajuan Peminjaman
@@ -78,7 +80,7 @@ const Sidebar = () => {
             </li>
             <li>
               <CustomLink
-                to="withdraw"
+                to="pembayaran"
                 icon={<MdPayment className="text-xl" />}
               >
                 Pembayaran

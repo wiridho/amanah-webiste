@@ -2,7 +2,8 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { handleGetBalance } from "../../../service/balance/balance";
 import { useDispatch, useSelector } from "react-redux";
-
+import ImgHeader from "../../../assets/img/Financial-Management.png";
+// import ImgIlus from "../../../assets/img/bubble-gum-financial-statistics.gif";
 // Icons
 import { HiOutlinePlus } from "react-icons/hi";
 import { IoWallet } from "react-icons/io5";
@@ -49,61 +50,78 @@ const CardBalance = () => {
   return (
     <>
       {checkStatus()}
-      <div className="max-w-md w-full p-3 bg-slate-300 rounded-xl shadow-lg">
-        <div className="grid grid-cols-4 gap-8 max-w-3xl mx-auto">
-          <div className="col-span-2 bg-white  rounded-lg p-4 transform transition duration-500 hover:scale-105">
-            <div className="flex flex-col justify-center">
-              <div className="flex items-center justify-between">
-                <p className="text-md   tracking-tight text-slate-900">
-                  Balance
-                </p>
-                <span>
-                  <IoWallet className="text-3xl text-darkBlue" />
+      <div className="rounded-md shadow-md bg-white  grid grid-cols-2">
+        <div className="flex flex-col gap-4 p-12 py-12">
+          <article className="flex text-darkBlue mb-10 flex-col gap-4 rounded-md">
+            <div className="flex flex-col items-start  gap-2">
+              <div className="flex justify-center items-center gap-2">
+                <IoWallet size={20} className="text-darkBlue" />
+                <span className="text-xl text-blue-900 font-semibold">
+                  Saldo Akun
                 </span>
               </div>
-              <div className="">
-                <p className=" text-xl font-semibold text-darkBlue">
+              <div>
+                <span className="text-4xl font-sans">
                   {FormatMataUang(balance)}
-                </p>
+                </span>
               </div>
             </div>
+          </article>
+          <div className="flex gap-5">
+            <div className=" flex justify-center items-center">
+              <Link
+                to={statusKYC === "verified" ? "deposit" : "#"}
+                className={`flex justify-center items-center  bg-blue-500 rounded-full px-5 py-2.5 ${
+                  statusKYC === "verified"
+                    ? "cursor-pointer"
+                    : "cursor-not-allowed"
+                }`}
+              >
+                <div className="flex gap-2 justify-center items-center ">
+                  {/* <HiOutlinePlus
+                    size={30}
+                    className={` text-darkBlue  ${
+                      statusKYC === "verified"
+                        ? "bg-white "
+                        : "bg-gray-500 cursor-not-allowed"
+                    }   p-1 rounded-full`}
+                  /> */}
+                  <p className="font-semibold text-white">Deposit </p>
+                </div>
+              </Link>
+            </div>
+            <div className=" flex justify-center items-center  ">
+              <Link
+                to={statusKYC === "verified" ? "withdraw" : "#"}
+                className={`flex justify-center border border-blue-500 rounded-full px-5 py-2.5    ${
+                  statusKYC === "verified"
+                    ? "cursor-pointer"
+                    : "cursor-not-allowed"
+                }`}
+              >
+                <div className="flex gap-2 justify-center items-center">
+                  {/* <BiMoneyWithdraw
+                    size={30}
+                    className={` text-white  ${
+                      statusKYC === "verified"
+                        ? "bg-darkBlue "
+                        : "bg-gray-500 cursor-not-allowed"
+                    }   p-1 rounded-full `}
+                  /> */}
+                  <p className="font-semibold text-blue-500">Withdraw</p>
+                </div>
+              </Link>
+            </div>
           </div>
-
-          <Link
-            to={statusKYC === "verified" ? "deposit" : "#"}
-            className={`flex justify-center items-center  rounded-xl shadow-md transform transition duration-500 hover:scale-105 bg-white ${
-              statusKYC === "verified" ? "cursor-pointer" : "cursor-not-allowed"
-            }`}
-          >
-            <div className="flex flex-col justify-center items-center ">
-              <HiOutlinePlus
-                className={` text-white  ${
-                  statusKYC === "verified"
-                    ? "bg-darkBlue "
-                    : "bg-gray-500 cursor-not-allowed"
-                }  text-2xl p-1 rounded-full`}
-              />
-              <p className="pt-1">Deposit</p>
-            </div>
-          </Link>
-
-          <Link
-            to={statusKYC === "verified" ? "withdraw" : "#"}
-            className={`flex justify-center items-center  rounded-xl shadow-md transform transition duration-500 hover:scale-105 bg-white ${
-              statusKYC === "verified" ? "cursor-pointer" : "cursor-not-allowed"
-            }`}
-          >
-            <div className="flex flex-col justify-center items-center">
-              <BiMoneyWithdraw
-                className={` text-white  ${
-                  statusKYC === "verified"
-                    ? "bg-darkBlue "
-                    : "bg-gray-500 cursor-not-allowed"
-                }  text-2xl p-1 rounded-full`}
-              />
-              <p className="pt-1">Withdraw</p>
-            </div>
-          </Link>
+        </div>
+        <div className=" flex justify-center">
+          <img
+            style={{}}
+            src={ImgHeader}
+            className="h-[290px] "
+            alt=""
+            srcset=""
+          />
         </div>
       </div>
     </>

@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import apiConfig from "../../api/apiConfig";
 
-export const handlePortofolio = createAsyncThunk(
+export const getLenderFunding = createAsyncThunk(
   "portofolio",
   async ({ accessToken }, { rejectWithValue }) => {
     try {

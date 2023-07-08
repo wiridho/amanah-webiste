@@ -2,19 +2,22 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   handleLogin,
   handleRegister,
+  resendLoginOtp,
   resendRegisterVerify,
   verifyLoginOtp,
 } from "../../service/authentication/authService";
 import jwtDecode from "jwt-decode";
+import { verificationBorrowerKYC } from "../../service/Borrower/borrowerVerificationKYC";
 
 const initialState = {
-  success: null,
+  success: false,
   load: false,
   error: false,
+
   data: null,
   accessToken: null,
   refreshToken: null,
-  message_error: null,
+  message: null,
   statusKYC: null,
 
   // buat private route
@@ -28,6 +31,9 @@ const authSlice = createSlice({
   reducers: {
     setStatusKYC(state, data) {
       state.statusKYC = data.payload;
+    },
+    setMessage(state, data) {
+      state.message = data.payload;
     },
   },
   extraReducers: (builder) => {
@@ -44,7 +50,7 @@ const authSlice = createSlice({
       .addCase(handleRegister.rejected, (state, action) => {
         state.load = false;
         state.error = true;
-        state.message_error = action.payload;
+        state.message = action.payload;
       })
       // Handle Verify Account via email
       .addCase(resendRegisterVerify.pending, (state) => {
@@ -64,21 +70,22 @@ const authSlice = createSlice({
       })
       .addCase(handleLogin.fulfilled, (state, action) => {
         state.load = false;
-        state.data = action.payload;
         state.success = true;
+        state.data = action.payload;
       })
       .addCase(handleLogin.rejected, (state, action) => {
-        state.success = false;
         state.load = false;
+        state.success = false;
         state.error = true;
-        state.message_error = action.payload;
+        state.message = action.payload;
       })
-
+      // Verify Login OTP
       .addCase(verifyLoginOtp.pending, (state) => {
         state.load = true;
       })
       .addCase(verifyLoginOtp.fulfilled, (state, action) => {
         state.load = false;
+        state.success = true;
         state.is_auth = true;
         state.accessToken = action.payload?.accessToken;
         state.refreshToken = action.payload?.refreshToken;
@@ -87,11 +94,42 @@ const authSlice = createSlice({
       })
       .addCase(verifyLoginOtp.rejected, (state, action) => {
         state.load = false;
+        state.success = false;
         state.error = true;
-        state.message_error = action.payload;
+        state.message = action.payload;
+      })
+      // Handle Resend
+      .addCase(resendLoginOtp.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(resendLoginOtp.fulfilled, (state) => {
+        state.load = false;
+        state.success = true;
+      })
+      .addCase(resendLoginOtp.rejected, (state, action) => {
+        state.load = false;
+        state.success = false;
+        state.error = true;
+        state.message = action.payload;
+      })
+      // Verifikasi Borrower KYC
+      .addCase(verificationBorrowerKYC.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(verificationBorrowerKYC.fulfilled, (state, action) => {
+        state.load = false;
+        state.success = true;
+        state.statusKYC = action?.payload;
+      })
+      .addCase(verificationBorrowerKYC.rejected, (state, action) => {
+        state.load = false;
+        state.success = false;
+        state.error = true;
+        state.statusKYC = "not verified";
+        state.message = action.payload;
       });
   },
 });
 
-export const { setStatusKYC } = authSlice.actions;
+export const { setStatusKYC, setMessage, setSuccess } = authSlice.actions;
 export default authSlice.reducer;

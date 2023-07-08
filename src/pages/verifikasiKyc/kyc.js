@@ -32,11 +32,11 @@ const Kyc = () => {
   const [gambarSelfie, setGambarSelfie] = useState(null);
   const [gambarKTP, setGambarKTP] = useState(null);
 
-  const { accessToken } = useSelector((state) => state.auth);
+  const { accessToken, statusKYC } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const statusKYC = "not verified";
+  // const statusKYC = "not verified";
 
   const statusLender = async () => {
     if (statusKYC !== "not verified") {
@@ -78,6 +78,7 @@ const Kyc = () => {
       setVisible,
       navigate,
     });
+
     setLoad(result.status);
     if (!result.status || result.status === "Validation Error") {
       setResponseMessage(result?.message);
@@ -95,7 +96,10 @@ const Kyc = () => {
   };
 
   const isPhotoFilled = () => {
-    return gambarKTP && gambarSelfie;
+    // return gambarKTP && gambarSelfie;
+    const isFormFilled = Object.keys(errors).length === 0;
+    const isStateFilled = gambarKTP && gambarSelfie;
+    return isFormFilled && isStateFilled;
   };
   return (
     <div className="bg-white px-4 py-2">
@@ -287,7 +291,7 @@ const Kyc = () => {
             type={"submit"}
             disabled={!isPhotoFilled()}
             className={` bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-500 ${
-              !isPhotoFilled() && "disabled:bg-gray-500"
+              !isPhotoFilled() && "disabled:bg-gray-500 cursor-not-allowed"
             }`}
           >
             Verifikasi Diri

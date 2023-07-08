@@ -4,7 +4,8 @@ import ButtonIcon from "../buttonIcon/ButtonIcon";
 
 const CustomLink = ({ children, to, className, icon }) => {
   const { pathname } = useLocation();
-  const isActive = pathname.includes(`/${to}`);
+  const isActive = pathname.includes(`/${to}` || `${to}`);
+
   return (
     <Link
       to={to}
@@ -15,7 +16,7 @@ const CustomLink = ({ children, to, className, icon }) => {
       <ButtonIcon
         icon={icon}
         className={`text-sm tracking-wide truncate w-full ${
-          isActive ? "font-semibold text-indigo-500" : ""
+          isActive ? `font-semibold text-indigo-500 ` : ""
         } `}
       >
         {children}

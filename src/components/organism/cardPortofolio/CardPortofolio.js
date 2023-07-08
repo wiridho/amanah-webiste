@@ -3,6 +3,8 @@ import moment from "moment/moment";
 import { FaFilePdf } from "react-icons/fa";
 import { Badge } from "../../atom";
 import { Link } from "react-router-dom";
+import { titleCase } from "../../../utils/FormatTitleCase";
+import { FormatMataUang } from "../../../utils/FormatMataUang";
 
 const CardPortofolio = ({
   name,
@@ -17,12 +19,12 @@ const CardPortofolio = ({
     <div>
       <Link
         to={`/funder/pendanaan/${loanId}`}
-        className="relative block overflow-hidden shadow  rounded-md bg-white border border-gray-100 p-4 sm:p-6 lg:p-6"
+        className="relative block overflow-hidden shadow-md  rounded-md bg-white border border-gray-100 p-4 sm:p-6 lg:p-6"
       >
         <span className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-indigo-500 via-indigo-700 to-indigo-900"></span>
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-bold text-[#194175] sm:text-xl ">
-            {name}
+            {titleCase(name)}
           </h3>
           <span>
             <Badge className={"border border-indigo-600  text-indigo-500"}>
@@ -31,13 +33,13 @@ const CardPortofolio = ({
           </span>
         </div>
 
-        <div className="mt-4 flex flex-col gap-">
+        <div className="mt-4 flex flex-col gap-2">
           <div className="flex justify-between">
             <span className="text-base text-[#194175] font-medium">
               Pendanaanmu
             </span>
             <span className="font-mono font-semibold text-gray-700">
-              {amount}
+              {FormatMataUang(amount)}
             </span>
           </div>
           <div className="flex justify-between">
@@ -45,7 +47,7 @@ const CardPortofolio = ({
               Estimasi Imbal Hasil
             </span>
             <span className="font-semibold  font-mono text-gray-700">
-              {yieldReturn}
+              {FormatMataUang(yieldReturn)}
             </span>
           </div>
         </div>
