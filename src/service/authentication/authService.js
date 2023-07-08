@@ -72,6 +72,24 @@ export const handleLogin = createAsyncThunk(
   }
 );
 
+export const handleLoginAdmin = createAsyncThunk(
+  "auth/login/admin",
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${apiConfig.baseUrl}/authentication/login?action=admin`,
+        params.data
+      );
+      console.log("response login", response);
+      params.navigate("/admin");
+      return response?.data?.data;
+    } catch (error) {
+      const message_error = error.response?.data?.message;
+      return rejectWithValue(message_error);
+    }
+  }
+);
+
 // Handle Verify Login OTP
 export const verifyLoginOtp = createAsyncThunk(
   "auth/verifyLoginOtp",

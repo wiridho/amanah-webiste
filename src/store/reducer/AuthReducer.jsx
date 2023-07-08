@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   handleLogin,
+  handleLoginAdmin,
   handleRegister,
   resendLoginOtp,
   resendRegisterVerify,
@@ -32,9 +33,9 @@ const authSlice = createSlice({
     setStatusKYC(state, data) {
       state.statusKYC = data.payload;
     },
-    setMessage(state, data) {
-      state.message = data.payload;
-    },
+  },
+  setMessage(state, data) {
+    state.message = data.payload;
   },
   extraReducers: (builder) => {
     builder
@@ -78,6 +79,23 @@ const authSlice = createSlice({
         state.success = false;
         state.error = true;
         state.message = action.payload;
+      })
+      // Handle login admin
+      .addCase(handleLoginAdmin.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(handleLoginAdmin.fulfilled, (state, action) => {
+        state.load = false;
+        state.is_auth = true;
+        state.accessToken = action.payload?.accessToken;
+        state.refreshToken = action.payload?.refreshToken;
+        state.roles = jwtDecode(action.payload?.accessToken)?.roles;
+        state.statusKYC = jwtDecode(action.payload?.accessToken)?.verifiedKYC;
+      })
+      .addCase(handleLoginAdmin.rejected, (state, action) => {
+        state.load = false;
+        state.error = true;
+        state.message_error = action.payload;
       })
       // Verify Login OTP
       .addCase(verifyLoginOtp.pending, (state) => {

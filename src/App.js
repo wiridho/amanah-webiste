@@ -45,8 +45,11 @@ import PreviewKontrakPeminjaman from "./pages/borrower/PreviewKontrakPeminjaman"
 import Pembayaran from "./pages/borrower/Pembayaran";
 import RiwayatPeminjaman from "./pages/borrower/RiwayatPeminjaman";
 import KonfirmasiPencairanPinjaman from "./pages/borrower/pencairanPinjaman/KonfirmasiPencairanPinjaman";
-import RiwayatPinjamanSelesai from "./pages/borrower/riwayatPinjaman/RiwayatPinjamanSelesai";
-import RiwayatPinjamanBerjalan from "./pages/borrower/riwayatPinjaman/RiwayatPinjamanBerjalan";
+
+// Admin
+import DashboardAdmin from "./components/template/DashboardAdmin";
+import HomeAdmin from "./pages/admin/Home";
+import LoanAdmin from "./pages/admin/Loans";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
@@ -152,6 +155,33 @@ function App() {
 
               <Route path="list-bank" element={<ListBankBorrower />} />
               <Route path="add-bank" element={<AddBankBorrower />} />
+            </Route>
+          </>
+        )}
+
+        {roles === "admin" && (
+          // Dashboard Borrower
+          <>
+            <Route
+              path="*"
+              element={<Navigate to={"/admin"} replace={true} />}
+            />
+            <Route
+              path="/"
+              element={<Navigate to={"/admin"} replace={true} />}
+            />
+            <Route
+              path="admin"
+              element={
+                <ProtectRoute
+                  valid={is_auth}
+                  to={"/login"}
+                  children={<DashboardAdmin />}
+                />
+              }
+            >
+              <Route index element={<HomeAdmin />} />
+              <Route path="loans" element={<LoanAdmin />} />
             </Route>
           </>
         )}

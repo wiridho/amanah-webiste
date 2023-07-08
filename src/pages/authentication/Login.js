@@ -5,7 +5,10 @@ import { useForm } from "react-hook-form";
 import { InputLabel } from "../../components/molekul";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
-import { handleLogin } from "../../service/authentication/authService";
+import {
+  handleLogin,
+  handleLoginAdmin,
+} from "../../service/authentication/authService";
 
 import { Button, Message } from "../../components/atom";
 import { InputPassword } from "../../components/molekul";
@@ -27,6 +30,11 @@ const Login = () => {
 
   // Handle Submit
   const onSubmit = (data) => {
+    console.log(data);
+    if (data.email === "admin@yopmail.com") {
+      dispatch(handleLoginAdmin({ data, navigate }));
+      return;
+    }
     dispatch(handleLogin({ data, navigate }));
   };
 
