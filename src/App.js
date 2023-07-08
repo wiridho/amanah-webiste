@@ -50,6 +50,7 @@ import KonfirmasiPencairanPinjaman from "./pages/borrower/pencairanPinjaman/Konf
 import DashboardAdmin from "./components/template/DashboardAdmin";
 import HomeAdmin from "./pages/admin/Home";
 import LoanAdmin from "./pages/admin/Loans";
+import LoginAdmin from "./pages/authentication/LoginAdmin";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
@@ -223,6 +224,10 @@ function App() {
         <Route
           path="/login"
           element={<ProtectRoute valid={is_public} children={<Login />} />}
+        />
+        <Route
+          path="/login/admin"
+          element={<ProtectRoute valid={is_public} children={<LoginAdmin />} />}
         />
         <Route
           path="/verifylogin"
