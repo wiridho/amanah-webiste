@@ -56,7 +56,7 @@ const Sidebar = () => {
             </li>
             <li>
               <CustomLink
-                to="riwayat-peminjaman"
+                to="riwayat-pinjaman"
                 icon={<MdHistory className="text-xl" />}
               >
                 Riwayat Peminjaman
@@ -95,10 +95,7 @@ const Sidebar = () => {
               </div>
             </li>
             <li>
-              <CustomLink
-                to="/borrower/profile"
-                icon={<BiUser className="text-xl" />}
-              >
+              <CustomLink to="profile" icon={<BiUser className="text-xl" />}>
                 Profile
               </CustomLink>
             </li>

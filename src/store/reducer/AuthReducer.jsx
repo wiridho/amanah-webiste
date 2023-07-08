@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   handleLogin,
   handleRegister,
+  resendLoginOtp,
   resendRegisterVerify,
   verifyLoginOtp,
 } from "../../service/authentication/authService";
@@ -92,6 +93,20 @@ const authSlice = createSlice({
         state.statusKYC = jwtDecode(action.payload?.accessToken)?.verifiedKYC;
       })
       .addCase(verifyLoginOtp.rejected, (state, action) => {
+        state.load = false;
+        state.success = false;
+        state.error = true;
+        state.message = action.payload;
+      })
+      // Handle Resend
+      .addCase(resendLoginOtp.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(resendLoginOtp.fulfilled, (state) => {
+        state.load = false;
+        state.success = true;
+      })
+      .addCase(resendLoginOtp.rejected, (state, action) => {
         state.load = false;
         state.success = false;
         state.error = true;

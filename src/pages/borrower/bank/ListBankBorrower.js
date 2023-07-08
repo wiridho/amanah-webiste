@@ -11,8 +11,6 @@ import { getBalanceAccountBank } from "../../../service/balance/balance";
 import { setBankSelected } from "../../../store/reducer/Balance/BalanceTransactionReducer";
 import _ from "lodash";
 import { MdDelete } from "react-icons/md";
-import axios from "axios";
-import apiConfig from "../../../api/apiConfig";
 
 const ListBankBorrower = () => {
   const { accessToken } = useSelector((state) => state.auth);
@@ -46,7 +44,7 @@ const ListBankBorrower = () => {
   const nextToConfirmationLoan = () => {
     let data = _.find(listBank, { isChecked: true });
     dispatch(setBankSelected(data));
-    navigate("/borrower/pengajuan-pinjaman/konfirmasi");
+    navigate("/borrower/konfirmasi-pencairan");
   };
 
   // const deleteBank = async (accountNumber, accessToken) => {

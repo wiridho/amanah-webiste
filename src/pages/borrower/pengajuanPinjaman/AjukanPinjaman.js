@@ -9,12 +9,13 @@ import {
 } from "../../../components/molekul";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getBorrowersPaymentSchedule } from "../../../service/Borrower/borrower";
+import { getBorrowersLoan } from "../../../service/Borrower/borrower";
 
 const AjukanPinjaman = () => {
   const { accessToken } = useSelector((state) => state.auth);
-  const { paymentSchedule } = useSelector((state) => state.borrower);
-  console.log(paymentSchedule);
+  const { paymentSchedule, loanHistory } = useSelector(
+    (state) => state.borrower
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -24,12 +25,12 @@ const AjukanPinjaman = () => {
     formState: { errors },
   } = useForm();
 
-  const handleGetSchedule = () => {
-    dispatch(getBorrowersPaymentSchedule({ accessToken }));
+  const handleGetHistory = () => {
+    dispatch(getBorrowersLoan({ accessToken }));
   };
 
   useEffect(() => {
-    handleGetSchedule();
+    handleGetHistory();
   }, []);
 
   const onSubmit = (data) => {
@@ -45,7 +46,6 @@ const AjukanPinjaman = () => {
     { value: "Usaha", label: "Usaha" },
     { value: "other", label: "other" },
   ];
-
   const opsiTenor = [
     { value: "1", label: "1 Bulan" },
     { value: "2", label: "2 Bulan" },
@@ -60,7 +60,6 @@ const AjukanPinjaman = () => {
     { value: "11", label: "11 Bulan" },
     { value: "12", label: "12 Bulan" },
   ];
-
   const validasiStep = (value) => {
     const amount = parseFloat(value.replace(/[^\d.-]/g, "")); // Menghapus karakter non-angka dari value input
     if (amount % 50000 !== 0) {
@@ -73,12 +72,10 @@ const AjukanPinjaman = () => {
     <div className="h-screen flex justify-center items-center font-nunito-sans">
       <div className="w-1/2 rounded-md shadow bg-white">
         <div className="p-8">
-          {paymentSchedule?.paymentSchedule.length > 0 ? (
-            "Kamu sudah melakukan pinjaman"
-          ) : (
+          {loanHistory?.active?.loanId === undefined ? (
             <div>
               <span className="text-lg mb-2 text-center font-semibold">
-                Preview Kontrak Pinjaman
+                Ajukan Pinjaman
               </span>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
@@ -238,6 +235,8 @@ const AjukanPinjaman = () => {
                 </div>
               </form>
             </div>
+          ) : (
+            "Kamu sudah melakukan pinjaman"
           )}
         </div>
       </div>

@@ -10,7 +10,7 @@ import Verifikasi from "../../../assets/img/Verifikasi/verifikasi.png";
 import { Button, Message } from "../../atom";
 import { useNavigate } from "react-router-dom";
 
-const CardOtp = ({ setOtp, otp, handleSubmit, data }) => {
+const CardOtp = ({ setOtp, otp, handleSubmit, data, handleResend }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -79,6 +79,18 @@ const CardOtp = ({ setOtp, otp, handleSubmit, data }) => {
               </Button>
             </div>
           </form>
+          <div className="pt-2 px-4">
+            <OtpTimer
+              background={"#fff"}
+              textColor={"#808080"}
+              buttonColor={"#146C94"}
+              minutes={0}
+              seconds={10}
+              text={"Kirim ulang OTP dalam waktu"}
+              ButtonText="Kirim ulang OTP!"
+              resend={handleResend}
+            />
+          </div>
         </div>
       </div>
     </div>

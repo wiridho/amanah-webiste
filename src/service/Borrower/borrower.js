@@ -2,6 +2,7 @@ import axios from "axios";
 import apiConfig from "../../api/apiConfig";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
+import { create } from "lodash";
 
 // get current loan history
 export const getBorrowersLoan = createAsyncThunk(
@@ -83,3 +84,56 @@ export const getLoanDisbursement = async ({ accessToken }) => {
     return null;
   }
 };
+
+export const postLoanDisbursement = async ({ accessToken, navigate, data }) => {
+  try {
+    const response = await axios.post(
+      `${apiConfig.baseUrl}/borrowers/loan/disbursement`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    Swal.fire(
+      "Pencairan dana berhasil!",
+      `${response?.data?.message}`,
+      "success"
+    );
+    navigate("/borrower/riwayat-pinjaman");
+    return response?.data?.data;
+  } catch (error) {
+    Swal.fire(
+      "Pencairan dana gagal!",
+      `${error?.response?.data?.message}`,
+      "error"
+    );
+    return null;
+  }
+};
+
+// Pelunasan Tagihan
+export const postPelunasanTagihan = createAsyncThunk(
+  "borrowers/postPelunasanTagihan",
+  async ({ accessToken, data, setPaymentModal }, { rejectWithValue }) => {
+    // setPaymentModal(true);
+
+    try {
+      const response = await axios.post(
+        `${apiConfig.baseUrl}/borrowers/loan/repayment`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      setPaymentModal(true);
+      return `https://${response?.data?.data?.paymentLink}`;
+    } catch (error) {
+      const message_error = error.response?.data?.message;
+      return rejectWithValue(message_error);
+    }
+  }
+);

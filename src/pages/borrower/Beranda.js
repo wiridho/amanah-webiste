@@ -9,23 +9,30 @@ import { HiOutlineInformationCircle } from "react-icons/hi";
 import { Badge, Button } from "../../components/atom";
 
 import {
+  getBorrowersLoan,
   getBorrowersPaymentSchedule,
   getLoanDisbursement,
+  postPelunasanTagihan,
 } from "../../service/Borrower/borrower";
 import { FormatMataUang } from "../../utils/FormatMataUang";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getProfileBorrower } from "../../service/Borrower/profile";
 import { getBorrowerStatusKYC } from "../../service/Borrower/borrowerVerificationKYC";
 import { setStatusKYC } from "../../store/reducer/AuthReducer";
+import { checkStatusLoan } from "../../utils/Borrower/Borrower";
+import _ from "lodash";
 
 const Beranda = () => {
   const [disbursement, setDisbursement] = useState(null);
-
+  const [paymentModal, setPaymentModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { accessToken, statusKYC } = useSelector((state) => state.auth);
-  const { paymentSchedule, profile } = useSelector((state) => state.borrower);
+  const { paymentSchedule, profile, loanHistory, paymentLink } = useSelector(
+    (state) => state.borrower
+  );
 
   const handleGetSchedule = async () => {
     dispatch(getBorrowersPaymentSchedule({ accessToken }));
@@ -37,11 +44,13 @@ const Beranda = () => {
     dispatch(setStatusKYC(response));
   };
 
-  useEffect(() => {
-    handleGetSchedule();
-  }, []);
+  const handleGetLoanHistory = () => {
+    dispatch(getBorrowersLoan({ accessToken }));
+  };
 
   useEffect(() => {
+    handleGetSchedule();
+    handleGetLoanHistory();
     dispatch(getProfileBorrower({ accessToken }));
   }, []);
 
@@ -85,6 +94,11 @@ const Beranda = () => {
   };
 
   const postBayarSekarang = () => {
+    const data = {
+      loanId: paymentSchedule?.loanId,
+      billId: getBillId(),
+    };
+    // dispatch(postPelunasanTagihan({ accessToken, data, setPaymentModal }));
     setShowModal(false);
   };
 
@@ -98,21 +112,34 @@ const Beranda = () => {
     }
     return sisa;
   };
-  const tenorPerBulan = () => {
-    let tenor = "";
-    for (let i = 0; i < paymentSchedule?.paymentSchedule?.length; i++) {
-      if (paymentSchedule?.paymentSchedule[i]?.status === "unpaid") {
-        tenor += paymentSchedule?.paymentSchedule[i]?.date;
-        break;
-      }
-    }
-    return tenor;
+  const jatuhTempoCurrentMonth = () => {
+    // let tenor = "";
+    // for (let i = 0; i < paymentSchedule?.paymentSchedule?.length; i++) {
+    //   if (paymentSchedule?.paymentSchedule[i]?.status === "unpaid") {
+    //     tenor += paymentSchedule?.paymentSchedule[i]?.date;
+    //     break;
+    //   }
+    // }
+    // return tenor;
+    let jatuhTempo = _.filter(paymentSchedule?.paymentSchedule, {
+      status: "unpaid",
+    })[0]?.date;
+    return jatuhTempo;
   };
+
+  const getBillId = () => {
+    let billId = _.filter(paymentSchedule?.paymentSchedule, {
+      status: "unpaid",
+    })[0]?.billId;
+    return billId;
+  };
+
+  console.log(getBillId());
 
   return (
     <div className="grid grid-cols-6 gap-10 font-nunito-sans ">
       <div className="col-span-3">
-        <div className="flex flex-col  gap-1">
+        <div className="flex flex-col  gap-4">
           <div>
             <article className="flex  flex-col gap-4 rounded-lg border border-gray-100 bg-white p-6">
               <div className="flex flex-col items-center  gap-4">
@@ -125,7 +152,7 @@ const Beranda = () => {
                   <span className="text-3xl">
                     {profile?.loanLimit === null
                       ? FormatMataUang(0)
-                      : profile?.loanLimit}
+                      : FormatMataUang(profile?.loanLimit)}
                   </span>
                 </div>
                 <div>{checkUserKYC()}</div>
@@ -136,7 +163,7 @@ const Beranda = () => {
             <article className="rounded-lg border border-gray-100 bg-white p-5">
               <div className="flex items-center justify-between">
                 <div className="flex flex-col gap-2">
-                  <p className="text-sm text-gray-500 ">Pembayaran bulan ini</p>
+                  <p className="text-sm text-gray-500 ">Tagihan bulan ini</p>
                   <p className="text-2xl font-medium text-gray-900">
                     {paymentSchedule?.currentMonth < 1
                       ? "Tidak ada tagihan bulan ini"
@@ -145,8 +172,11 @@ const Beranda = () => {
                   {paymentSchedule?.currentMonth < 1 ? (
                     ""
                   ) : (
-                    <p className="bg-red-50 text-red-500 text-xs p-1">
-                      Jatuh tempo 05 September 2023
+                    <p className=" text-red-500 text-xs">
+                      Jatuh tempo pada{" "}
+                      {moment(jatuhTempoCurrentMonth()).format(
+                        "DD MMMM YYYY hh:mm"
+                      )}
                     </p>
                   )}
                 </div>
@@ -177,16 +207,16 @@ const Beranda = () => {
             </article>
           </div>
           {/* Loan Disbursement */}
-          {disbursement?.length === 0 ? (
-            ""
-          ) : (
+          {disbursement?.hasOwnProperty("amount") ? (
             <div className="col-span-3">
               <article className="rounded-lg border border-gray-100 bg-white p-5">
                 <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-2">
-                    <p className="text-sm text-gray-500 ">
-                      Pinjaman yang disetujui
+                  <div className="flex flex-col gap-1">
+                    <p className="text-sm text-gray-500 ">Status Pinjaman</p>
+                    <p className="text-lg font-medium text-gray-900">
+                      {checkStatusLoan(loanHistory?.active?.status)}
                     </p>
+                    <p className="text-sm text-gray-500 ">Nominal Pinjaman</p>
                     <p className="text-lg font-medium text-gray-900">
                       {FormatMataUang(disbursement?.amount)}
                     </p>
@@ -204,8 +234,26 @@ const Beranda = () => {
                     </p>
                   </div>
                 </div>
+                <Button
+                  onClick={() => navigate("list-bank")}
+                  type={"button"}
+                  className={`${
+                    loanHistory?.active?.status === "in borrowing"
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-500 text-white cursor-not-allowed"
+                  }`}
+                  disabled={
+                    loanHistory?.active?.status !== "in borrowing"
+                      ? true
+                      : false
+                  }
+                >
+                  Cairkan Dana
+                </Button>
               </article>
             </div>
+          ) : (
+            ""
           )}
         </div>
       </div>
@@ -226,7 +274,13 @@ const Beranda = () => {
                 return (
                   <div key={index} className="flex justify-between">
                     <span>
-                      <Badge className={"bg-red-100 text-red-500"}>
+                      <Badge
+                        className={
+                          item?.status === "paid"
+                            ? "text-green-500 bg-green-50"
+                            : "text-red-500 bg-red-50"
+                        }
+                      >
                         {moment(item?.date).format("DD MMMM YYYY")}
                       </Badge>
                     </span>
@@ -266,7 +320,39 @@ const Beranda = () => {
           </div>
         </article>
 
-        {showModal ? (
+        {/* Modal Link */}
+        {paymentModal && (
+          <div className="fixed inset-0 z-10 overflow-y-auto">
+            <div className="fixed inset-0 w-full h-full bg-black opacity-40"></div>
+            <div className="flex items-center min-h-screen">
+              <div className="relative w-full max-w-lg px-6 py-4 mx-auto bg-white rounded-md shadow-lg">
+                <div className="mt-2 text-center">
+                  <div className="flex flex-col">
+                    <div className="flex flex-col gap-10">
+                      <div className="flex flex-col text-center	bg-blue-100 p-4 rounded-md">
+                        <div>
+                          <span>Silahkan klik link untuk </span>
+                          <a
+                            href={paymentLink}
+                            // href="https://google.com"
+                            onClick={() => setPaymentModal(false)}
+                            rel="noreferrer"
+                            className="underline"
+                            target="_blank"
+                          >
+                            Lanjutkan Pembayaran
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showModal && (
           <>
             <div className="fixed inset-0 z-10 overflow-y-auto">
               <div
@@ -275,7 +361,6 @@ const Beranda = () => {
               ></div>
               <div className="flex items-center min-h-screen">
                 <div className="relative w-full max-w-lg px-6 py-4 mx-auto bg-white rounded-md shadow-lg">
-                  {/* <div className="mt-3"> */}
                   <div className="mt-2 text-center">
                     <div className="flex flex-col">
                       <div className="flex flex-col gap-10">
@@ -299,8 +384,7 @@ const Beranda = () => {
                           <div className="flex justify-between">
                             <span>Jatuh Tempo</span>
                             <span>
-                              {/* {tenorPerBulan()} */}
-                              {moment(tenorPerBulan()).format("LLL")}
+                              {moment(jatuhTempoCurrentMonth()).format("LLL")}
                             </span>
                           </div>
                         </div>
@@ -308,25 +392,24 @@ const Beranda = () => {
                     </div>
                     <div className="items-center gap-2 mt-3 sm:flex">
                       <button
-                        className="w-full mt-2 p-2.5 flex-1 text-white bg-blue-600 rounded-md outline-none ring-offset-2 ring-red-600 focus:ring-2"
+                        className="w-full mt-2 p-2.5 flex-1 text-white bg-blue-600 rounded-md outline-none ring-offset-2 ring-blue-600 focus:ring-1"
                         onClick={postBayarSekarang}
                       >
                         Bayar Langsung
                       </button>
                       <button
-                        className="w-full mt-2 p-2.5 flex-1 text-gray-800 rounded-md outline-none border ring-offset-2 ring-indigo-600 focus:ring-2"
+                        className="w-full mt-2 p-2.5 flex-1 text-gray-800 rounded-md outline-none border ring-offset-2 ring-red-600 focus:ring-1"
                         onClick={() => setShowModal(false)}
                       >
-                        Cancel
+                        Tutup
                       </button>
                     </div>
                   </div>
-                  {/* </div> */}
                 </div>
               </div>
             </div>
           </>
-        ) : null}
+        )}
       </div>
     </div>
   );

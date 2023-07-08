@@ -43,6 +43,10 @@ import ListBankBorrower from "./pages/borrower/bank/ListBankBorrower";
 import AddBankBorrower from "./pages/borrower/bank/AddBankBorrower";
 import PreviewKontrakPeminjaman from "./pages/borrower/PreviewKontrakPeminjaman";
 import Pembayaran from "./pages/borrower/Pembayaran";
+import RiwayatPeminjaman from "./pages/borrower/RiwayatPeminjaman";
+import KonfirmasiPencairanPinjaman from "./pages/borrower/pencairanPinjaman/KonfirmasiPencairanPinjaman";
+import RiwayatPinjamanSelesai from "./pages/borrower/riwayatPinjaman/RiwayatPinjamanSelesai";
+import RiwayatPinjamanBerjalan from "./pages/borrower/riwayatPinjaman/RiwayatPinjamanBerjalan";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
@@ -128,10 +132,17 @@ function App() {
               <Route path="kyc" element={<KycBorrower />} />
               <Route path="kyc/status" element={<StatusKYC />} />
               <Route path="pengajuan-pinjaman" element={<AjukanPinjaman />} />
+              <Route path="riwayat-pinjaman" element={<RiwayatPeminjaman />} />
+
               <Route
                 path="konfirmasi-pinjaman"
                 element={<KonfirmasiPinjaman />}
               />
+              <Route
+                path="konfirmasi-pencairan"
+                element={<KonfirmasiPencairanPinjaman />}
+              />
+
               <Route
                 path="preview-kontrak"
                 element={<PreviewKontrakPeminjaman />}

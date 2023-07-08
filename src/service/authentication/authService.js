@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import apiConfig from "../../api/apiConfig";
+import Swal from "sweetalert2";
 
 // Handle Register
 export const handleRegister = createAsyncThunk(
@@ -92,17 +93,23 @@ export const verifyLoginOtp = createAsyncThunk(
 
 // Handle Resend Login OTP
 export const resendLoginOtp = createAsyncThunk(
-  "auth/resend/login",
-  async (params) => {
+  "auth/resendOTp",
+  async (params, { rejectWithValue }) => {
     try {
       console.log("params", params);
       const response = await axios.post(
         `${apiConfig.baseUrl}/authentication/login/otp/resend`,
         params
       );
-      console.log("response resend otp", response);
+
+      Swal.fire(
+        "Kode OTP berhasil dikirim!",
+        `${response?.data?.message}`,
+        "success"
+      );
     } catch (err) {
-      console.log(err);
+      const message_error = err.response?.data?.message;
+      return rejectWithValue(message_error);
     }
   }
 );
