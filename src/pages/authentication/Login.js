@@ -5,15 +5,12 @@ import { useForm } from "react-hook-form";
 import { InputLabel } from "../../components/molekul";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
-import {
-  handleLogin,
-  handleLoginAdmin,
-} from "../../service/authentication/authService";
+import { handleLogin } from "../../service/authentication/authService";
 
 import { Button, Message } from "../../components/atom";
 import { InputPassword } from "../../components/molekul";
 
-import { setMessage, setSuccess } from "../../store/reducer/AuthReducer";
+import { setMessage } from "../../store/reducer/AuthReducer";
 
 const Login = () => {
   const navigate = useNavigate();
