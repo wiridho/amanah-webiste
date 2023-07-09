@@ -3,32 +3,82 @@ import { Link, useNavigate } from "react-router-dom";
 import { handleGetBalance } from "../../../service/balance/balance";
 import { useDispatch, useSelector } from "react-redux";
 import ImgHeader from "../../../assets/img/Financial-Management.png";
-// import ImgIlus from "../../../assets/img/bubble-gum-financial-statistics.gif";
 // Icons
 import { HiOutlinePlus } from "react-icons/hi";
 import { IoWallet } from "react-icons/io5";
 
 // Component
-import { ErrorMessage } from "../../atom";
+import { Button, Message } from "../../atom";
 import { useEffect } from "react";
 import { FormatMataUang } from "../../../utils/FormatMataUang";
-import { BiMoneyWithdraw } from "react-icons/bi";
 import { getLenderStatusKYC } from "../../../service/lender/lenderVerificationKYC";
 import { setStatusKYC } from "../../../store/reducer/AuthReducer";
+import { setMessage } from "../../../store/reducer/Balance/BalanceReducer";
+import WarningMessage from "../../atom/warningMessage/WarningMessage";
+import { useState } from "react";
 
 const CardBalance = () => {
+  const [warningMessage, setWarningMessage] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { accessToken, statusKYC } = useSelector((state) => state.auth);
-  const { balance } = useSelector((state) => state.balance);
+  const { accessToken } = useSelector((state) => state.auth);
+  const { balance, message } = useSelector((state) => state.balance);
+
+  const statusKYC = "not verified";
+
+  const checkUserKYC = () => {
+    if (statusKYC === "pending") {
+      dispatch(setMessage("akun anda sedang dalam tinjauan"));
+      return (
+        <WarningMessage
+          to={"/funder/kyc"}
+          message={message}
+          visible={message !== null ? true : false}
+          onClose={() => dispatch(setMessage(null))}
+        />
+      );
+    } else if (statusKYC === "not verified") {
+      return (
+        <Message
+          status={false}
+          message={message}
+          visible={message !== null && !true ? true : false}
+          onClose={() => {
+            dispatch(setMessage(null));
+          }}
+        />
+      );
+    } else {
+      return (
+        <Button
+          className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
+          onClick={() => navigate("/funder/pengajuan-pinjaman")}
+        >
+          Ajukan Pinjaman
+        </Button>
+      );
+    }
+  };
 
   const checkStatus = () => {
-    let status = <> </>;
+    let status = "";
     if (statusKYC === "not verified") {
-      status = <ErrorMessage message={"Akun Not Verified"} />;
+      // dispatch(
+      //   setMessage(
+      //     "Akun Belum Diverifikasi, silahkan verifikasi terlebih dahulu"
+      //   )
+      // );
+      return (status = (
+        <Button
+          className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
+          onClick={() => navigate("/borrower/kyc/status")}
+        >
+          {message}. Silahkan ke halaman ini
+        </Button>
+      ));
     } else if (statusKYC === "pending") {
-      status = <ErrorMessage message={"Akun kamu sedang diperiksa Pending"} />;
+      dispatch(setMessage("Akun anda sedang ditinjau"));
     }
     return status;
   };
@@ -39,17 +89,21 @@ const CardBalance = () => {
 
   const getStatusKYC = async () => {
     const response = await getLenderStatusKYC({ accessToken });
+    console.log(response);
     dispatch(setStatusKYC(response?.data?.kyc));
   };
 
   useEffect(() => {
     getBalance();
     getStatusKYC();
+    // checkStatus();
+    checkUserKYC();
   }, [dispatch, balance, statusKYC]);
+
+  console.log(message);
 
   return (
     <>
-      {checkStatus()}
       <div className="rounded-md shadow-md bg-white  grid grid-cols-2">
         <div className="flex flex-col gap-4 p-12 py-12">
           <article className="flex text-darkBlue mb-10 flex-col gap-4 rounded-md">
@@ -59,6 +113,7 @@ const CardBalance = () => {
                 <span className="text-xl text-blue-900 font-semibold">
                   Saldo Akun
                 </span>
+                <div>{checkUserKYC()}</div>
               </div>
               <div>
                 <span className="text-4xl font-sans">
@@ -78,14 +133,6 @@ const CardBalance = () => {
                 }`}
               >
                 <div className="flex gap-2 justify-center items-center ">
-                  {/* <HiOutlinePlus
-                    size={30}
-                    className={` text-darkBlue  ${
-                      statusKYC === "verified"
-                        ? "bg-white "
-                        : "bg-gray-500 cursor-not-allowed"
-                    }   p-1 rounded-full`}
-                  /> */}
                   <p className="font-semibold text-white">Deposit </p>
                 </div>
               </Link>
@@ -100,14 +147,6 @@ const CardBalance = () => {
                 }`}
               >
                 <div className="flex gap-2 justify-center items-center">
-                  {/* <BiMoneyWithdraw
-                    size={30}
-                    className={` text-white  ${
-                      statusKYC === "verified"
-                        ? "bg-darkBlue "
-                        : "bg-gray-500 cursor-not-allowed"
-                    }   p-1 rounded-full `}
-                  /> */}
                   <p className="font-semibold text-blue-500">Withdraw</p>
                 </div>
               </Link>

@@ -3,18 +3,26 @@ import React from "react";
 //  icon
 import { IoIosWarning } from "react-icons/io";
 import { MdClose } from "react-icons/md";
+import { Link } from "react-router-dom";
 
-const WarningMessage = ({ message, onClose, visible }) => {
+const WarningMessage = ({ message, onClose, visible, to }) => {
   return (
-    <div className={`${visible ? "" : "hidden"} block w-full`}>
-      <div className="flex bg-yellow-50 mx-2 p-4 rounded justify-between text-bold text-yellow-700 items-center border border-yellow-300 ">
-        <div className="flex space-x-4 items-center">
-          <IoIosWarning className="h-5 w-5 flex-none" />
-          <span className="whitespace-normal">{message}</span>
-        </div>
-        <div className="flex space-x-1 items-center">
-          <button role="button" onClick={onClose}>
-            {<MdClose className="w-4 h-4" />}
+    <div>
+      <div
+        className={`${
+          visible ? "" : "hidden"
+        } bg-yellow-100 border border-yellow-200 text-sm text-yellow-500   p-3 text-md  rounded-lg `}
+      >
+        <div className="flex items-center justify-around">
+          <IoIosWarning className="h-5 w-5 mr-2" />
+          <div className="flex-1  text-left">
+            <span className="font-normal text-sm">
+              {message}
+              <Link to={to}>disini</Link>
+            </span>
+          </div>
+          <button role="button" type="button" onClick={onClose}>
+            {<MdClose />}
           </button>
         </div>
       </div>

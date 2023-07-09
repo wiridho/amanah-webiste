@@ -27,7 +27,7 @@ const initialState = {
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: "authentication/login",
   initialState,
   reducers: {
     setStatusKYC(state, data) {

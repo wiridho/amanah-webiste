@@ -11,6 +11,8 @@ import "react-range-slider-input/dist/style.css";
 import CardPendanaan from "./CardPendanaan";
 import { Button } from "../../components/atom";
 
+import Warning from "../../assets/img/error/warning.png";
+import LoanNotAvailable from "../../assets/img/error/loanNotAvailable.png";
 import "../../style/rangeSlider.css";
 
 const Pendanaan = () => {
@@ -153,7 +155,30 @@ const Pendanaan = () => {
         {loanList?.length > 0 ? (
           <CardPendanaan data={loanList} />
         ) : (
-          "No Loan Available"
+          <div className="h-3/4 flex items-center justify-center">
+            <div className="w-3/4 rounded-md border shadow-sm bg-white">
+              <div className="p-5 flex items-center justify-center">
+                <div className="flex flex-col gap-4 justify-center items-center">
+                  <span className="text-3xl text-center font-semibold text-[#434E65] ">
+                    Ooops!
+                  </span>
+                  <img
+                    src={LoanNotAvailable}
+                    style={{ width: 200, height: 200 }}
+                    alt=""
+                  />
+                  <div className="flex flex-col gap-1">
+                    <span className="text-xl text-center font-bold text-red-500 ">
+                      Tidak ada pinjaman
+                    </span>
+                    <span className=" font-normal text-center text-red-400 ">
+                      Maaf sedang tidak ada pinjaman yang tersedia
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>

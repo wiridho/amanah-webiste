@@ -98,7 +98,7 @@ const Beranda = () => {
       loanId: paymentSchedule?.loanId,
       billId: getBillId(),
     };
-    // dispatch(postPelunasanTagihan({ accessToken, data, setPaymentModal }));
+    dispatch(postPelunasanTagihan({ accessToken, data, setPaymentModal }));
     setShowModal(false);
   };
 
@@ -133,8 +133,6 @@ const Beranda = () => {
     })[0]?.billId;
     return billId;
   };
-
-  console.log(getBillId());
 
   return (
     <div className="grid grid-cols-6 gap-10 font-nunito-sans ">
@@ -334,7 +332,6 @@ const Beranda = () => {
                           <span>Silahkan klik link untuk </span>
                           <a
                             href={paymentLink}
-                            // href="https://google.com"
                             onClick={() => setPaymentModal(false)}
                             rel="noreferrer"
                             className="underline"

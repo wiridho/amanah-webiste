@@ -62,6 +62,7 @@ const Kyc = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    console.log("clicked");
     const formData = new FormData();
     formData.append("personal.idCardNumber", data.idCardNumber);
     formData.append("personal.fullName", data.fullName);
@@ -284,8 +285,6 @@ const Kyc = () => {
             )}
           </div>
         </div>
-      </form>
-      <div>
         <div className=" flex justify-center ">
           <Button
             type={"submit"}
@@ -297,7 +296,8 @@ const Kyc = () => {
             Verifikasi Diri
           </Button>
         </div>
-      </div>
+      </form>
+      <div></div>
     </div>
   );
 };
