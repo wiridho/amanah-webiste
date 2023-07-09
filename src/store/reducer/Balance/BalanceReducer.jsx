@@ -16,7 +16,11 @@ const initialState = {
 const balanceSlice = createSlice({
   name: "balance",
   initialState,
-  reducers: {},
+  reducers: {
+    setMessage(state, data) {
+      state.message = data.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       //handle get balance
@@ -63,4 +67,5 @@ const balanceSlice = createSlice({
   },
 });
 
+export const { setMessage } = balanceSlice.actions;
 export default balanceSlice.reducer;

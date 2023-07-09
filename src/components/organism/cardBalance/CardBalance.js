@@ -3,35 +3,29 @@ import { Link, useNavigate } from "react-router-dom";
 import { handleGetBalance } from "../../../service/balance/balance";
 import { useDispatch, useSelector } from "react-redux";
 import ImgHeader from "../../../assets/img/Financial-Management.png";
-// import ImgIlus from "../../../assets/img/bubble-gum-financial-statistics.gif";
 // Icons
 import { HiOutlinePlus } from "react-icons/hi";
 import { IoWallet } from "react-icons/io5";
 
 // Component
-import { ErrorMessage } from "../../atom";
+import { Button, Message } from "../../atom";
 import { useEffect } from "react";
 import { FormatMataUang } from "../../../utils/FormatMataUang";
-import { BiMoneyWithdraw } from "react-icons/bi";
 import { getLenderStatusKYC } from "../../../service/lender/lenderVerificationKYC";
 import { setStatusKYC } from "../../../store/reducer/AuthReducer";
+import { setMessage } from "../../../store/reducer/Balance/BalanceReducer";
+import WarningMessage from "../../atom/warningMessage/WarningMessage";
+import { useState } from "react";
+import StatusKYC from "../../molekul/statusKYC/StatusKYC";
 
 const CardBalance = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { accessToken, statusKYC } = useSelector((state) => state.auth);
-  const { balance } = useSelector((state) => state.balance);
+  const { accessToken } = useSelector((state) => state.auth);
+  const { balance, message } = useSelector((state) => state.balance);
 
-  const checkStatus = () => {
-    let status = <> </>;
-    if (statusKYC === "not verified") {
-      status = <ErrorMessage message={"Akun Not Verified"} />;
-    } else if (statusKYC === "pending") {
-      status = <ErrorMessage message={"Akun kamu sedang diperiksa Pending"} />;
-    }
-    return status;
-  };
+  const statusKYC = "verified";
 
   const getBalance = async () => {
     dispatch(handleGetBalance({ accessToken }));
@@ -39,6 +33,7 @@ const CardBalance = () => {
 
   const getStatusKYC = async () => {
     const response = await getLenderStatusKYC({ accessToken });
+    console.log(response);
     dispatch(setStatusKYC(response?.data?.kyc));
   };
 
@@ -49,7 +44,6 @@ const CardBalance = () => {
 
   return (
     <>
-      {checkStatus()}
       <div className="rounded-md shadow-md bg-white  grid grid-cols-2">
         <div className="flex flex-col gap-4 p-12 py-12">
           <article className="flex text-darkBlue mb-10 flex-col gap-4 rounded-md">
@@ -67,51 +61,33 @@ const CardBalance = () => {
               </div>
             </div>
           </article>
-          <div className="flex gap-5">
-            <div className=" flex justify-center items-center">
-              <Link
-                to={statusKYC === "verified" ? "deposit" : "#"}
-                className={`flex justify-center items-center  bg-blue-500 rounded-full px-5 py-2.5 ${
-                  statusKYC === "verified"
-                    ? "cursor-pointer"
-                    : "cursor-not-allowed"
-                }`}
-              >
-                <div className="flex gap-2 justify-center items-center ">
-                  {/* <HiOutlinePlus
-                    size={30}
-                    className={` text-darkBlue  ${
-                      statusKYC === "verified"
-                        ? "bg-white "
-                        : "bg-gray-500 cursor-not-allowed"
-                    }   p-1 rounded-full`}
-                  /> */}
-                  <p className="font-semibold text-white">Deposit </p>
+          <div>
+            <StatusKYC
+              component={
+                <div className="flex gap-5">
+                  <div className=" flex justify-center items-center">
+                    <Link
+                      to={"deposit"}
+                      className={`flex justify-center items-center  bg-blue-500 rounded-full px-5 py-2.5 cursor-pointer`}
+                    >
+                      <div className="flex gap-2 justify-center items-center ">
+                        <p className="font-semibold text-white">Deposit </p>
+                      </div>
+                    </Link>
+                  </div>
+                  <div className=" flex justify-center items-center  ">
+                    <Link
+                      to={"withdraw"}
+                      className={`flex justify-center border border-blue-500 rounded-full px-5 py-2.5 cursor-pointer`}
+                    >
+                      <div className="flex gap-2 justify-center items-center">
+                        <p className="font-semibold text-blue-500">Withdraw</p>
+                      </div>
+                    </Link>
+                  </div>
                 </div>
-              </Link>
-            </div>
-            <div className=" flex justify-center items-center  ">
-              <Link
-                to={statusKYC === "verified" ? "withdraw" : "#"}
-                className={`flex justify-center border border-blue-500 rounded-full px-5 py-2.5    ${
-                  statusKYC === "verified"
-                    ? "cursor-pointer"
-                    : "cursor-not-allowed"
-                }`}
-              >
-                <div className="flex gap-2 justify-center items-center">
-                  {/* <BiMoneyWithdraw
-                    size={30}
-                    className={` text-white  ${
-                      statusKYC === "verified"
-                        ? "bg-darkBlue "
-                        : "bg-gray-500 cursor-not-allowed"
-                    }   p-1 rounded-full `}
-                  /> */}
-                  <p className="font-semibold text-blue-500">Withdraw</p>
-                </div>
-              </Link>
-            </div>
+              }
+            />
           </div>
         </div>
         <div className=" flex justify-center">

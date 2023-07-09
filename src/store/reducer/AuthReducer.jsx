@@ -27,7 +27,7 @@ const initialState = {
 };
 
 const authSlice = createSlice({
-  name: "auth",
+  name: "authentication/login",
   initialState,
   reducers: {
     setStatusKYC(state, data) {
@@ -35,6 +35,9 @@ const authSlice = createSlice({
     },
     setMessage(state, data) {
       state.message = data.payload;
+    },
+    setSuccess(state, data) {
+      state.success = data.payload;
     },
   },
 

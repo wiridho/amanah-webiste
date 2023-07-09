@@ -35,7 +35,6 @@ export const getBorrowersPaymentSchedule = createAsyncThunk(
           },
         }
       );
-      console.log(response?.data?.data);
       return response?.data?.data;
     } catch (error) {
       const message_error = error.response?.data?.message;

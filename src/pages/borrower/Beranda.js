@@ -21,8 +21,10 @@ import { getBorrowerStatusKYC } from "../../service/Borrower/borrowerVerificatio
 import { setStatusKYC } from "../../store/reducer/AuthReducer";
 import { checkStatusLoan } from "../../utils/Borrower/Borrower";
 import _ from "lodash";
+import StatusKYC from "../../components/molekul/statusKYC/StatusKYC";
 
 const Beranda = () => {
+  const [load, setLoad] = useState(true);
   const [disbursement, setDisbursement] = useState(null);
   const [paymentModal, setPaymentModal] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -49,45 +51,48 @@ const Beranda = () => {
   };
 
   useEffect(() => {
-    handleGetSchedule();
-    handleGetLoanHistory();
-    dispatch(getProfileBorrower({ accessToken }));
-  }, []);
+    if (load) {
+      handleGetSchedule();
+      handleGetLoanHistory();
+      dispatch(getProfileBorrower({ accessToken }));
+      setLoad(false);
+    }
+  }, [dispatch, paymentSchedule, loanHistory]);
 
   useEffect(() => {
     getStatusKYC();
   }, [statusKYC, dispatch]);
 
-  const checkUserKYC = () => {
-    if (statusKYC === "pending") {
-      return (
-        <Button
-          className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
-          onClick={() => navigate("/borrower/kyc/status")}
-        >
-          Cek Status
-        </Button>
-      );
-    } else if (statusKYC === "not verified") {
-      return (
-        <Button
-          className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
-          onClick={() => navigate("/borrower/kyc")}
-        >
-          Verifikasi Data
-        </Button>
-      );
-    } else {
-      return (
-        <Button
-          className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
-          onClick={() => navigate("/borrower/pengajuan-pinjaman")}
-        >
-          Ajukan Pinjaman
-        </Button>
-      );
-    }
-  };
+  // const checkUserKYC = () => {
+  //   if (statusKYC === "pending") {
+  //     return (
+  //       <Button
+  //         className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
+  //         onClick={() => navigate("/borrower/kyc/status")}
+  //       >
+  //         Cek Status
+  //       </Button>
+  //     );
+  //   } else if (statusKYC === "not verified") {
+  //     return (
+  //       <Button
+  //         className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
+  //         onClick={() => navigate("/borrower/kyc")}
+  //       >
+  //         Verifikasi Data
+  //       </Button>
+  //     );
+  //   } else {
+  //     return (
+  //       <Button
+  //         className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
+  //         onClick={() => navigate("/borrower/pengajuan-pinjaman")}
+  //       >
+  //         Ajukan Pinjaman
+  //       </Button>
+  //     );
+  //   }
+  // };
 
   const showModalPembayaran = () => {
     setShowModal(true);
@@ -98,12 +103,11 @@ const Beranda = () => {
       loanId: paymentSchedule?.loanId,
       billId: getBillId(),
     };
-    // dispatch(postPelunasanTagihan({ accessToken, data, setPaymentModal }));
+    dispatch(postPelunasanTagihan({ accessToken, data, setPaymentModal }));
     setShowModal(false);
   };
 
   const sisaPembayaran = () => {
-    console.log(paymentSchedule);
     let sisa = 0;
     for (let i = 0; i < paymentSchedule?.paymentSchedule?.length; i++) {
       if (paymentSchedule?.paymentSchedule[i]?.status === "unpaid") {
@@ -134,8 +138,6 @@ const Beranda = () => {
     return billId;
   };
 
-  console.log(getBillId());
-
   return (
     <div className="grid grid-cols-6 gap-10 font-nunito-sans ">
       <div className="col-span-3">
@@ -155,7 +157,22 @@ const Beranda = () => {
                       : FormatMataUang(profile?.loanLimit)}
                   </span>
                 </div>
-                <div>{checkUserKYC()}</div>
+                <div>
+                  {
+                    <StatusKYC
+                      component={
+                        <Button
+                          className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
+                          onClick={() =>
+                            navigate("/borrower/pengajuan-pinjaman")
+                          }
+                        >
+                          Ajukan Pinjaman
+                        </Button>
+                      }
+                    />
+                  }
+                </div>
               </div>
             </article>
           </div>
@@ -334,7 +351,6 @@ const Beranda = () => {
                           <span>Silahkan klik link untuk </span>
                           <a
                             href={paymentLink}
-                            // href="https://google.com"
                             onClick={() => setPaymentModal(false)}
                             rel="noreferrer"
                             className="underline"

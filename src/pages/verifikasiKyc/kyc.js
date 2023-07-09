@@ -36,8 +36,6 @@ const Kyc = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const statusKYC = "not verified";
-
   const statusLender = async () => {
     if (statusKYC !== "not verified") {
       navigate("/funder/kyc/status");
@@ -61,6 +59,8 @@ const Kyc = () => {
     formState: { errors },
   } = useForm();
 
+  console.log(statusKYC);
+
   const onSubmit = async (data) => {
     const formData = new FormData();
     formData.append("personal.idCardNumber", data.idCardNumber);
@@ -79,7 +79,10 @@ const Kyc = () => {
       navigate,
     });
 
-    setLoad(result.status);
+    if (result?.status) {
+      dispatch(setStatusKYC(result?.data?.kyc));
+    }
+    // setLoad(result.status);
     if (!result.status || result.status === "Validation Error") {
       setResponseMessage(result?.message);
     }
@@ -284,8 +287,6 @@ const Kyc = () => {
             )}
           </div>
         </div>
-      </form>
-      <div>
         <div className=" flex justify-center ">
           <Button
             type={"submit"}
@@ -297,7 +298,8 @@ const Kyc = () => {
             Verifikasi Diri
           </Button>
         </div>
-      </div>
+      </form>
+      <div></div>
     </div>
   );
 };

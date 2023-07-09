@@ -3,7 +3,7 @@ import { HiOutlineCheckCircle } from "react-icons/hi";
 import { IoIosWarning } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 
-const Message = ({ status, message, onClose, visible }) => {
+const Message = ({ status, message, onClose, visible, close }) => {
   return (
     <div>
       <div
@@ -23,9 +23,11 @@ const Message = ({ status, message, onClose, visible }) => {
           <div className="flex-1  text-left">
             <span className="font-normal text-sm">{message}</span>
           </div>
-          <button role="button" type="button" onClick={onClose}>
-            {<MdClose />}
-          </button>
+          {close && (
+            <button role="button" type="button" onClick={onClose}>
+              {<MdClose />}
+            </button>
+          )}
         </div>
       </div>
     </div>
@@ -33,3 +35,6 @@ const Message = ({ status, message, onClose, visible }) => {
 };
 
 export default Message;
+Message.defaultProps = {
+  close: true,
+};

@@ -30,9 +30,6 @@ const Login = () => {
     dispatch(handleLogin({ data, navigate }));
   };
 
-  console.log(message, success);
-  console.log(message !== null && !success ? true : false);
-
   return (
     <>
       <div className="h-screen grid grid-cols-1 sm:grid-cols-2 overflow-hidden">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../../assets/img/logo/LogoAmana2.svg";
 import { ButtonIcon, CustomLink } from "../../molekul";
 // Import Icon
@@ -10,14 +10,17 @@ import {
 import { BiLogOut, BiHome, BiUser, BiMoneyWithdraw } from "react-icons/bi";
 
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { MdHistory } from "react-icons/md";
 // End Icon
 
 const Sidebar = () => {
+  const { statusKYC } = useSelector((state) => state.auth);
   const [active, setActive] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // const statusKYC = "not verified";
 
   const logout = () => {
     navigate("/login");
@@ -71,37 +74,41 @@ const Sidebar = () => {
               </CustomLink>
             </li>
 
-            <li className="px-5">
-              <div className="flex flex-row items-center h-8">
-                <div className="text-sm font-light tracking-wide text-gray-500">
-                  Transaksi
-                </div>
-              </div>
-            </li>
-            <li>
-              <CustomLink
-                to="deposit"
-                icon={<HiOutlinePlus className="text-xl" />}
-              >
-                Deposit
-              </CustomLink>
-            </li>
-            <li>
-              <CustomLink
-                to="withdraw/listBank"
-                icon={<BiMoneyWithdraw className="text-xl" />}
-              >
-                Withdraw
-              </CustomLink>
-            </li>
-            <li>
-              <CustomLink
-                to="riwayat-transaksi"
-                icon={<MdHistory className="text-xl" />}
-              >
-                Riwayat Transaksi
-              </CustomLink>
-            </li>
+            {statusKYC === "verified" && (
+              <>
+                <li className="px-5">
+                  <div className="flex flex-row items-center h-8">
+                    <div className="text-sm font-light tracking-wide text-gray-500">
+                      Transaksi
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <CustomLink
+                    to="deposit"
+                    icon={<HiOutlinePlus className="text-xl" />}
+                  >
+                    Deposit
+                  </CustomLink>
+                </li>
+                <li>
+                  <CustomLink
+                    to="withdraw/listBank"
+                    icon={<BiMoneyWithdraw className="text-xl" />}
+                  >
+                    Withdraw
+                  </CustomLink>
+                </li>
+                <li>
+                  <CustomLink
+                    to="riwayat-transaksi"
+                    icon={<MdHistory className="text-xl" />}
+                  >
+                    Riwayat Transaksi
+                  </CustomLink>
+                </li>
+              </>
+            )}
 
             <li className="px-5">
               <div className="flex flex-row items-center h-8">

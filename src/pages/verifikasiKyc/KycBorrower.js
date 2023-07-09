@@ -105,15 +105,11 @@ const KycBorrower = () => {
   };
 
   const isPhotoFilled = () => {
-    // return gambarKTP && gambarSelfie;
     const isFormFilled = Object.keys(errors).length === 0;
     const isStateFilled = gambarKTP && gambarSelfie;
-    // console.log("isFormFilled", isFormFilled);
-    // console.log("isStateFilled", isStateFilled);
     return isFormFilled && isStateFilled;
   };
 
-  console.log(message);
   return (
     <div>
       <div className="">

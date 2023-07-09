@@ -1,6 +1,7 @@
 import axios from "axios";
 import apiConfig from "../../api/apiConfig";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import Swal from "sweetalert2";
 
 // export const verificationBorrowerKYC = async ({ accessToken, formData }) => {
 //   try {
@@ -40,6 +41,11 @@ export const verificationBorrowerKYC = createAsyncThunk(
       );
       if (response?.data?.success) {
         let borrowerStatusKyc = getBorrowerStatusKYC({ accessToken });
+        Swal.fire(
+          "Verifikasi KYC telah berhasil, mohon menunggu untuk diapprove. ",
+          `${response?.data?.message}`,
+          "success"
+        );
         return borrowerStatusKyc;
       }
     } catch (error) {
