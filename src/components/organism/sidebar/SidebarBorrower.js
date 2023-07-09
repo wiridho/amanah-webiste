@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../../assets/img/logo/LogoAmana2.svg";
 import { ButtonIcon, CustomLink } from "../../molekul";
 // Import Icon
@@ -9,21 +9,38 @@ import {
 } from "react-icons/hi";
 import { BiLogOut, BiHome, BiUser, BiMoneyWithdraw } from "react-icons/bi";
 
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { MdHistory, MdPayment } from "react-icons/md";
 import { GiReceiveMoney } from "react-icons/gi";
+import { setMessage, setSuccess } from "../../../store/reducer/AuthReducer";
+import { borrowerActions } from "../../../store/reducer/Borrower/BorrowerReducer";
+import { balanceTransActions } from "../../../store/reducer/Balance/BalanceTransactionReducer";
 // End Icon
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { statusKYC } = useSelector((state) => state.auth);
 
   const logout = () => {
     navigate("/login");
     window.localStorage.removeItem("persist:root");
     dispatch({ type: "DESTROY_SESSION" });
   };
+
+  const location = useLocation();
+  console.log(location.pathname);
+
+  useEffect(() => {
+    console.log("pindah");
+    dispatch(setMessage(null));
+    dispatch(setSuccess(false));
+    dispatch(borrowerActions.setMessage(null));
+    dispatch(borrowerActions.setSuccess(false));
+    dispatch(balanceTransActions.setMessage(null));
+    dispatch(balanceTransActions.setSuccess(false));
+  }, [location.pathname]);
 
   return (
     <div className="flex h-screen sticky top-[0px]">
@@ -62,7 +79,6 @@ const Sidebar = () => {
                 Riwayat Peminjaman
               </CustomLink>
             </li>
-
             <li className="px-5">
               <div className="flex flex-row items-center h-8">
                 <div className="text-sm font-light tracking-wide text-gray-500">
@@ -78,14 +94,6 @@ const Sidebar = () => {
                 Pengajuan Peminjaman
               </CustomLink>
             </li>
-            <li>
-              <CustomLink
-                to="pembayaran"
-                icon={<MdPayment className="text-xl" />}
-              >
-                Pembayaran
-              </CustomLink>
-            </li>
 
             <li className="px-5">
               <div className="flex flex-row items-center h-8">
@@ -99,7 +107,6 @@ const Sidebar = () => {
                 Profile
               </CustomLink>
             </li>
-
             <li>
               <div className=" bg-red-50  hover:bg-red-100 hover:text-red-50">
                 <ButtonIcon

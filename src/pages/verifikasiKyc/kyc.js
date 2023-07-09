@@ -36,8 +36,6 @@ const Kyc = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // const statusKYC = "not verified";
-
   const statusLender = async () => {
     if (statusKYC !== "not verified") {
       navigate("/funder/kyc/status");
@@ -61,8 +59,9 @@ const Kyc = () => {
     formState: { errors },
   } = useForm();
 
+  console.log(statusKYC);
+
   const onSubmit = async (data) => {
-    console.log("clicked");
     const formData = new FormData();
     formData.append("personal.idCardNumber", data.idCardNumber);
     formData.append("personal.fullName", data.fullName);
@@ -80,7 +79,10 @@ const Kyc = () => {
       navigate,
     });
 
-    setLoad(result.status);
+    if (result?.status) {
+      dispatch(setStatusKYC(result?.data?.kyc));
+    }
+    // setLoad(result.status);
     if (!result.status || result.status === "Validation Error") {
       setResponseMessage(result?.message);
     }

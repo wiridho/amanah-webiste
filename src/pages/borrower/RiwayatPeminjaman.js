@@ -2,69 +2,9 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { FormatMataUang } from "../../utils/FormatMataUang";
 import moment from "moment";
-import { Badge } from "../../components/atom";
 
 const RiwayatPeminjaman = () => {
-  const [tab, setTab] = useState("berjalan");
-  const { accessToken } = useSelector((state) => state.auth);
-  // const { loanHistory } = useSelector((state) => state.borrower);
-
-  const loanHistory = {
-    history: [
-      {
-        loanId: "64a7f1b088088e5e9dfa58d9",
-        tenor: 3,
-        amount: 500000,
-        date: "2023-07-07T11:06:24.873Z",
-        status: "disbursement",
-        totalFund: 500000,
-        yieldReturn: 50000,
-        borrowingCategory: "Personal",
-        purpose: "Membeli baju lebaran",
-        contract:
-          "https://storage.googleapis.com/amanah-p2p-lending-syariah.appspot.com/contracts/lender/loan/53bfd37083e2f16c520ed7786b58b5fdd38aaadf3797fcccf1b0a344fda3abbbd6dfce90927a222b09ffbd2b49099e70c62fafac0347889730f20df710423119.pdf",
-      },
-      {
-        loanId: "64a7f1b088088e5e9dfa58d9",
-        tenor: 3,
-        amount: 500000,
-        date: "2023-07-07T11:06:24.873Z",
-        status: "disbursement",
-        totalFund: 500000,
-        yieldReturn: 50000,
-        borrowingCategory: "Personal",
-        purpose: "Membeli baju lebaran",
-        contract:
-          "https://storage.googleapis.com/amanah-p2p-lending-syariah.appspot.com/contracts/lender/loan/53bfd37083e2f16c520ed7786b58b5fdd38aaadf3797fcccf1b0a344fda3abbbd6dfce90927a222b09ffbd2b49099e70c62fafac0347889730f20df710423119.pdf",
-      },
-      {
-        loanId: "64a7f1b088088e5e9dfa58d9",
-        tenor: 3,
-        amount: 500000,
-        date: "2023-07-07T11:06:24.873Z",
-        status: "disbursement",
-        totalFund: 500000,
-        yieldReturn: 50000,
-        borrowingCategory: "Personal",
-        purpose: "Membeli baju lebaran",
-        contract:
-          "https://storage.googleapis.com/amanah-p2p-lending-syariah.appspot.com/contracts/lender/loan/53bfd37083e2f16c520ed7786b58b5fdd38aaadf3797fcccf1b0a344fda3abbbd6dfce90927a222b09ffbd2b49099e70c62fafac0347889730f20df710423119.pdf",
-      },
-    ],
-    active: {
-      loanId: "101010101010101010",
-      tenor: 6,
-      amount: 1000000,
-      date: "2023-07-07T11:06:24.873Z",
-      status: "disbursement",
-      totalFund: 550000,
-      yieldReturn: 70000,
-      borrowingCategory: "Personal",
-      purpose: "Modal Bisnis Ternak Lele ",
-      contract:
-        "https://storage.googleapis.com/amanah-p2p-lending-syariah.appspot.com/contracts/lender/loan/53bfd37083e2f16c520ed7786b58b5fdd38aaadf3797fcccf1b0a344fda3abbbd6dfce90927a222b09ffbd2b49099e70c62fafac0347889730f20df710423119.pdf",
-    },
-  };
+  const { loanHistory } = useSelector((state) => state.borrower);
 
   const activeLoan = loanHistory?.active;
   const historyLoan = loanHistory?.history;
@@ -137,7 +77,7 @@ const RiwayatPeminjaman = () => {
               </div>
             </div>
             <div className=" flex flex-col gap-3">
-              {activeLoan?.length < 1 ? (
+              {activeLoan?.loanId === undefined ? (
                 <div className="flex justify-center items-center">
                   <span> Tidak ada pinjaman berjalan </span>
                 </div>

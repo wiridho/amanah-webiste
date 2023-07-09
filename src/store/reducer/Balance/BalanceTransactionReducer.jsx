@@ -28,6 +28,12 @@ const balanceTransactionSlice = createSlice({
     setLoad(state, data) {
       state.load = data.payload;
     },
+    setMessage(state, data) {
+      state.message = data.payload;
+    },
+    setSuccess(state, data) {
+      state.success = data.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -78,4 +84,5 @@ const balanceTransactionSlice = createSlice({
 });
 export const { setBankSelected, setTransactionHistory, setLoad } =
   balanceTransactionSlice.actions;
+export const balanceTransActions = balanceTransactionSlice.actions;
 export default balanceTransactionSlice.reducer;

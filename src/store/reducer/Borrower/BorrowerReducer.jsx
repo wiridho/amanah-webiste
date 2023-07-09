@@ -26,6 +26,9 @@ const borrowerSlice = createSlice({
     setMessage(state, data) {
       state.message = data.payload;
     },
+    setSuccess(state, data) {
+      state.success = data.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -114,4 +117,5 @@ const borrowerSlice = createSlice({
 });
 
 export const { setMessage } = borrowerSlice.actions;
+export const borrowerActions = borrowerSlice.actions;
 export default borrowerSlice.reducer;

@@ -1,5 +1,6 @@
 import axios from "axios";
 import apiConfig from "../../api/apiConfig";
+import Swal from "sweetalert2";
 
 export const verificationLenderKYC = async ({
   accessToken,
@@ -17,7 +18,16 @@ export const verificationLenderKYC = async ({
         },
       }
     );
-    return response?.data;
+
+    if (response?.data?.success) {
+      let lenderStatusKyc = getLenderStatusKYC({ accessToken });
+      Swal.fire(
+        "Verifikasi KYC berhasil!",
+        `${response?.data?.message}`,
+        "success"
+      );
+      return lenderStatusKyc;
+    }
   } catch (error) {
     setVisible(true);
     return error?.response?.data;

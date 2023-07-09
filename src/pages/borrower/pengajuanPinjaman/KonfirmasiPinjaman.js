@@ -19,7 +19,6 @@ const KonfirmasiPinjaman = () => {
     yieldReturn,
   } = state;
 
-  console.log(state);
   const onClick = () => {
     dispatch(
       postBorrowersLoan({
@@ -28,15 +27,11 @@ const KonfirmasiPinjaman = () => {
         navigate: () => navigate("/borrower"),
       })
     );
-
-    // navigate("/borrower/preview-kontrak", {
-    //   state: state,
-    // });
   };
 
   return (
     <div className="h-screen flex justify-center items-center font-nunito-sans">
-      <div className="w-1/3 rounded-md shadow bg-white">
+      <div className="w-1/2 rounded-md shadow bg-white">
         <div className="p-8">
           <div className="flex flex-col gap-8">
             <span className="text-2xl mb-2 text-center font-semibold">

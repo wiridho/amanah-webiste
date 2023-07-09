@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import { CardBalance } from "../../components/organism";
 import { useDispatch, useSelector } from "react-redux";
-import { ErrorMessage } from "../../components/atom";
-import WarningMessage from "../../components/atom/warningMessage/WarningMessage";
-import CardProfit from "../../components/molekul/cartProfit/CardProfit";
 import { MdOutlineTrendingDown, MdOutlineTrendingUp } from "react-icons/md";
 import { getLenderProfit } from "../../service/lender/profit";
 import { FormatMataUang } from "../../utils/FormatMataUang";
@@ -22,26 +19,6 @@ const Beranda = () => {
   useEffect(() => {
     profitLender();
   }, []);
-
-  // const alertStatusKYC = () => {
-  //   if (statusKYC === "not verified") {
-  //     return (
-  //       <ErrorMessage
-  //         message={"Anda belum melakukan verifikasi akun!."}
-  //         visible={visible}
-  //         onClose={() => setVisible(false)}
-  //       />
-  //     );
-  //   } else if (statusKYC === "pending") {
-  //     return (
-  //       <WarningMessage
-  //         message={"Akun anda sedang diperiksa, mohon ditunggu."}
-  //         visible={visible}
-  //         onClose={() => setVisible(false)}
-  //       />
-  //     );
-  //   }
-  // };
 
   return (
     <>
@@ -66,10 +43,9 @@ const Beranda = () => {
                       Keuntungan imbal hasil
                     </strong>
                   </div>
-
                   <p className="p-1 text-green-500">
                     <span className="text-2xl font-medium">
-                      {FormatMataUang(profit?.totalFunding)}
+                      {FormatMataUang(profit?.totalYield)}
                     </span>
                   </p>
                 </div>
@@ -87,7 +63,7 @@ const Beranda = () => {
                   </div>
                   <p className=" p-1 text-yellow-600">
                     <span className="text-2xl font-medium ">
-                      {FormatMataUang(profit?.totalYield)}
+                      {FormatMataUang(profit?.totalFunding)}
                     </span>
                   </p>
                 </div>
