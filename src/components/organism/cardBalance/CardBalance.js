@@ -22,10 +22,8 @@ const CardBalance = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { accessToken } = useSelector((state) => state.auth);
+  const { accessToken, statusKYC } = useSelector((state) => state.auth);
   const { balance, message } = useSelector((state) => state.balance);
-
-  const statusKYC = "verified";
 
   const getBalance = async () => {
     dispatch(handleGetBalance({ accessToken }));

@@ -52,6 +52,10 @@ export const FormatMataUang = (number) => {
   if (match) {
     return match[1] + match[2];
   }
+  if (!match) {
+    return "Rp0";
+  }
 
+  console.log("match", match);
   return formattedCurrency;
 };

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { InputLabel } from "../../components/molekul";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
@@ -29,6 +29,14 @@ const Login = () => {
   const onSubmit = (data) => {
     dispatch(handleLogin({ data, navigate }));
   };
+
+  const location = useLocation();
+  console.log(location.pathname);
+
+  useEffect(() => {
+    console.log("pindah");
+    dispatch(setMessage(null));
+  }, [location.pathname]);
 
   return (
     <>

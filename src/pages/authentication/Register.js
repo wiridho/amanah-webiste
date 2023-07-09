@@ -1,20 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 // Background
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
 // Component
-import { Button, ErrorMessage } from "../../components/atom";
+import { Button, ErrorMessage, Message } from "../../components/atom";
 import { InputLabel, InputPassword } from "../../components/molekul";
 // Service
 import { handleRegister } from "../../service/authentication/authService";
+import { setMessage } from "../../store/reducer/AuthReducer";
 
 const Register = () => {
   const [visible, setVisible] = useState(false);
-  const { message_error, load } = useSelector((state) => state.auth);
+  const location = useLocation();
+  const { message, load, success } = useSelector((state) => state.auth);
   const { roles } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,12 +33,16 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
+  useEffect(() => {
+    dispatch(setMessage(null));
+  }, [location.pathname]);
+
   return (
     <>
       <div className="h-screen grid grid-cols-1 sm:grid-cols-2 font-inter">
         {/* Background */}
         {/* {/* Left Wrapper */}
-        <div className="hidden bg-primary md:flex sm:block items-center relative">
+        <div className="hidden md:flex sm:block items-center relative">
           <div className="absolute bg-blue-600 opacity-100 h-screen w-full z-20 "></div>
           <span className="px-16 leading-[70px] text-white text-5xl z-50">
             Berkah Finansial melalui{" "}
@@ -58,17 +64,19 @@ const Register = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             <div>
-              {visible && (
-                <ErrorMessage
-                  message={message_error}
-                  onClose={() => setVisible(false)}
-                />
-              )}
-            </div>
-            <div>
               <p className="font-sans text-2xl font-medium pb-3 text-slate-900 ">
                 Daftar sebagai {roles}
               </p>
+            </div>
+            <div>
+              <Message
+                status={success}
+                message={message}
+                visible={message !== null && !success ? true : false}
+                onClose={() => {
+                  dispatch(setMessage(null));
+                }}
+              />
             </div>
             <div className="mb-3">
               <div>
