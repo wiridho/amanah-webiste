@@ -229,34 +229,44 @@ const Beranda = () => {
               <article className="rounded-lg border border-gray-100 bg-white p-5">
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col gap-1">
-                    <p className="text-sm text-gray-500 ">Status Pinjaman</p>
-                    <p className="text-lg font-medium text-gray-900">
-                      {checkStatusLoan(loanHistory?.active?.status)}
-                    </p>
-                    <p className="text-sm text-gray-500 ">Nominal Pinjaman</p>
-                    <p className="text-lg font-medium text-gray-900">
-                      {FormatMataUang(disbursement?.amount)}
-                    </p>
-                    <p className="text-sm text-gray-500 ">Tenor</p>
-                    <p className="text-lg font-medium text-gray-900">
-                      {disbursement?.tenor} Bulan
-                    </p>
-                    <p className="text-sm text-gray-500 ">Imbal hasil</p>
-                    <p className="text-lg font-medium text-gray-900">
-                      {FormatMataUang(disbursement?.yieldReturn)}
-                    </p>
-                    <p className="text-sm text-gray-500 ">Skema Pembayaran</p>
-                    <p className="text-lg font-medium text-gray-900">
-                      {disbursement?.paymentSchema}
-                    </p>
+                    <div>
+                      <p className="text-sm text-gray-500 ">Status Pinjaman</p>
+                      <p className="text-lg font-medium text-gray-900">
+                        {checkStatusLoan(loanHistory?.active?.status)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 ">Nominal Pinjaman</p>
+                      <p className="text-lg font-medium text-gray-900">
+                        {FormatMataUang(disbursement?.amount)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 ">Tenor</p>
+                      <p className="text-lg font-medium text-gray-900">
+                        {disbursement?.tenor} Bulan
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 ">Imbal hasil</p>
+                      <p className="text-lg font-medium text-gray-900">
+                        {FormatMataUang(disbursement?.yieldReturn)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 ">Skema Pembayaran</p>
+                      <p className="text-lg font-medium text-gray-900">
+                        {disbursement?.paymentSchema}
+                      </p>
+                    </div>
                   </div>
                 </div>
                 <Button
                   onClick={() => navigate("list-bank")}
                   type={"button"}
-                  className={`${
+                  className={`w-full mt-3 ${
                     loanHistory?.active?.status === "in borrowing"
-                      ? "bg-blue-500 text-white"
+                      ? "bg-blue-600 text-white"
                       : "bg-gray-500 text-white cursor-not-allowed"
                   }`}
                   disabled={

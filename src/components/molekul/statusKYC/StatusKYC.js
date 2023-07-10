@@ -6,6 +6,7 @@ import { Message } from "../../atom";
 
 const StatusKYC = ({ component }) => {
   const { statusKYC } = useSelector((state) => state.auth);
+  // const statusKYC = "verified";
   const { roles } = useSelector((state) => state.auth);
 
   if (statusKYC === "pending") {

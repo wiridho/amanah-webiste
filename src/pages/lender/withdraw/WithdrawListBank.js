@@ -106,9 +106,9 @@ const Withdraw = () => {
                       return (
                         <tr
                           key={index}
-                          className={`bg-white cursor-pointer hover:bg-slate-100 rounded   ${
+                          className={`bg-white cursor-pointer hover:bg-slate-50 rounded-md   ${
                             item?.isChecked
-                              ? "text-white !bg-blue-500 rounded-md"
+                              ? " !border !border-blue-500 !rounded-md"
                               : ""
                           }`}
                           onClick={() => chooseBank(item)}
