@@ -30,7 +30,7 @@ const Lending = () => {
               <div className="hidden mt-2 mr-4 sm:inline-block">
                 <Link
                   className="github-button"
-                  to="register"
+                  to="register-init"
                   data-size="large"
                   data-icon="octicon-star"
                   data-show-count="true"

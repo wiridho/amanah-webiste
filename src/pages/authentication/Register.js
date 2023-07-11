@@ -7,12 +7,11 @@ import { useForm } from "react-hook-form";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
 // Component
-import { Button, ErrorMessage, Message } from "../../components/atom";
+import { Button, ErrorMessage, Message, Loading } from "../../components/atom";
 import { InputLabel, InputPassword } from "../../components/molekul";
 // Service
 import { handleRegister } from "../../service/authentication/authService";
 import { setMessage } from "../../store/reducer/AuthReducer";
-
 const Register = () => {
   const [visible, setVisible] = useState(false);
   const location = useLocation();
@@ -150,7 +149,14 @@ const Register = () => {
                 type="submit"
                 className="w-full bg-blue-600 hover:bg-indigo-700 text-white text-sm  py-2 px-4 rounded-lg"
               >
-                {load ? "Loading..." : "Daftar"}
+                {load ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <Loading />
+                    <span>Loading </span>
+                  </div>
+                ) : (
+                  "Daftar"
+                )}
               </Button>
             </div>
             <div className="flex justify-between">

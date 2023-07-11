@@ -113,17 +113,12 @@ export const resendLoginOtp = createAsyncThunk(
   "auth/resendOTp",
   async (params, { rejectWithValue }) => {
     try {
-      console.log("params", params);
       const response = await axios.post(
         `${apiConfig.baseUrl}/authentication/login/otp/resend`,
         params
       );
 
-      Swal.fire(
-        "Kode OTP berhasil dikirim!",
-        `${response?.data?.message}`,
-        "success"
-      );
+      Swal.fire("Berhasil", `Kode OTP dikirim ke email`, "success");
     } catch (err) {
       const message_error = err.response?.data?.message;
       return rejectWithValue(message_error);

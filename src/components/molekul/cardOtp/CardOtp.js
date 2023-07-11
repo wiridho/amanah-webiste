@@ -7,14 +7,14 @@ import OtpTimer from "otp-timer";
 import Verifikasi from "../../../assets/img/Verifikasi/verifikasi.png";
 
 // Component
-import { Button, Message } from "../../atom";
+import { Button, Loading, Message } from "../../atom";
 import { useNavigate } from "react-router-dom";
 
 const CardOtp = ({ setOtp, otp, handleSubmit, data, handleResend }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { message, success } = useSelector((state) => state.auth);
+  const { message, success, load } = useSelector((state) => state.auth);
 
   return (
     <div className="h-screen flex flex-col justify-center items-center font-nunito-sans">
@@ -75,7 +75,14 @@ const CardOtp = ({ setOtp, otp, handleSubmit, data, handleResend }) => {
                 type="submit"
                 className=" bg-blue-600 px-5 py-2.5 hover:bg-blue-700 w-full text-white"
               >
-                Verifikasi OTP
+                {load ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <Loading />
+                    <span>Loading </span>
+                  </div>
+                ) : (
+                  "Verifikasi OTP"
+                )}
               </Button>
             </div>
           </form>
