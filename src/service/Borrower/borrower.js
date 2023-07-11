@@ -116,8 +116,6 @@ export const postLoanDisbursement = async ({ accessToken, navigate, data }) => {
 export const postPelunasanTagihan = createAsyncThunk(
   "borrowers/postPelunasanTagihan",
   async ({ accessToken, data, setPaymentModal }, { rejectWithValue }) => {
-    // setPaymentModal(true);
-
     try {
       const response = await axios.post(
         `${apiConfig.baseUrl}/borrowers/loan/repayment`,

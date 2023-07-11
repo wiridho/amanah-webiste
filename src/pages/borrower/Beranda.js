@@ -19,9 +19,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { getProfileBorrower } from "../../service/Borrower/profile";
 import { getBorrowerStatusKYC } from "../../service/Borrower/borrowerVerificationKYC";
 import { setStatusKYC } from "../../store/reducer/AuthReducer";
-import { checkStatusLoan } from "../../utils/Borrower/Borrower";
+import { checkStatusLoan, sisaPembayaran } from "../../utils/Borrower/Borrower";
 import _ from "lodash";
 import StatusKYC from "../../components/molekul/statusKYC/StatusKYC";
+import CardPinjamanBerjalan from "../../components/organism/cardPinjamanBerjalan/CardPinjamanBerjalan";
 
 const Beranda = () => {
   const [load, setLoad] = useState(true);
@@ -35,6 +36,19 @@ const Beranda = () => {
   const { paymentSchedule, profile, loanHistory, paymentLink } = useSelector(
     (state) => state.borrower
   );
+  const activeLoan = loanHistory?.active;
+
+  console.log("activeLoan", activeLoan);
+
+  const checkNaN = (number) => {
+    if (isNaN(number)) {
+      return 0;
+    } else {
+      return number;
+    }
+  };
+
+  let progress = (activeLoan?.totalFund / activeLoan?.amount) * 100;
 
   const handleGetSchedule = async () => {
     dispatch(getBorrowersPaymentSchedule({ accessToken }));
@@ -63,37 +77,6 @@ const Beranda = () => {
     getStatusKYC();
   }, [statusKYC, dispatch]);
 
-  // const checkUserKYC = () => {
-  //   if (statusKYC === "pending") {
-  //     return (
-  //       <Button
-  //         className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
-  //         onClick={() => navigate("/borrower/kyc/status")}
-  //       >
-  //         Cek Status
-  //       </Button>
-  //     );
-  //   } else if (statusKYC === "not verified") {
-  //     return (
-  //       <Button
-  //         className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
-  //         onClick={() => navigate("/borrower/kyc")}
-  //       >
-  //         Verifikasi Data
-  //       </Button>
-  //     );
-  //   } else {
-  //     return (
-  //       <Button
-  //         className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
-  //         onClick={() => navigate("/borrower/pengajuan-pinjaman")}
-  //       >
-  //         Ajukan Pinjaman
-  //       </Button>
-  //     );
-  //   }
-  // };
-
   const showModalPembayaran = () => {
     setShowModal(true);
   };
@@ -107,24 +90,7 @@ const Beranda = () => {
     setShowModal(false);
   };
 
-  const sisaPembayaran = () => {
-    let sisa = 0;
-    for (let i = 0; i < paymentSchedule?.paymentSchedule?.length; i++) {
-      if (paymentSchedule?.paymentSchedule[i]?.status === "unpaid") {
-        sisa += paymentSchedule?.paymentSchedule[i]?.amount;
-      }
-    }
-    return sisa;
-  };
   const jatuhTempoCurrentMonth = () => {
-    // let tenor = "";
-    // for (let i = 0; i < paymentSchedule?.paymentSchedule?.length; i++) {
-    //   if (paymentSchedule?.paymentSchedule[i]?.status === "unpaid") {
-    //     tenor += paymentSchedule?.paymentSchedule[i]?.date;
-    //     break;
-    //   }
-    // }
-    // return tenor;
     let jatuhTempo = _.filter(paymentSchedule?.paymentSchedule, {
       status: "unpaid",
     })[0]?.date;
@@ -137,6 +103,53 @@ const Beranda = () => {
     })[0]?.billId;
     return billId;
   };
+
+  const statusLoanAcitve = (params) => {
+    let status = "";
+    const statusWaiting = ["on request", "on process"];
+    const statusSelesai = ["Repayment", "late repayment"];
+
+    if (statusWaiting.includes(params)) {
+      status = (
+        <span className="text-yellow-400 bg-yellow-50 px-2 rounded">
+          Menunggu Pendanaan
+        </span>
+      );
+    }
+    if (params === "disbursement") {
+      status = (
+        <span className="text-indigo-400 bg-indigo-50 px-2 rounded">
+          Sudah Dicairkan
+        </span>
+      );
+    }
+    if (params === "in borrowing") {
+      status = (
+        <span className="text-indigo-400 bg-indigo-50 px-2 rounded">
+          Pinjaman Terkumpul
+        </span>
+      );
+    }
+    if (statusSelesai.includes(params)) {
+      status = (
+        <span className="text-green-400 bg-green-50 px-2 rounded">
+          Pinjaman Sudah Lunas
+        </span>
+      );
+    }
+
+    return status;
+  };
+
+  function getStatusClass(status) {
+    if (status === "paid") {
+      return "text-green-500 bg-green-50";
+    } else if (status === "unpaid") {
+      return "text-red-500 bg-red-50";
+    } else {
+      return "text-white bg-green-700";
+    }
+  }
 
   return (
     <div className="grid grid-cols-6 gap-10 font-nunito-sans ">
@@ -162,12 +175,21 @@ const Beranda = () => {
                     <StatusKYC
                       component={
                         <Button
-                          className={`bg-blue-800 hover:bg-blue-900 text-white font-medium`}
+                          disabled={
+                            activeLoan?.loanId !== undefined ? true : false
+                          }
+                          className={`${
+                            activeLoan?.loanId !== undefined
+                              ? "bg-gray-500  cursor-not-allowed"
+                              : "bg-blue-800 hover:bg-blue-900"
+                          }  text-white font-medium`}
                           onClick={() =>
                             navigate("/borrower/pengajuan-pinjaman")
                           }
                         >
-                          Ajukan Pinjaman
+                          {activeLoan?.loanId !== undefined
+                            ? "Sedang ada pinjaman aktif"
+                            : "Ajukan Pinjaman"}
                         </Button>
                       }
                     />
@@ -301,13 +323,7 @@ const Beranda = () => {
                 return (
                   <div key={index} className="flex justify-between">
                     <span>
-                      <Badge
-                        className={
-                          item?.status === "paid"
-                            ? "text-green-500 bg-green-50"
-                            : "text-red-500 bg-red-50"
-                        }
-                      >
+                      <Badge className={getStatusClass(item?.status)}>
                         {moment(item?.date).format("DD MMMM YYYY")}
                       </Badge>
                     </span>
@@ -339,6 +355,14 @@ const Beranda = () => {
                   <div>
                     <span className="font-medium text-gray-500 text-sm">
                       Sudah dibayar
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="rounded-full w-5 h-5 bg-green-700"></div>
+                  <div>
+                    <span className="font-medium text-gray-500 text-sm">
+                      Terlambat Pelunasan
                     </span>
                   </div>
                 </div>
@@ -402,9 +426,12 @@ const Beranda = () => {
                           <div className="flex justify-between">
                             <span>Pinjaman belum dibayar</span>
                             <span>
-                              {paymentSchedule
-                                ? FormatMataUang(sisaPembayaran())
-                                : ""}
+                              {paymentSchedule &&
+                                FormatMataUang(
+                                  sisaPembayaran(
+                                    paymentSchedule?.paymentSchedule
+                                  )
+                                )}
                             </span>
                           </div>
                           <div className="flex justify-between">
@@ -436,6 +463,109 @@ const Beranda = () => {
             </div>
           </>
         )}
+        <div className="mt-3">
+          <div className="shadow-md">
+            <div className="">
+              <div className="flex flex-col justify-between p-5 bg-white">
+                <div className="flex flex-col text-center	bg-blue-100 p-4 rounded-md">
+                  <span className="text-blue-600">Pinjaman aktif anda</span>
+                  <span className="text-2xl font-semibold text-blue-600">
+                    {FormatMataUang(activeLoan?.amount)}
+                  </span>
+                </div>
+                <div className="mt-4 flex flex-col gap-2">
+                  <div className="flex justify-between">
+                    <span className="text-base text-gray-800">
+                      Estimasi Imbal Hasil
+                    </span>
+                    <span className="font-semibold  text-gray-700">
+                      {FormatMataUang(activeLoan?.yieldReturn)}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-base text-gray-800">Tenor</span>
+                    <span className="font-semibold  text-gray-700">
+                      {activeLoan?.tenor} Bulan
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-base text-gray-800">
+                      Kategori Pinjaman
+                    </span>
+                    <span className="font-semibold  text-gray-700">
+                      {activeLoan?.borrowingCategory}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-base text-gray-800">
+                      Tanggal Pinjaman
+                    </span>
+                    <span className="font-semibold  text-gray-700">
+                      {activeLoan?.date !== undefined
+                        ? moment(activeLoan?.date).format("DD MMM YYYY")
+                        : "-"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-base text-gray-800">Tujuan</span>
+                    <span className="font-semibold  text-gray-700">
+                      {activeLoan?.purpose}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-base text-gray-800">
+                      Status Pinjaman
+                    </span>
+                    <span className="font-semibold  text-gray-700">
+                      {statusLoanAcitve(activeLoan?.status)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span className="rounded-md ">
+              <div className="border-t-[1px] rounded-b-md">
+                <div className="py-3 px-5">
+                  <div className="flex gap-6 mb-2">
+                    <div className="flex flex-col ">
+                      <span className="text-[13px] text-[#194175] ">
+                        Terdanai
+                      </span>
+                      <span className="text-sm text-[#194175] font-semibold">
+                        {checkNaN(progress.toFixed(2))}%
+                      </span>
+                    </div>
+                    <div className="border-r-[1px]"></div>
+                    <div className="flex flex-col">
+                      <span className="text-[13px] text-[#194175] ">
+                        Pinjaman Terkumpul
+                      </span>
+                      <span className="text-sm font-semibold text-gray-700">
+                        {FormatMataUang(activeLoan?.totalFund)}
+                      </span>
+                    </div>
+                  </div>
+                  <span
+                    role="progressbar"
+                    aria-labelledby="ProgressLabel"
+                    className="block rounded-full bg-gray-200"
+                  >
+                    <span
+                      className="block h-4 rounded-full bg-green-400 text-center text-[10px]/4"
+                      style={{
+                        width: `${isNaN(progress) ? "0" : progress}%`,
+                      }}
+                    >
+                      <span className="font-bold text-white">
+                        {isNaN(progress) ? "0.00%" : `${progress.toFixed(2)}%`}
+                      </span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

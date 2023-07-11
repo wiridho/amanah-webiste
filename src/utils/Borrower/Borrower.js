@@ -10,7 +10,18 @@ export const checkStatusLoan = (status) => {
   } else if (status === "repayment") {
     statusLoan = "Sudah Dibayar";
   } else if (status === "late repayment") {
-    statusLoan = "Sudah Dibayar";
+    statusLoan = "Dibayar Terlambat";
   }
+
   return statusLoan;
+};
+
+export const sisaPembayaran = (collection) => {
+  let sisa = 0;
+  for (let i = 0; i < collection?.length; i++) {
+    if (collection[i]?.status === "unpaid") {
+      sisa += collection[i]?.amount;
+    }
+  }
+  return sisa;
 };

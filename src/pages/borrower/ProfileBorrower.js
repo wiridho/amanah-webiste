@@ -8,6 +8,7 @@ import { titleCase } from "../../utils/FormatTitleCase";
 import { TruncateString } from "../../utils/Truncate";
 import { FaUser } from "react-icons/fa";
 import { Badge } from "../../components/atom";
+import { FormatMataUang } from "../../utils/FormatMataUang";
 
 const ProfileBorrower = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const ProfileBorrower = () => {
   }, []);
 
   const perfomanceBorrower = profile?.performance;
+  console.log(perfomanceBorrower);
 
   const badgeVerified = () => {
     if (profile?.verified === true) {
@@ -36,7 +38,7 @@ const ProfileBorrower = () => {
     }
   };
 
-  console.log(profile);
+  console.log("profile", profile);
   return (
     <div className="p-6 font-nunito-sans">
       <div className="sm:px-0 flex flex-col gap-3">
@@ -117,7 +119,9 @@ const ProfileBorrower = () => {
                     Total biaya dipinjam
                   </span>
                   <span className="font-semibold text-[15px]  text-gray-800">
-                    Rp1.000.000
+                    {FormatMataUang(
+                      perfomanceBorrower?.borrowingRecord?.borrowedFund
+                    )}
                   </span>
                 </div>
                 <div className="flex flex-col">
@@ -125,7 +129,8 @@ const ProfileBorrower = () => {
                     Jumlah Total Peminjaman
                   </span>
                   <span className="font-semibold text-[15px]  text-gray-800">
-                    1 Pinjaman
+                    {perfomanceBorrower?.borrowingRecord?.totalBorrowing}{" "}
+                    Pinjaman
                   </span>
                 </div>
               </div>
@@ -136,19 +141,19 @@ const ProfileBorrower = () => {
               </span>
               <div className="flex flex-col gap-2">
                 <div className="flex gap-3 ">
-                  <span>0</span>
+                  <span>{perfomanceBorrower?.repayment?.earlier}</span>
                   <span className="font-semibold text-[15px]  text-gray-800">
                     Dipercepat
                   </span>
                 </div>
                 <div className="flex gap-3">
-                  <span>1</span>
+                  <span>{perfomanceBorrower?.repayment?.onTime}</span>
                   <span className="font-semibold text-[15px]  text-gray-800">
                     Tepat Waktu
                   </span>
                 </div>
                 <div className="flex gap-3">
-                  <span>0</span>
+                  <span>{perfomanceBorrower?.repayment?.late}</span>
                   <span className="font-semibold text-[15px]  text-gray-800">
                     Terlambat
                   </span>
