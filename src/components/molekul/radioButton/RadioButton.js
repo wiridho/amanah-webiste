@@ -5,7 +5,7 @@ const RadioButton = ({ name, register, value, children, errors }) => {
   const id = `${name}_${value}`;
   return (
     <div className="cursor-pointer">
-      <div className="flex gap-2 ">
+      <div className="flex items-center gap-2 ">
         <input
           id={id}
           className={""}

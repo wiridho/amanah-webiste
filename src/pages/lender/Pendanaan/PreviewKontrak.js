@@ -11,7 +11,6 @@ const PreviewKontrak = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(state);
 
   const onClick = () => {
     dispatch(

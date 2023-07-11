@@ -25,8 +25,6 @@ const CardBalance = () => {
   const { accessToken } = useSelector((state) => state.auth);
   const { balance, message } = useSelector((state) => state.balance);
 
-  const statusKYC = "verified";
-
   const getBalance = async () => {
     dispatch(handleGetBalance({ accessToken }));
   };
@@ -40,7 +38,7 @@ const CardBalance = () => {
   useEffect(() => {
     getBalance();
     getStatusKYC();
-  }, [dispatch, balance, statusKYC]);
+  }, [dispatch, balance]);
 
   return (
     <>
@@ -77,7 +75,7 @@ const CardBalance = () => {
                   </div>
                   <div className=" flex justify-center items-center  ">
                     <Link
-                      to={"withdraw"}
+                      to={"withdraw/listBank"}
                       className={`flex justify-center border border-blue-500 rounded-full px-5 py-2.5 cursor-pointer`}
                     >
                       <div className="flex gap-2 justify-center items-center">

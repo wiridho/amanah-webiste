@@ -65,7 +65,7 @@ const Deposit = () => {
               </a>
             </div>
           ) : (
-            <div className="max-w-sm w-full p-6 rounded-lg bg-white border border-gray-200 shadow">
+            <div className="max-w-md w-full p-6 rounded-lg bg-white border border-gray-200 shadow">
               <div className="text-xl text-center font-semibold">
                 <p>Deposit</p>
               </div>
@@ -83,7 +83,7 @@ const Deposit = () => {
                       defaultValue=""
                       render={({ field }) => (
                         <CurrencyInput
-                          placeholder="Masukkan nominal"
+                          placeholder="Rp500.000"
                           className="w-full border border-gray-300 px-4 py-2 rounded-lg bg-gray-50 focus:ring-1 outline-none focus:ring-indigo-500 focus:border-indigo-500"
                           value={field.value}
                           onValueChange={(value) => handleInputChange(value)}
@@ -102,25 +102,29 @@ const Deposit = () => {
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-wrap gap-4">
+                  <div className="grid grid-cols-3 gap-4">
                     {nominalOptions.map((nominal) => {
                       const value = Number(nominal.replace(/[.,]/g, ""));
                       return (
-                        <span
-                          type="button"
-                          key={nominal}
-                          className=" px-3 py-1 rounded-full text-sm font-medium bg-gray-200 text-gray-800 cursor-pointer hover:bg-gray-300"
-                          onClick={() => handleOptionClick(value)}
-                        >
-                          Rp{nominal}
-                        </span>
+                        <div className="col-span-1">
+                          <span
+                            type="button"
+                            key={nominal}
+                            className="px-5 py-2.5 border border-gray-200 rounded-md hover:bg-gray-400 hover:text-white cursor-pointer "
+                            onClick={() => handleOptionClick(value)}
+                          >
+                            Rp{nominal}
+                          </span>
+                        </div>
                       );
                     })}
                   </div>
                   <div>
                     <Button
                       type={"submit"}
-                      className={"w-full bg-indigo-500  px-4 py-2 text-white"}
+                      className={
+                        "w-full bg-indigo-500 hover:bg-indigo-700  px-4 py-2 text-white"
+                      }
                     >
                       Deposit Sekarang
                     </Button>

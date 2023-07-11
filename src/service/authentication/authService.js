@@ -15,7 +15,6 @@ export const handleRegister = createAsyncThunk(
       params.navigate("/register/success");
       return response.data.data;
     } catch (error) {
-      params.setVisible(true);
       console.log("error", error);
       const message_error = error.response?.data?.message;
       return rejectWithValue(message_error);

@@ -9,9 +9,14 @@ import CardPortofolio from "../../components/organism/cardPortofolio/CardPortofo
 import { FormatMataUang } from "../../utils/FormatMataUang";
 const Portofolio = () => {
   const [tab, setTab] = useState("active");
+  const [lengthBerjalan, setLenghtBerjalan] = useState(null);
+  const [lengthSelesai, setLengthSelesai] = useState(null);
   const { accessToken } = useSelector((state) => state.auth);
   const { portofolio } = useSelector((state) => state.lender);
   const dispatch = useDispatch();
+
+  const portoLengthBerjalan = portofolio?.["active"]?.funding.length;
+  const portoLengthSelesai = portofolio?.["done"]?.funding.length;
 
   useEffect(() => {
     dispatch(getLenderFunding({ accessToken }));
@@ -95,8 +100,8 @@ const Portofolio = () => {
       <div className="flex flex-col mb-4">
         <span className="font-semibold text-xl">Portofolio</span>
         <span>
-          Total {portofolio?.[tab]?.funding?.length || 0} berjalan,{" "}
-          {portofolio?.[tab]?.funding?.length || 0} selesai
+          Total {portoLengthBerjalan || 0} berjalan, {portoLengthSelesai || 0}{" "}
+          selesai
         </span>
       </div>
       <div className="mb-4">
