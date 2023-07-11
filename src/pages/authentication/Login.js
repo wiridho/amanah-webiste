@@ -7,7 +7,7 @@ import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
 import { handleLogin } from "../../service/authentication/authService";
 
-import { Button, Message } from "../../components/atom";
+import { Button, Message, Loading } from "../../components/atom";
 import { InputPassword } from "../../components/molekul";
 
 import { setMessage } from "../../store/reducer/AuthReducer";
@@ -34,7 +34,6 @@ const Login = () => {
   console.log(location.pathname);
 
   useEffect(() => {
-    console.log("pindah");
     dispatch(setMessage(null));
   }, [location.pathname]);
 
@@ -110,7 +109,14 @@ const Login = () => {
                 type="submit"
                 className="w-full mt-3 bg-blue-600 text-white hover:bg-blue-700"
               >
-                {load ? "Loading..." : "Login"}
+                {load ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <Loading />
+                    <span>Loading </span>
+                  </div>
+                ) : (
+                  "Login"
+                )}
               </Button>
               <div className="flex justify-between text-primary">
                 <div className="flex items-center">
