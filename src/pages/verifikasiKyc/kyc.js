@@ -162,10 +162,10 @@ const Kyc = () => {
                       required: true,
                     }),
                   }}
-                  value={"male"}
+                  value={"Pria"}
                   errors={errors.gender}
                 >
-                  Male
+                  Pria
                 </RadioButton>
               </div>
               <div>
@@ -176,9 +176,9 @@ const Kyc = () => {
                       required: true,
                     }),
                   }}
-                  value={"female"}
+                  value={"wanita"}
                 >
-                  Female
+                  Wanita
                 </RadioButton>
               </div>
             </div>

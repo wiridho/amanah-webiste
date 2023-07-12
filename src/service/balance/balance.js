@@ -23,7 +23,10 @@ export const handleGetBalance = createAsyncThunk(
 // post deposit Balance
 export const postBalanceDeposit = createAsyncThunk(
   "balance/postBalanceDeposit",
-  async ({ accessToken, data, setPaymentStatus }, { rejectWithValue }) => {
+  async (
+    { accessToken, data, setPaymentStatus, navigate },
+    { rejectWithValue }
+  ) => {
     try {
       const response = await axios.post(
         `${apiConfig.baseUrl}/balance/deposit`,
@@ -35,6 +38,7 @@ export const postBalanceDeposit = createAsyncThunk(
         }
       );
       setPaymentStatus("waitingPayment");
+      navigate();
       return `https://${response?.data?.data?.paymentLink}`;
     } catch (error) {
       const message_error = error.response?.data?.message;

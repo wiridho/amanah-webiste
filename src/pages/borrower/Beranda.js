@@ -22,7 +22,7 @@ import { setStatusKYC } from "../../store/reducer/AuthReducer";
 import { checkStatusLoan, sisaPembayaran } from "../../utils/Borrower/Borrower";
 import _ from "lodash";
 import StatusKYC from "../../components/molekul/statusKYC/StatusKYC";
-import CardPinjamanBerjalan from "../../components/organism/cardPinjamanBerjalan/CardPinjamanBerjalan";
+import { checkNaN } from "../../utils/CheckNan";
 
 const Beranda = () => {
   const [load, setLoad] = useState(true);
@@ -40,13 +40,13 @@ const Beranda = () => {
 
   console.log("activeLoan", activeLoan);
 
-  const checkNaN = (number) => {
-    if (isNaN(number)) {
-      return 0;
-    } else {
-      return number;
-    }
-  };
+  // const checkNaN = (number) => {
+  //   if (isNaN(number)) {
+  //     return 0;
+  //   } else {
+  //     return number;
+  //   }
+  // };
 
   let progress = (activeLoan?.totalFund / activeLoan?.amount) * 100;
 

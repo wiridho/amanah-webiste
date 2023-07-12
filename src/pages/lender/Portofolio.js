@@ -9,8 +9,6 @@ import CardPortofolio from "../../components/organism/cardPortofolio/CardPortofo
 import { FormatMataUang } from "../../utils/FormatMataUang";
 const Portofolio = () => {
   const [tab, setTab] = useState("active");
-  const [lengthBerjalan, setLenghtBerjalan] = useState(null);
-  const [lengthSelesai, setLengthSelesai] = useState(null);
   const { accessToken } = useSelector((state) => state.auth);
   const { portofolio } = useSelector((state) => state.lender);
   const dispatch = useDispatch();

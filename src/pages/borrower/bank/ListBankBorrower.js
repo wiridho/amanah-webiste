@@ -120,12 +120,6 @@ const ListBankBorrower = () => {
                             <MdDelete
                               size={23}
                               className="hover:text-red-500"
-                              // onClick={() =>
-                              //   deleteBank({
-                              //     accoutNumber: item?.accountNumber,
-                              //     accessToken,
-                              //   })
-                              // }
                             />
                           </td>
                         </tr>
