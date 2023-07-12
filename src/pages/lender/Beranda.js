@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { MdOutlineTrendingDown, MdOutlineTrendingUp } from "react-icons/md";
 import { getLenderProfit } from "../../service/lender/profit";
 import { FormatMataUang } from "../../utils/FormatMataUang";
+import { getRecommendLoan } from "../../service/loans/loan";
+import CardPendanaan from "./CardPendanaan";
 
 const Beranda = () => {
-  const [visible, setVisible] = useState(false);
-  const { accessToken, statusKYC } = useSelector((state) => state.auth);
+  const [loanList, setListLoan] = useState(null);
+  const { accessToken } = useSelector((state) => state.auth);
   const { profit } = useSelector((state) => state.lender);
   const dispatch = useDispatch();
 
@@ -18,7 +20,18 @@ const Beranda = () => {
 
   useEffect(() => {
     profitLender();
+    getRecommend();
   }, []);
+
+  const getRecommend = async () => {
+    const response = await getRecommendLoan({
+      accessToken,
+    });
+    console.log(response);
+    setListLoan(response?.data);
+  };
+
+  console.log("loanList");
 
   return (
     <>
@@ -30,10 +43,10 @@ const Beranda = () => {
         <div className="my-6">
           <div className="mb-3">
             <span className="text-[17px] text-[#011419] font-semibold">
-              Ringkasan Pendaanmu
+              Ringkasan Pendanaanmu
             </span>
           </div>
-          <div className="grid  gap-8">
+          <div className="grid grid-cols-2 gap-8">
             <div className="col-span-1 shadow-md rounded-md">
               <article className="flex flex-col gap-4 rounded-lg  bg-green-50 p-6">
                 <div>
@@ -69,7 +82,19 @@ const Beranda = () => {
                 </div>
               </article>
             </div>
-            <div className="col-span-2"></div>
+          </div>
+        </div>
+        {/* Rekomendasi Pendanaan */}
+        <div className="flex flex-col gap-3">
+          <span className="text-[17px] text-[#011419] font-semibold">
+            Rekomendasi Pendanaan
+          </span>
+          <div>
+            {loanList?.length > 0 ? (
+              <CardPendanaan data={loanList} />
+            ) : (
+              "ga ada rekomendasi"
+            )}
           </div>
         </div>
       </div>
