@@ -125,3 +125,37 @@ export const resendLoginOtp = createAsyncThunk(
     }
   }
 );
+
+// Forgot Password Request
+export const forgotPassRequest = createAsyncThunk(
+  "auth/forgotPass",
+  async ({ data }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${apiConfig.baseUrl}/authentication/password/reset/request`,
+        data
+      );
+      Swal.fire("Berhasil", response?.data?.message, "success");
+    } catch (err) {
+      const message_error = err.response?.data?.message;
+      return rejectWithValue(message_error);
+    }
+  }
+);
+
+// Forgot Password Change
+export const forgotPassChange = createAsyncThunk(
+  "auth/forgotPassChange",
+  async ({ data }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${apiConfig.baseUrl}/authentication/password/reset/request/change`,
+        data
+      );
+      Swal.fire("Berhasil", response?.data?.message, "success");
+    } catch (err) {
+      const message_error = err.response?.data?.message;
+      return rejectWithValue(message_error);
+    }
+  }
+);
