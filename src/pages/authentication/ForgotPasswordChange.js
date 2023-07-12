@@ -1,14 +1,17 @@
 import React from "react";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import { InputPassword } from "../../components/molekul";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPassChange } from "../../service/authentication/authService";
 import { Button, Loading, Message } from "../../components/atom";
 import { setMessage } from "../../store/reducer/AuthReducer";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 const ForgotPasswordChange = () => {
+  // const location = useLocation();
+  // console.log(location.pathname);
   const { email, token } = useParams();
   console.log(email);
   console.log(token);
@@ -33,6 +36,10 @@ const ForgotPasswordChange = () => {
       })
     );
   };
+
+  // useEffect(() => {
+  //   dispatch(setMessage(null));
+  // }, [location.pathname]);
   return (
     <>
       <div className="h-screen grid grid-cols-1 sm:grid-cols-2 overflow-hidden">

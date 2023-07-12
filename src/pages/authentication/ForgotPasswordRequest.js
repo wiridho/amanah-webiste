@@ -10,6 +10,7 @@ import { forgotPassRequest } from "../../service/authentication/authService";
 import { setMessage } from "../../store/reducer/AuthReducer";
 
 const ForgotPasswordRequest = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { message, load, success } = useSelector((state) => state.auth);
@@ -29,6 +30,10 @@ const ForgotPasswordRequest = () => {
       })
     );
   };
+
+  useEffect(() => {
+    dispatch(setMessage(null));
+  }, [location.pathname]);
 
   return (
     <>

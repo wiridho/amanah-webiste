@@ -16,6 +16,21 @@ export const getAvailableLoan = async ({ params, accessToken }) => {
   }
 };
 
+// Get recommend Loan
+export const getRecommendLoan = async ({ accessToken }) => {
+  try {
+    const response = await axios.get(`${apiConfig.baseUrl}/loans/available`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response?.data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 // Get Loan Detail
 
 export const getDetailLoan = async ({ accessToken, loanId }) => {
