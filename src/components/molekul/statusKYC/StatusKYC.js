@@ -35,7 +35,6 @@ const StatusKYC = ({ component }) => {
           <div>
             <span>
               Akun anda belum diverifikasi, silahkan verifikasi terlebih dahulu{" "}
-              {"  "}
             </span>
             <Link
               className={"underline font-semibold"}

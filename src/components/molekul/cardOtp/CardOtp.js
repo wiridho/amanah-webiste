@@ -91,8 +91,8 @@ const CardOtp = ({ setOtp, otp, handleSubmit, data, handleResend }) => {
               background={"#fff"}
               textColor={"#808080"}
               buttonColor={"#146C94"}
-              minutes={0}
-              seconds={10}
+              minutes={1}
+              seconds={0}
               text={"Kirim ulang OTP dalam waktu"}
               ButtonText="Kirim ulang OTP!"
               resend={handleResend}

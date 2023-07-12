@@ -1,21 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { handleGetBalance } from "../../../service/balance/balance";
 import { useDispatch, useSelector } from "react-redux";
 import ImgHeader from "../../../assets/img/Financial-Management.png";
 // Icons
-import { HiOutlinePlus } from "react-icons/hi";
 import { IoWallet } from "react-icons/io5";
 
 // Component
 import { Button, Message } from "../../atom";
-import { useEffect } from "react";
 import { FormatMataUang } from "../../../utils/FormatMataUang";
 import { getLenderStatusKYC } from "../../../service/lender/lenderVerificationKYC";
 import { setStatusKYC } from "../../../store/reducer/AuthReducer";
 import { setMessage } from "../../../store/reducer/Balance/BalanceReducer";
-import WarningMessage from "../../atom/warningMessage/WarningMessage";
-import { useState } from "react";
 import StatusKYC from "../../molekul/statusKYC/StatusKYC";
 
 const CardBalance = () => {

@@ -17,14 +17,18 @@ const PreviewKontrak = () => {
       postLenderFunding({
         data,
         accessToken,
-        navigate: () => navigate("/funder/riwayat-transaksi"),
+        navigate: () => navigate("/funder"),
       })
     );
   };
 
+  const handleCancel = () => {
+    navigate("/funder/konfirmasi-pencairan");
+  };
+
   return (
     <>
-      <iframe src={url} type="application/pdf" width={"100%"} height={"80%"} />
+      <iframe src={url} type="application/pdf" width={"100%"} height={"90%"} />
       <div className="flex gap-3">
         <Button
           onClick={onClick}
@@ -34,7 +38,7 @@ const PreviewKontrak = () => {
         </Button>
         <Button
           type={"button"}
-          onClick={() => navigate(detail)}
+          onClick={handleCancel}
           className={`mt-2 w-1/6 bg-transparent border border-red-500 hover:bg-red-500 hover:text-white px-5 py-2.5 text-red-400 font-semibold `}
         >
           Cancel

@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import BackgroundAuth from "../../assets/img/background/login.svg";
 // Component
-import { Button, ErrorMessage, Message, Loading } from "../../components/atom";
+import { Button, Message, Loading } from "../../components/atom";
 import { InputLabel, InputPassword } from "../../components/molekul";
 // Service
 import { handleRegister } from "../../service/authentication/authService";
@@ -111,7 +111,7 @@ const Register = () => {
               </div>
               <div>
                 <InputLabel
-                  placeholder={"08123456789"}
+                  placeholder={"628123456789"}
                   type={"number"}
                   name={"Nomor telepon"}
                   register={{

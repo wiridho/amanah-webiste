@@ -65,13 +65,7 @@ const AddBankBorrower = () => {
               <div className="text-lg mb-2 text-center font-semibold">
                 Tambah Akun Bank
               </div>
-              {/* <div className="my-2">
-                <ErrorMessage
-                  message={message}
-                  visible={message !== null ? true : false}
-                  onClose={() => dispatch(setMessage(null))}
-                />
-              </div> */}
+
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col  gap-4 justify-center">
                   <div className="flex flex-col gap-3">

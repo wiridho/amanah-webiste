@@ -7,7 +7,6 @@ import { getProfileBorrower } from "../../service/Borrower/profile";
 import { titleCase } from "../../utils/FormatTitleCase";
 import { TruncateString } from "../../utils/Truncate";
 import { FaUser } from "react-icons/fa";
-import { Badge } from "../../components/atom";
 import { FormatMataUang } from "../../utils/FormatMataUang";
 
 const ProfileBorrower = () => {
@@ -20,7 +19,6 @@ const ProfileBorrower = () => {
   }, []);
 
   const perfomanceBorrower = profile?.performance;
-  console.log(perfomanceBorrower);
 
   const badgeVerified = () => {
     if (profile?.verified === true) {
@@ -38,7 +36,6 @@ const ProfileBorrower = () => {
     }
   };
 
-  console.log("profile", profile);
   return (
     <div className="p-6 font-nunito-sans">
       <div className="sm:px-0 flex flex-col gap-3">
@@ -67,13 +64,13 @@ const ProfileBorrower = () => {
               <div className="flex flex-col">
                 <span className="font-medium text-sm text-gray-400">Name</span>
                 <span className="font-semibold text-[15px]  text-gray-800">
-                  Peminjam 1
+                  {profile?.name}
                 </span>
               </div>
               <div className="flex flex-col">
                 <span className="font-medium text-sm text-gray-400">Email</span>
                 <span className="font-semibold text-[15px]  text-gray-800">
-                  peminjam1@yopmail.com
+                  {profile?.email}
                 </span>
               </div>
             </div>
@@ -83,7 +80,7 @@ const ProfileBorrower = () => {
                   Phone Number
                 </span>
                 <span className="font-semibold text-[15px]  text-gray-800">
-                  08391203912
+                  {profile?.phoneNumber}
                 </span>
               </div>
               <div className="flex flex-col items-start">

@@ -72,10 +72,10 @@ const Withdraw = () => {
     <div className="h-screen flex justify-center items-center font-nunito-sans">
       <div className="max-w-md w-full rounded-md overflow-hidden shadow bg-white">
         <div className="p-5">
-          <span className="text-xl mb-4 text-center font-semibold">
-            Tambah Akun Bank
-          </span>
           <div className="flex flex-col gap-4">
+            <span className="text-xl text-center font-semibold">
+              Pilih Bank
+            </span>
             <div className="flex items-center justify-between  border px-3 py-2 rounded-md text-sm">
               <span className="text-gray-500 ">Pilih akun</span>
               <div className="flex items-center text-blue-500 hover:text-blue-700 ">
@@ -95,13 +95,14 @@ const Withdraw = () => {
                     <th scope="col" className=" py-3">
                       Bank
                     </th>
-                    <th scope="col" className=" py-3">
+                    {/* <th scope="col" className=" py-3">
                       Action
-                    </th>
+                    </th> */}
                   </tr>
                 </thead>
                 <tbody>
-                  {listBank &&
+                  {console.log(listBank)}
+                  {listBank?.length > 0 ? (
                     listBank.map((item, index) => {
                       return (
                         <tr
@@ -134,7 +135,15 @@ const Withdraw = () => {
                           </td>
                         </tr>
                       );
-                    })}
+                    })
+                  ) : (
+                    <div className=" text-blue-800 mt-4 text-center">
+                      <span>Belum memiliki bank? Silahkan </span>{" "}
+                      <span className="font-semibold ml-1">
+                        {"  "} tambah akun bank!
+                      </span>
+                    </div>
+                  )}
                 </tbody>
               </table>
             </div>

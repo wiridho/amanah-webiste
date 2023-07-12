@@ -191,7 +191,7 @@ const AjukanPinjaman = () => {
                     </InputLabel>
                   </div>
                   <div className="">
-                    <Label className={"!my-0 !mt-2"}>Jenis Kelamin</Label>
+                    <Label className={"!my-0 !mt-2"}>Skema Pembayaran</Label>
                     <div className="flex gap-3">
                       <div>
                         <RadioButton
