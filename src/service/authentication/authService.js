@@ -146,13 +146,14 @@ export const forgotPassRequest = createAsyncThunk(
 // Forgot Password Change
 export const forgotPassChange = createAsyncThunk(
   "auth/forgotPassChange",
-  async ({ data }, { rejectWithValue }) => {
+  async ({ data, navigate }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${apiConfig.baseUrl}/authentication/password/reset/request/change`,
+        `${apiConfig.baseUrl}/password/reset/request/change`,
         data
       );
       Swal.fire("Berhasil", response?.data?.message, "success");
+      navigate();
     } catch (err) {
       const message_error = err.response?.data?.message;
       return rejectWithValue(message_error);
