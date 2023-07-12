@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  forgotPassChange,
+  forgotPassRequest,
   handleLogin,
   handleLoginAdmin,
   handleRegister,
@@ -148,6 +150,35 @@ const authSlice = createSlice({
         state.success = false;
         state.error = true;
         state.statusKYC = "not verified";
+        state.message = action.payload;
+      })
+      // forgot password request
+      .addCase(forgotPassRequest.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(forgotPassRequest.fulfilled, (state, action) => {
+        state.load = false;
+        state.success = true;
+      })
+      .addCase(forgotPassRequest.rejected, (state, action) => {
+        state.load = false;
+        state.success = false;
+        state.error = true;
+        state.message = action.payload;
+      })
+
+      //Forgot Password Change
+      .addCase(forgotPassChange.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(forgotPassChange.fulfilled, (state) => {
+        state.load = false;
+        state.success = true;
+      })
+      .addCase(forgotPassChange.rejected, (state, action) => {
+        state.load = false;
+        state.success = false;
+        state.error = true;
         state.message = action.payload;
       });
   },

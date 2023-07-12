@@ -1,21 +1,16 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { InputLabel } from "../../components/molekul";
+import React from "react";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
-import BackgroundAuth from "../../assets/img/background/login.svg";
-import { handleLogin } from "../../service/authentication/authService";
-
-import { Button, Message, Loading } from "../../components/atom";
 import { InputPassword } from "../../components/molekul";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { forgotPassChange } from "../../service/authentication/authService";
+import { Button, Loading, Message } from "../../components/atom";
 import { setMessage } from "../../store/reducer/AuthReducer";
+import { useForm } from "react-hook-form";
 
-const Login = () => {
+const ForgotPasswordChange = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const { message, load, success } = useSelector((state) => state.auth);
 
   // Calling useForm
@@ -25,18 +20,14 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  // Handle Submit
   const onSubmit = (data) => {
-    dispatch(handleLogin({ data, navigate }));
+    data["platform"] = "website";
+    dispatch(
+      forgotPassChange({
+        data,
+      })
+    );
   };
-
-  const location = useLocation();
-  console.log(location.pathname);
-
-  useEffect(() => {
-    dispatch(setMessage(null));
-  }, [location.pathname]);
-
   return (
     <>
       <div className="h-screen grid grid-cols-1 sm:grid-cols-2 overflow-hidden">
@@ -64,7 +55,7 @@ const Login = () => {
           <div className="max-w-[400px] w-full mx-auto bg-zinc-50 p-4 sm:p-6 sm:px-8 shadow-md rounded-md">
             <div>
               <h1 className="text-xl font-sans font-semibold pb-4">
-                Welcome back !
+                Lupa Password
               </h1>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -77,19 +68,6 @@ const Login = () => {
                 }}
               />
               <div>
-                <InputLabel
-                  placeholder={"name@example.com"}
-                  type={"text"}
-                  name={"Email"}
-                  register={{
-                    ...register("email", {
-                      required: true,
-                    }),
-                  }}
-                  errors={errors.email}
-                >
-                  Email
-                </InputLabel>
                 <InputPassword
                   placeholder={"********"}
                   name={"Password"}
@@ -102,7 +80,7 @@ const Login = () => {
                   }}
                   errors={errors.password}
                 >
-                  Password
+                  New Password
                 </InputPassword>
               </div>
               <Button
@@ -115,10 +93,10 @@ const Login = () => {
                     <span>Loading </span>
                   </div>
                 ) : (
-                  "Login"
+                  "Forgot Password"
                 )}
               </Button>
-              <div className="flex justify-between text-primary">
+              <div className="flex justify-between text-primary mt-1">
                 <div className="flex items-center">
                   <p className="pr-1 text-xs text-right text-gray-500">
                     Belum punya akun?
@@ -130,9 +108,6 @@ const Login = () => {
                     Daftar Disini!
                   </Link>
                 </div>
-                <p className="p-2 text-xs text-right text-blue-600 hover:text-blue-700">
-                  <Link to="/forgot-password">Forgot Password?</Link>
-                </p>
               </div>
             </form>
           </div>
@@ -147,4 +122,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPasswordChange;

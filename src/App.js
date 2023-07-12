@@ -20,6 +20,7 @@ import VerifyEmail from "./pages/authentication/VerifyEmail";
 import Lending from "./pages/public/Lending";
 import RegisterVerifySucess from "./pages/authentication/RegisterVerifySuccess";
 import VerifyLogin from "./pages/authentication/VerifyLogin";
+import ForgotPasswordRequest from "./pages/authentication/ForgotPasswordRequest";
 
 // Lender
 import DashboardLender from "./components/template/DashboardLender";
@@ -57,6 +58,7 @@ import DashboardAdmin from "./components/template/DashboardAdmin";
 import HomeAdmin from "./pages/admin/Home";
 import LoanAdmin from "./pages/admin/Loans";
 import LoginAdmin from "./pages/authentication/LoginAdmin";
+import ForgotPasswordChange from "./pages/authentication/ForgotPasswordChange";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
@@ -230,6 +232,24 @@ function App() {
         <Route
           path="/login"
           element={<ProtectRoute valid={is_public} children={<Login />} />}
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <ProtectRoute
+              valid={is_public}
+              children={<ForgotPasswordRequest />}
+            />
+          }
+        />
+        <Route
+          path="/reset-password/:token/:userId/:email"
+          element={
+            <ProtectRoute
+              valid={is_public}
+              children={<ForgotPasswordChange />}
+            />
+          }
         />
         <Route
           path="/login/admin"
