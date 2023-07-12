@@ -7,8 +7,7 @@ import WarnigGif from "../../../assets/img/success/warning2.gif";
 import { Link } from "react-router-dom";
 
 const StatusKYC = () => {
-  const { accessToken } = useSelector((state) => state.auth);
-  const statusKYC = "not verified";
+  const { accessToken, statusKYC } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const getStatusKYC = async () => {
@@ -97,11 +96,11 @@ const StatusKYC = () => {
       <div className="flex justify-center items-center h-screen">
         <div className="group flex flex-col w-full sm:w-2/6  bg-white border border-gray-200 shadow-sm rounded-xl">
           <div className="h-52 flex flex-col justify-center items-center  rounded-t-xl relative">
-            <img
+            {/* <img
               src={SuccessGif}
               alt=""
               className="w-full overflow-hidden object-cover"
-            />
+            /> */}
           </div>
           <div className="p-4 md:px-6 md:py-4">
             <span className="block mb-1 text-xs font-semibold uppercase text-blue-600"></span>

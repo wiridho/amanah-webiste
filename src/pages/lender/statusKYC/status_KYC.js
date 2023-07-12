@@ -8,22 +8,20 @@ import WarnigGif from "../../../assets/img/success/warning2.gif";
 
 const Status_KYC = () => {
   const dispatch = useDispatch();
-  const { accessToken } = useSelector((state) => state.auth);
-  const statusKYC = "verified";
-  console.log("statusKYC", statusKYC);
+  const { accessToken, statusKYC } = useSelector((state) => state.auth);
 
-  // const getStatusKYC = async () => {
-  //   try {
-  //     const response = await getLenderStatusKYC({ accessToken });
-  //     dispatch(setStatusKYC(response?.data?.kyc));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const getStatusKYC = async () => {
+    try {
+      const response = await getLenderStatusKYC({ accessToken });
+      dispatch(setStatusKYC(response?.data?.kyc));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  // useEffect(() => {
-  //   getStatusKYC();
-  // }, []);
+  useEffect(() => {
+    getStatusKYC();
+  }, []);
 
   if (statusKYC === "pending") {
     return (
