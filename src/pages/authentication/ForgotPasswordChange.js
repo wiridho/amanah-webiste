@@ -1,7 +1,7 @@
 import React from "react";
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import { InputPassword } from "../../components/molekul";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { forgotPassChange } from "../../service/authentication/authService";
 import { Button, Loading, Message } from "../../components/atom";
@@ -9,6 +9,9 @@ import { setMessage } from "../../store/reducer/AuthReducer";
 import { useForm } from "react-hook-form";
 
 const ForgotPasswordChange = () => {
+  const { email, token } = useParams();
+  console.log(email);
+  console.log(token);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { message, load, success } = useSelector((state) => state.auth);
@@ -21,7 +24,8 @@ const ForgotPasswordChange = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    data["platform"] = "website";
+    data["token"] = token;
+    data["email"] = email;
     dispatch(
       forgotPassChange({
         data,
@@ -75,7 +79,7 @@ const ForgotPasswordChange = () => {
                   type={"password"}
                   label={"Password"}
                   register={{
-                    ...register("password", {
+                    ...register("newPassword", {
                       required: true,
                     }),
                   }}
