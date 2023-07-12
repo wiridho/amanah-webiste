@@ -25,6 +25,7 @@ const ForgotPasswordChange = () => {
     dispatch(
       forgotPassChange({
         data,
+        navigate: () => navigate("/login"),
       })
     );
   };
