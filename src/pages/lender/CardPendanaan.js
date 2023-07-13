@@ -8,13 +8,17 @@ import { FormatMataUang } from "../../utils/FormatMataUang";
 import { titleCase } from "../../utils/FormatTitleCase";
 import { TruncateString } from "../../utils/Truncate";
 
-const CardPendanaan = ({ data }) => {
+const CardPendanaan = ({ data, to }) => {
+  console.log(to);
   return (
     <div>
       {data.map((item, index) => {
         let progress = (item.totalFunding / item.amount) * 100;
         return (
-          <Link to={`${item.loanId}`} key={index}>
+          <Link
+            to={to ? "/funder" + to + `/${item.loanId}` : `${item.loanId}`}
+            key={index}
+          >
             <div className="flex bg-white mb-6 p-3 lg:p-5 relative rounded">
               <div className="absolute top-0 left-0 bg-[#4381cf] text-white  rounded-r-full px-2 py-1 ">
                 <span
