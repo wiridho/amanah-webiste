@@ -91,7 +91,7 @@ const Beranda = () => {
           </span>
           <div>
             {loanList?.length > 0 ? (
-              <CardPendanaan data={loanList} />
+              <CardPendanaan to={"/pendanaan"} data={loanList} />
             ) : (
               "ga ada rekomendasi"
             )}
