@@ -15,10 +15,18 @@ import {
   getLenderStatusKYC,
   verificationLenderKYC,
 } from "../../service/lender/lenderVerificationKYC";
+import { setStatusKYC } from "../../store/reducer/AuthReducer";
 
 // Icon
-import { BsFillPersonVcardFill, BsPerson } from "react-icons/bs";
-import { setStatusKYC } from "../../store/reducer/AuthReducer";
+import {
+  BsCheckCircle,
+  BsCheckCircleFill,
+  BsFillPersonVcardFill,
+  BsPerson,
+} from "react-icons/bs";
+
+import CamImg from "../../assets/img/people/cam.png";
+import KTPimg from "../../assets/img/ktp/KTP.png";
 
 const Kyc = () => {
   const [visible, setVisible] = useState(false);
@@ -58,8 +66,6 @@ const Kyc = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  console.log(statusKYC);
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -256,6 +262,13 @@ const Kyc = () => {
               </div>
             )}
           </div>
+          <div className="mt-2 col-span-3 flex flex-col items-center justify-center  bg-slate-50 p-4">
+            <span className="text-sm font-semibold text-center flex gap-2">
+              Contoh Pengambilan gambar selfie
+              <BsCheckCircleFill className="text-green-400 " size={20} />
+            </span>
+            <img src={CamImg} className="" alt="" />
+          </div>
           <div className="col-span-3 flex flex-col items-center justify-center">
             <div>
               <Label>Ambil foto KTP</Label>
@@ -286,12 +299,19 @@ const Kyc = () => {
               </div>
             )}
           </div>
+          <div className="mt-2 col-span-3 flex flex-col items-center justify-center  bg-slate-50 p-4">
+            <span className="text-sm font-semibold text-center flex gap-2">
+              Contoh Pengambilan gambar KTP
+              <BsCheckCircleFill className="text-green-400 " size={20} />
+            </span>
+            <img src={KTPimg} className="mt-4" alt="" />
+          </div>
         </div>
-        <div className=" flex justify-center ">
+        <div className="">
           <Button
             type={"submit"}
             disabled={!isPhotoFilled()}
-            className={` bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-500 ${
+            className={` w-full my-4 bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-500 ${
               !isPhotoFilled() && "disabled:bg-gray-500 cursor-not-allowed"
             }`}
           >
@@ -299,7 +319,6 @@ const Kyc = () => {
           </Button>
         </div>
       </form>
-      <div></div>
     </div>
   );
 };

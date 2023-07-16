@@ -111,7 +111,7 @@ const DetailPendanaan = () => {
                             <span className="font-semibold">
                               {FormatMataUang(
                                 detailData?.borrower?.performance
-                                  ?.borrowingRecord?.borrowerFund
+                                  ?.borrowingRecord?.borrowedFund
                               )}
                             </span>
                           </div>

@@ -3,7 +3,6 @@ import { MdDashboard, MdStream } from "react-icons/md";
 import { RiExchangeFundsFill, RiFundsFill } from "react-icons/ri";
 
 const CardInfo = ({ totalCounts }) => {
-  //   console.log("totalCounts", totalCounts);
   return (
     <div>
       {/* LIST OF CARD */}

@@ -5,6 +5,7 @@ import { setStatusKYC } from "../../../store/reducer/AuthReducer";
 import { Link } from "react-router-dom";
 import SuccessGif from "../../../assets/img/success/success_gif2.gif";
 import WarnigGif from "../../../assets/img/success/warning2.gif";
+import UserImg from "../../../assets/img/user/user.png";
 
 const Status_KYC = () => {
   const dispatch = useDispatch();
@@ -91,7 +92,38 @@ const Status_KYC = () => {
 
   return (
     <div>
-      <span>status kyc kamu : {statusKYC}</span>
+      <div className="flex justify-center items-center h-screen">
+        <div className="group flex flex-col w-full sm:w-2/6  bg-white border border-gray-200 shadow-sm rounded-xl">
+          <div className="h-52 flex flex-col justify-center items-center  rounded-t-xl relative bg-red-50">
+            <img
+              src={UserImg}
+              alt=""
+              className="p-2  overflow-hidden object-cover"
+            />
+          </div>
+          <div className="p-4 md:px-6 md:py-4">
+            <span className="block mb-1 text-xs font-semibold uppercase text-blue-600"></span>
+            <h3 className="text-xl font-semibold text-gray-800">
+              Status KYC belum diverfikasi
+            </h3>
+            <p className="mt-3 text-gray-500">
+              Akun anda belum verifikasi KYC Kami sangat menyarankan Anda untuk
+              segera melakukan
+              <span className="font-semibold"> verifikasi KYC.</span> Dengan
+              verifikasi KYC yang lengkap, Anda akan memperoleh akses penuh
+              untuk melakukan transaksi di platform kami.
+            </p>
+          </div>
+          <div className="mt-auto flex border-t border-gray-200 px-4 md:px-6 py-3 ">
+            <Link
+              to={"/borrower"}
+              className="text-blue-500 hover:text-blue-700"
+            >
+              Kembali ke halaman utama{" "}
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

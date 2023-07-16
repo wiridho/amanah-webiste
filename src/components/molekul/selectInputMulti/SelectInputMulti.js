@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import Select from "react-select";
 import { Controller } from "react-hook-form";
 import { Label } from "../../atom";
+import _ from "lodash";
 
-const SelectInput = ({ children, name, options, control, errors, rules }) => {
-  const [selectedValue, setSelectedValue] = useState(null);
+const SelectInputMulti = ({
+  children,
+  name,
+  options,
+  control,
+  errors,
+  rules,
+}) => {
   return (
     <div>
       <Label>{children}</Label>
@@ -15,10 +22,10 @@ const SelectInput = ({ children, name, options, control, errors, rules }) => {
         render={({ field }) => (
           <>
             <Select
+              isMulti
               {...field}
               options={options}
-              value={selectedValue?.find((c) => c?.value === field?.value)}
-              onChange={(val) => field?.onChange(val?.value)}
+              onChange={(val) => field?.onChange(val)}
             />
           </>
         )}
@@ -32,4 +39,4 @@ const SelectInput = ({ children, name, options, control, errors, rules }) => {
   );
 };
 
-export default SelectInput;
+export default SelectInputMulti;

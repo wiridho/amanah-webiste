@@ -7,6 +7,9 @@ import { getLenderProfit } from "../../service/lender/profit";
 import { FormatMataUang } from "../../utils/FormatMataUang";
 import { getRecommendLoan } from "../../service/loans/loan";
 import CardPendanaan from "./CardPendanaan";
+import { BsDatabase } from "react-icons/bs";
+import { BiTransfer } from "react-icons/bi";
+import { FaBalanceScale } from "react-icons/fa";
 
 const Beranda = () => {
   const [loanList, setListLoan] = useState(null);
@@ -31,8 +34,6 @@ const Beranda = () => {
     setListLoan(response?.data);
   };
 
-  console.log("loanList");
-
   return (
     <>
       <div className="font-nunito-sans">
@@ -48,39 +49,33 @@ const Beranda = () => {
           </div>
           <div className="grid grid-cols-2 gap-8">
             <div className="col-span-1 shadow-md rounded-md">
-              <article className="flex flex-col gap-4 rounded-lg  bg-green-50 p-6">
-                <div>
-                  <div className="flex  items-center gap-3 text-green-500">
-                    <MdOutlineTrendingUp size={20} />
-                    <strong className="block text-sm font-medium ">
-                      Keuntungan imbal hasil
-                    </strong>
+              <div className="flex items-center relative justify-between py-5 px-7 bg-green-100 font-medium text-green-800 rounded-md">
+                <div className="bg-green-200 z-10 right-0 absolute w-32 h-full rounded-s-full"></div>
+                <div className="flex flex-col z-20">
+                  <span className="mb-2">Keuntungan Imbal Hasil</span>
+                  <div className="flex items-center gap-2 text-4xl font-semibold">
+                    <span>{FormatMataUang(profit?.totalYield)}</span>
                   </div>
-                  <p className="p-1 text-green-500">
-                    <span className="text-2xl font-medium">
-                      {FormatMataUang(profit?.totalYield)}
-                    </span>
-                  </p>
                 </div>
-              </article>
+                <div className=" z-20">
+                  <FaBalanceScale size={60} />
+                </div>
+              </div>
             </div>
             {/* Dana yang disalurkan  */}
-            <div className="col-span-1 shadow-md rounded-md">
-              <article className="flex flex-col gap-1 rounded-lg  bg-yellow-50 p-6">
-                <div>
-                  <div className="flex  items-center gap-3 text-yellow-600">
-                    <MdOutlineTrendingDown size={20} />
-                    <strong className="block text-sm font-medium ">
-                      Dana yang disalurkan
-                    </strong>
+            <div className="col-span-1 shadow-md rounded-md ">
+              <div className="flex items-center relative justify-between py-5 px-7 bg-yellow-100 font-medium text-yellow-800 rounded-md">
+                <div className="bg-yellow-200 z-10 right-0 absolute w-32 h-full rounded-s-full"></div>
+                <div className="flex flex-col z-20">
+                  <span className="mb-2">Dana yang disalurkan</span>
+                  <div className="flex items-center gap-2 text-4xl font-semibold">
+                    <span>{FormatMataUang(profit?.totalFunding)}</span>
                   </div>
-                  <p className=" p-1 text-yellow-600">
-                    <span className="text-2xl font-medium ">
-                      {FormatMataUang(profit?.totalFunding)}
-                    </span>
-                  </p>
                 </div>
-              </article>
+                <div className=" z-20">
+                  <BiTransfer size={60} />
+                </div>
+              </div>
             </div>
           </div>
         </div>

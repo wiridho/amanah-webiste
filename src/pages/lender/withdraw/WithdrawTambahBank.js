@@ -4,8 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 // Component
-import { InputLabel, SelectDropdown } from "../../../components/molekul";
-import { Button, ErrorMessage } from "../../../components/atom";
+import {
+  InputLabel,
+  SelectBank,
+  // SelectDropdown,
+  // SelectInput,
+} from "../../../components/molekul";
+import { Button, ErrorMessage, Loading } from "../../../components/atom";
 // Service
 import {
   getBalanceBanks,
@@ -40,7 +45,6 @@ const WithdrawTambahBank = () => {
       bankName: selectedOption.label,
       bankCode: selectedOption.value,
     };
-
     dispatch(postBalanceAccountBank({ accessToken, data, navigate, to }));
   };
 
@@ -58,7 +62,7 @@ const WithdrawTambahBank = () => {
   return (
     <div className="h-screen flex justify-center items-center font-nunito-sans">
       {banks ? (
-        <div className="max-w-sm w-full rounded-md shadow bg-white">
+        <div className="w-2/5 rounded-md shadow bg-white">
           <div className="p-5">
             <div className="text-lg mb-2 text-center font-semibold">
               Tambah Akun Bank
@@ -86,13 +90,24 @@ const WithdrawTambahBank = () => {
                   >
                     Nomor Rekening
                   </InputLabel>
-                  <SelectDropdown
+
+                  {/* <SelectDropdown
                     caption="Select an option"
                     data={banks}
                     control={control}
                     name="selectedOption"
                     errors={errors.selectedOption}
-                  />
+                  /> */}
+                  <SelectBank
+                    field={"Bank"}
+                    name="selectedOption"
+                    control={control}
+                    data={banks}
+                    // defaultValue={genderOptions[0]}
+                    errors={errors?.selectedOption}
+                  >
+                    Pilih Bank
+                  </SelectBank>
                 </div>
                 <Button
                   className={`bg-indigo-500 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-md text-sm`}
@@ -105,7 +120,10 @@ const WithdrawTambahBank = () => {
           </div>
         </div>
       ) : (
-        "loading"
+        <div className="h-screen flex justify-center items-center  gap-2">
+          <Loading className={"w-6 h-6"} />
+          <span className="text-lg">Loading</span>
+        </div>
       )}
     </div>
   );

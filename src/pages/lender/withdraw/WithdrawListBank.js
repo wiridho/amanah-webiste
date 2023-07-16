@@ -6,13 +6,16 @@ import { Button } from "../../../components/atom";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import apiConfig from "../../../api/apiConfig";
+import _ from "lodash";
 
 import { getBalanceAccountBank } from "../../../service/balance/balance";
 import { setBankSelected } from "../../../store/reducer/Balance/BalanceTransactionReducer";
-import _ from "lodash";
 import { MdDelete } from "react-icons/md";
-import axios from "axios";
-import apiConfig from "../../../api/apiConfig";
+import { TruncateString } from "../../../utils/Truncate";
+
+import BankWarning from "../../../assets/img/bank/bankWarning.png";
 
 const Withdraw = () => {
   const { accessToken } = useSelector((state) => state.auth);
@@ -50,8 +53,6 @@ const Withdraw = () => {
   };
 
   const deleteBank = async (accountNumber, accessToken) => {
-    // console.log(accountNumber);
-    // console.log(accessToken);
     try {
       const response = await axios.delete(
         `${apiConfig.baseUrl}/balance/account`,
@@ -70,7 +71,7 @@ const Withdraw = () => {
 
   return (
     <div className="h-screen flex justify-center items-center font-nunito-sans">
-      <div className="max-w-md w-full rounded-md overflow-hidden shadow bg-white">
+      <div className="w-2/5 rounded-md overflow-hidden shadow bg-white">
         <div className="p-5">
           <div className="flex flex-col gap-4">
             <span className="text-xl text-center font-semibold">
@@ -95,22 +96,16 @@ const Withdraw = () => {
                     <th scope="col" className=" py-3">
                       Bank
                     </th>
-                    {/* <th scope="col" className=" py-3">
-                      Action
-                    </th> */}
                   </tr>
                 </thead>
                 <tbody>
-                  {console.log(listBank)}
                   {listBank?.length > 0 ? (
                     listBank.map((item, index) => {
                       return (
                         <tr
                           key={index}
-                          className={`bg-white cursor-pointer hover:bg-slate-50 rounded-md   ${
-                            item?.isChecked
-                              ? " !border !border-blue-500 !rounded-md"
-                              : ""
+                          className={`bg-white cursor-pointer hover:bg-slate-50 rounded-md ${
+                            item?.isChecked ? " !border !border-blue-500 " : ""
                           }`}
                           onClick={() => chooseBank(item)}
                         >
@@ -138,10 +133,20 @@ const Withdraw = () => {
                     })
                   ) : (
                     <div className=" text-blue-800 mt-4 text-center">
-                      <span>Belum memiliki bank? Silahkan </span>{" "}
-                      <span className="font-semibold ml-1">
-                        {"  "} tambah akun bank!
-                      </span>
+                      <div className="h-55 overflow-hidden flex flex-col gap-1 items-center justify-center ">
+                        <img
+                          src={BankWarning}
+                          alt="bank"
+                          className=""
+                          style={{ width: 200 }}
+                        />
+                      </div>
+                      <div className="">
+                        <span>Anda belum memiliki akun, Silahkan </span>{" "}
+                        <span className="font-semibold">
+                          {"  "} tambah akun bank!
+                        </span>
+                      </div>
                     </div>
                   )}
                 </tbody>

@@ -104,7 +104,7 @@ const Register = () => {
                       required: true,
                     }),
                   }}
-                  errors={errors.fullName}
+                  errors={errors.name}
                 >
                   Nama Lengkap
                 </InputLabel>
@@ -114,9 +114,15 @@ const Register = () => {
                   placeholder={"628123456789"}
                   type={"number"}
                   name={"Nomor telepon"}
+                  defaultValue={"62"}
                   register={{
                     ...register("phoneNumber", {
                       required: true,
+                      pattern: {
+                        value: /^(?:\+62|62)[1-9][0-9]{8,11}$/,
+                        message:
+                          "Nomor Handphone harus berformat 62 dan memiliki 9-13 digit",
+                      },
                     }),
                   }}
                   errors={errors.phoneNumber}
@@ -151,7 +157,7 @@ const Register = () => {
               >
                 {load ? (
                   <div className="flex items-center justify-center gap-2">
-                    <Loading />
+                    <Loading className={"w-4 h-4 text-white "} />
                     <span>Loading </span>
                   </div>
                 ) : (

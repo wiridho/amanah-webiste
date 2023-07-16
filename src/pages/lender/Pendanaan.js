@@ -1,24 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAvailableLoan } from "../../service/loans/loan";
 import { useForm } from "react-hook-form";
 import { Accordion } from "../../components/atom";
-import { InputLabel } from "../../components/molekul";
+import { ButtonIcon, InputLabel } from "../../components/molekul";
 
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
+import "../../style/rangeSlider.css";
 
 import CardPendanaan from "./CardPendanaan";
 import { Button } from "../../components/atom";
 
-import Warning from "../../assets/img/error/warning.png";
 import LoanNotAvailable from "../../assets/img/error/loanNotAvailable.png";
-import "../../style/rangeSlider.css";
+
+import { MdOutlineSchedule } from "react-icons/md";
+import ModalAutoLend from "../../components//organism/modalAutoLend/ModalAutoLend";
+import {
+  deleteFundingAuto,
+  getFundingAuto,
+} from "../../service/lender/autoLend";
+import _ from "lodash";
+import Swal from "sweetalert2";
 
 const Pendanaan = () => {
+  const dispatch = useDispatch();
   const [loanList, setListLoan] = useState(null);
+  const [load, setLoad] = useState(true);
   const [value, setValue] = useState([1, 3]);
   const { accessToken } = useSelector((state) => state.auth);
+  const { autoLend } = useSelector((state) => state.lender);
+
+  const [modal, setModal] = useState(null);
 
   const {
     register,
@@ -37,9 +50,17 @@ const Pendanaan = () => {
     setValue([1, 11]);
   };
 
+  const getAutoLend = async () => {
+    dispatch(getFundingAuto({ accessToken }));
+  };
+
   useEffect(() => {
     filterDefault();
-  }, []);
+    if (load) {
+      getAutoLend();
+      setLoad(false);
+    }
+  }, [load, autoLend]);
 
   const onSubmit = async (data) => {
     let tenorValue = {
@@ -53,6 +74,21 @@ const Pendanaan = () => {
 
     const response = await getAvailableLoan({ params, accessToken });
     setListLoan(response?.data);
+  };
+
+  const handleDeleteAutoLend = () => {
+    Swal.fire({
+      title: "Apakah anda ingin membatalkan autolend?",
+      showCancelButton: true,
+      cancelButtonText: "Tidak",
+      confirmButtonText: "Ya, Batalkan",
+    }).then(async (result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        await dispatch(deleteFundingAuto({ data: autoLend?._id, accessToken }));
+        getAutoLend();
+      }
+    });
   };
 
   const handleReset = async () => {
@@ -71,89 +107,150 @@ const Pendanaan = () => {
       {/* Main Content */}
       <div className="grid grid-cols-[auto_1fr] gap-10 ">
         {/* Filter */}
-        <div className="">
-          <div>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="flex flex-col gap-4">
-                <div className="">
-                  <Accordion
-                    name="imbalHasil"
-                    title="Imbal Hasil"
-                    type={"text"}
-                    register={register}
-                    children={
-                      <div className="">
+        <div>
+          <div className="">
+            <div className="shadow-md rounded-md bg-white p-2 mb-4">
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="flex flex-col gap-4">
+                  <div className="">
+                    <Accordion
+                      name="imbalHasil"
+                      title="Imbal Hasil"
+                      type={"text"}
+                      register={register}
+                      children={
                         <div className="">
-                          <InputLabel
-                            placeholder={"Rp100.000"}
-                            children={"Imbal hasil minimum"}
-                            type={"number"}
-                            register={{
-                              ...register("yield_min"),
-                            }}
-                            errors={errors.email}
-                          />
+                          <div className="">
+                            <InputLabel
+                              placeholder={"Rp100.000"}
+                              children={"Imbal hasil minimum"}
+                              type={"number"}
+                              register={{
+                                ...register("yield_min"),
+                              }}
+                              errors={errors.email}
+                            />
+                          </div>
+                          <div className="pb-5">
+                            <InputLabel
+                              placeholder={"Rp100.000.000"}
+                              children={"Imbal hasil maksimum"}
+                              type={"number"}
+                              register={{
+                                ...register("yield_max"),
+                              }}
+                            />
+                          </div>
                         </div>
-                        <div className="pb-5">
-                          <InputLabel
-                            placeholder={"Rp100.000.000"}
-                            children={"Imbal hasil maksimum"}
-                            type={"number"}
-                            register={{
-                              ...register("yield_max"),
-                            }}
+                      }
+                    />
+                  </div>
+
+                  <div>
+                    <Accordion
+                      title={"Durasi Pengembalian"}
+                      children={
+                        <div>
+                          <RangeSlider
+                            id="range-slider"
+                            className={"my-3"}
+                            min={1}
+                            max={12}
+                            step={1}
+                            value={value}
+                            onInput={setValue}
                           />
+                          <span className="flex justify-center pb-4 font-nunito-sans text-sm">
+                            {value[0]}-{value[1]} Bulan
+                          </span>
                         </div>
-                      </div>
-                    }
-                  />
+                      }
+                    />
+                  </div>
                 </div>
-                <div>
-                  <Accordion
-                    title={"Durasi Pengembalian"}
-                    className={"p-4"}
-                    children={
-                      <div className="">
-                        <RangeSlider
-                          id="range-slider"
-                          className={"my-3"}
-                          min={1}
-                          max={12}
-                          step={1}
-                          value={value}
-                          onInput={setValue}
-                        />
-                        <span className="flex justify-center pb-4 font-nunito-sans text-sm">
-                          {value[0]}-{value[1]} Bulan
-                        </span>
-                      </div>
-                    }
-                  />
-                </div>
-              </div>
-              <Button
-                className={
-                  "bg-indigo-500 w-full text-white mt-3 !rounded-full font-semibold hover:bg-indigo-600 round"
+                <Button
+                  className={
+                    "bg-blue-500 w-full text-white mt-3  font-semibold hover:bg-blue-600"
+                  }
+                  type={"submit"}
+                >
+                  Atur Filter
+                </Button>
+                <Button
+                  type={"button"}
+                  onClick={handleReset}
+                  className={
+                    "w-full border-[1px] border-gray-200 font-semibold text-blue-500  my-2 hover:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all text-sm"
+                  }
+                >
+                  Reset
+                </Button>
+              </form>
+            </div>
+
+            <div className="shadow-md bg-white p-4 rounded-md ">
+              <p className="font-semibold mb-2">Terapkan Auto Lending</p>
+              <span>
+                Kemudahan pembiayaan pendanaan yang fleksibel melalui Auto
+                Lending
+              </span>
+              {/* Auto Lend */}
+              {autoLend?.status === undefined && (
+                <ButtonIcon
+                  className={
+                    "w-full bg-blue-500 justify-center !gap-2 text-white text-center"
+                  }
+                  onClick={() => setModal(true)}
+                >
+                  <MdOutlineSchedule /> Autolend
+                </ButtonIcon>
+              )}
+            </div>
+
+            {autoLend?.status !== undefined && (
+              <Accordion
+                title={"Autolend anda"}
+                children={
+                  <div>
+                    <div>
+                      <p className="block">Nominal Pendanaan</p>
+                      <p>{autoLend?.amountToLend}</p>
+                    </div>
+                    <div>
+                      <p className="block">Imbal Hasil</p>
+                      <span>{autoLend?.yieldRange?.start}</span>-
+                      <span>{autoLend?.yieldRange?.end}</span>
+                    </div>
+                    <div>
+                      <p className="block">Kategori Pinjaman</p>
+                      <p>{_.join(autoLend?.borrowingCategory, ",")}</p>
+                    </div>
+                    <div>
+                      <p className="">Periode Tenor</p>
+                      <span>{autoLend?.tenorLength?.start}</span>-
+                      <span>{autoLend?.tenorLength?.end}</span> Bulan
+                    </div>
+                    <Button
+                      className={"text-red-500 border border-red-400"}
+                      onClick={() => handleDeleteAutoLend()}
+                      type={"button"}
+                    >
+                      Batalkan Autolend
+                    </Button>
+                  </div>
                 }
-                type={"submit"}
-              >
-                Atur Filter
-              </Button>
-              <Button
-                type={"button"}
-                onClick={handleReset}
-                className={
-                  "w-full text-indigo-500 font-semibold hover:text-indigo-700"
-                }
-              >
-                Reset
-              </Button>
-            </form>
+              />
+            )}
           </div>
         </div>
+
+        {modal && <ModalAutoLend onClose={() => setModal(false)} />}
+
         {/* Card Pendanaan */}
         {loanList?.length > 0 ? (
-          <CardPendanaan data={loanList} />
+          <div className="">
+            <CardPendanaan data={loanList} />
+          </div>
         ) : (
           <div className="h-3/4 flex items-center justify-center">
             <div className="w-3/4 rounded-md border shadow-sm bg-white">

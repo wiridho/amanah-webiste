@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { resendRegisterVerify } from "../../service/authentication/authService";
-import { BsCheck2 } from "react-icons/bs";
+import { BsCheck2, BsFillCheckCircleFill } from "react-icons/bs";
+import { Button } from "../../components/atom";
 
 const RegisterVerifySucess = () => {
   const dispatch = useDispatch();
@@ -23,8 +24,39 @@ const RegisterVerifySucess = () => {
     <>
       <div className="container mx-auto ">
         <div className="flex justify-center items-center h-screen">
-          <div className="w-1/3">
-            <div className=" p-5 bg-green-50 border  rounded-xl ">
+          <div className="max-w-[35rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+            {/* Grid */}
+            {/* Card */}
+            <div className="group flex flex-col h-full bg-white border border-gray-200 shadow-sm rounded-xl ">
+              <div className="h-52 flex flex-col justify-center items-center bg-green-400 rounded-t-xl">
+                <BsFillCheckCircleFill size={100} className="text-white" />
+              </div>
+              <div className="flex flex-col gap-5 p-6">
+                <h3 className="text-xl font-semibold text-gray-800">
+                  Registrasi Berhasil
+                </h3>
+                <p className=" text-gray-500 ">
+                  Terima kasih kami telah mengirim link verifikasi ke email{" "}
+                  <span className="font-semibold text-green-800">
+                    {email},{" "}
+                  </span>{" "}
+                  Silahkan cek inbox anda untuk verifikasi email akun kamu.
+                </p>
+                <div className=" flex gap-2">
+                  <span className="text-gray-500">Belum menerima email? </span>
+                  <button
+                    className="underline text-indigo-800 font-semibold"
+                    onClick={handleResend}
+                  >
+                    Kirim ulang!
+                  </button>
+                </div>
+              </div>
+            </div>
+            {/* End Grid */}
+          </div>
+          {/* <div className="w-1/3">
+            <div className=" p-5 bg-green-400 border  rounded-xl ">
               <div className="flex justify-center">
                 <div className="w-16 h-16 flex items-center justify-center bg-green-500 rounded-full">
                   <BsCheck2 className="w-8 h-8 stroke-[2px] text-white text-center" />
@@ -53,7 +85,7 @@ const RegisterVerifySucess = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
