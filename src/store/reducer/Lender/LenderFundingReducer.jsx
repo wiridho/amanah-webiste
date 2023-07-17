@@ -2,6 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { postLenderFunding } from "../../../service/lender/funding";
 import { getLenderFunding } from "../../../service/lender/portofolio";
 import { getLenderProfit } from "../../../service/lender/profit";
+import {
+  deleteFundingAuto,
+  getFundingAuto,
+  postFundingAuto,
+} from "../../../service/lender/autoLend";
 
 const initialState = {
   success: null,
@@ -11,12 +16,17 @@ const initialState = {
   message: null,
   portofolio: null,
   profit: null,
+  autoLend: null,
 };
 
 const lenderFundingSlice = createSlice({
   name: "lender_funding",
   initialState,
-  reducers: {},
+  reducers: {
+    setMessage(state, data) {
+      state.message = data.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Post Lender Funding
@@ -61,8 +71,53 @@ const lenderFundingSlice = createSlice({
         state.load = false;
         state.error = true;
         state.message = action.payload;
+      })
+
+      // Post AutoLend
+      .addCase(postFundingAuto.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(postFundingAuto.fulfilled, (state) => {
+        state.load = false;
+        state.error = false;
+      })
+      .addCase(postFundingAuto.rejected, (state, action) => {
+        state.load = false;
+        state.error = true;
+        state.message = action.payload;
+      })
+
+      // Get AutoLend Status
+      .addCase(getFundingAuto.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(getFundingAuto.fulfilled, (state, action) => {
+        state.load = false;
+        state.autoLend = action.payload;
+        state.error = false;
+      })
+      .addCase(getFundingAuto.rejected, (state, action) => {
+        state.load = false;
+        state.error = true;
+        state.message = action.payload;
+      })
+
+      // Delete AutoLend
+      .addCase(deleteFundingAuto.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(deleteFundingAuto.fulfilled, (state, action) => {
+        state.load = false;
+        state.error = false;
+      })
+      .addCase(deleteFundingAuto.rejected, (state, action) => {
+        state.load = false;
+        state.error = true;
+        state.message = action.payload;
       });
   },
 });
 
+export const { setMessage } = lenderFundingSlice.actions;
+export const lenderActions = lenderFundingSlice.actions;
 export default lenderFundingSlice.reducer;

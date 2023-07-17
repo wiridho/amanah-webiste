@@ -77,7 +77,7 @@ const CardOtp = ({ setOtp, otp, handleSubmit, data, handleResend }) => {
               >
                 {load ? (
                   <div className="flex items-center justify-center gap-2">
-                    <Loading />
+                    <Loading className={"w-4 h-4 text-white"} />
                     <span>Loading </span>
                   </div>
                 ) : (

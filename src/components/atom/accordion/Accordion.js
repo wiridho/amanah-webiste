@@ -13,7 +13,7 @@ const Accordion = ({ title, children }) => {
   return (
     <div className="bg-white shadow-sm rounded">
       <button
-        className="flex items-center justify-between w-full p-4 rounded-lg text-gray-900 focus:outline-none"
+        className="flex items-center justify-between w-full p-3 rounded-lg text-gray-900 focus:outline-none"
         onClick={toggleAccordion}
       >
         <h2 className="font-medium">{title}</h2>

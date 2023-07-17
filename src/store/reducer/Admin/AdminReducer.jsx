@@ -1,13 +1,12 @@
-// import { createSlice } from '@reduxjs/toolkit';
-// import { handleLoginAdmin } from '../../../service/authentication/authService';
+import { createSlice } from "@reduxjs/toolkit";
 
-// const initialState = {
-//     success: null,
-//     load: false,
-//     error: false,
-//     data: null,
-//     message: null,
-// };
+const initialState = {
+  success: null,
+  load: false,
+  error: false,
+  data: null,
+  message: null,
+};
 
 // const adminSlice = createSlice({
 //     name: 'admin',

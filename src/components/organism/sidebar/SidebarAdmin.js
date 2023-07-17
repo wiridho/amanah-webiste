@@ -6,12 +6,14 @@ import {
   HiChartPie,
   HiOutlinePlus,
   HiOutlineCurrencyDollar,
+  HiOutlineUser,
+  HiOutlineUserGroup,
 } from "react-icons/hi";
 import { BiLogOut, BiHome, BiUser, BiMoneyWithdraw } from "react-icons/bi";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { MdHistory, MdPayment } from "react-icons/md";
+import { MdHistory, MdPayment, MdVerified } from "react-icons/md";
 import { GiReceiveMoney } from "react-icons/gi";
 // End Icon
 
@@ -56,27 +58,33 @@ const Sidebar = () => {
               </CustomLink>
             </li>
             <li>
-              <CustomLink to="loans" icon={<MdHistory className="text-xl" />}>
+              <CustomLink to="kyc" icon={<MdVerified className="text-xl" />}>
                 Verifikasi E-KYC
               </CustomLink>
             </li>
             <li>
-              <CustomLink to="loans" icon={<MdHistory className="text-xl" />}>
+              <CustomLink
+                to="users"
+                icon={<HiOutlineUserGroup className="text-xl" />}
+              >
                 Users
               </CustomLink>
             </li>
             <li>
-              <CustomLink to="loans" icon={<MdHistory className="text-xl" />}>
+              <CustomLink to="loan" icon={<MdHistory className="text-xl" />}>
                 Pinjaman
               </CustomLink>
             </li>
             <li>
-              <CustomLink to="loans" icon={<MdHistory className="text-xl" />}>
+              <CustomLink to="funding" icon={<MdHistory className="text-xl" />}>
                 Pendanaan
               </CustomLink>
             </li>
             <li>
-              <CustomLink to="loans" icon={<MdHistory className="text-xl" />}>
+              <CustomLink
+                to="auto-lend"
+                icon={<MdHistory className="text-xl" />}
+              >
                 Auto Lend
               </CustomLink>
             </li>

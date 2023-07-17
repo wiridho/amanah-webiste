@@ -9,7 +9,6 @@ import { titleCase } from "../../utils/FormatTitleCase";
 import { TruncateString } from "../../utils/Truncate";
 
 const CardPendanaan = ({ data, to }) => {
-  console.log(to);
   return (
     <div>
       {data.map((item, index) => {

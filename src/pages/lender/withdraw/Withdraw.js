@@ -4,10 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
 import CurrencyInput from "react-currency-input-field";
 import { Button, Label } from "../../../components/atom";
+import WithdrawImg from "../../../assets/img/withdraw/withdraw.png";
+
 import {
   handleGetBalance,
   postBalanceWithdraw,
 } from "../../../service/balance/balance";
+import { TruncateString } from "../../../utils/Truncate";
 
 const Withdraw = () => {
   const { accessToken } = useSelector((state) => state.auth);
@@ -47,24 +50,36 @@ const Withdraw = () => {
 
   return (
     <div className="h-screen flex justify-center items-center font-nunito-sans">
-      <div className="max-w-sm w-full rounded-md overflow-hidden shadow bg-white">
-        <div className="p-5">
-          <div className="text-xl mb-4 text-center font-semibold">
-            <p>Withdraw</p>
+      <div className="w-2/5 rounded-md overflow-hidden shadow bg-white">
+        <div className="p-5 flex flex-col gap-5">
+          <div className="flex flex-col gap-4">
+            <p className="text-xl text-center font-semibold">Withdraw</p>
+            <div className="h-52 overflow-hidden flex flex-col justify-center items-center  rounded-t-xl">
+              <img
+                src={WithdrawImg}
+                alt=""
+                className="flex justify-center items-center"
+                style={{ height: "200px" }}
+              />
+            </div>
+            <span className="text-gray-500 text-sm ">
+              Isi nominal dan klik tombol Withdraw untuk melakukan penarikan
+              saldo.
+            </span>
           </div>
 
           <div className="">
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-1">
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Bank</span>
-                  <span className="font-semibold">
-                    {bankSelected?.bankName}
+                  <span className="text-[#194175]">Bank</span>
+                  <span className="font-bold text-[#194175]">
+                    {TruncateString(bankSelected?.bankName, 28)}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-600">Nomor Rekening</span>
-                  <span className="font-semibold">
+                  <span className=" text-[#194175]">Nomor Rekening</span>
+                  <span className="font-bold text-[#194175]">
                     {bankSelected?.accountNumber}
                   </span>
                 </div>
@@ -92,8 +107,8 @@ const Withdraw = () => {
                       render={({ field }) => (
                         <div>
                           <CurrencyInput
-                            placeholder="Rp100.000"
-                            className="w-full border border-gray-300 px-4 py-2 rounded-lg bg-gray-50 focus:ring-1 outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                            placeholder="Minimal Rp100.000"
+                            className="w-full border border-gray-300 px-4 py-2 rounded-lg bg-gray-50 focus:ring-1 outline-none focus:ring-blue-500 focus:border-blue-500"
                             value={field.value}
                             onValueChange={(value) => {
                               field.onChange(value);
@@ -114,7 +129,9 @@ const Withdraw = () => {
                     )}
                   </div>
                   <Button
-                    className={"bg-indigo-500 px-4 py-2 text-white"}
+                    className={
+                      "bg-blue-500 hover:bg-blue-700 px-4 py-2 text-white"
+                    }
                     type="submit"
                   >
                     Withdraw

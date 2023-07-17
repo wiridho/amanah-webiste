@@ -38,16 +38,6 @@ const Beranda = () => {
   );
   const activeLoan = loanHistory?.active;
 
-  console.log("activeLoan", activeLoan);
-
-  // const checkNaN = (number) => {
-  //   if (isNaN(number)) {
-  //     return 0;
-  //   } else {
-  //     return number;
-  //   }
-  // };
-
   let progress = (activeLoan?.totalFund / activeLoan?.amount) * 100;
 
   const handleGetSchedule = async () => {
@@ -150,6 +140,8 @@ const Beranda = () => {
       return "text-white bg-green-700";
     }
   }
+
+  console.log(loanHistory);
 
   return (
     <div className="grid grid-cols-6 gap-10 font-nunito-sans ">

@@ -61,6 +61,7 @@ export const postBalanceWithdraw = createAsyncThunk(
           },
         }
       );
+      await Swal.fire("Berhasil!", `${response?.data?.message}`, "success");
       navigate("/funder/riwayat-transaksi");
       return response?.data?.data;
     } catch (error) {

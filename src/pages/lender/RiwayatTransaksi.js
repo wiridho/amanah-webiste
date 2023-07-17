@@ -10,6 +10,7 @@ import {
   setLoad,
 } from "../../store/reducer/Balance/BalanceTransactionReducer";
 import _ from "lodash";
+import { Loading } from "../../components/atom";
 
 const RiwayatTransaksi = () => {
   const [params, setParams] = useState({
@@ -66,7 +67,10 @@ const RiwayatTransaksi = () => {
     <div className="font-nunito-sans bg-white p-5 rounded-md">
       <div>
         {load ? (
-          "Loading"
+          <div className="h-screen flex justify-center items-center gap-4">
+            <Loading className={" text-blue-600 w-8 h-8"} />
+            <span className="font-semibold">Loading</span>
+          </div>
         ) : (
           <TableTransactionLender
             list={transactionHistory}

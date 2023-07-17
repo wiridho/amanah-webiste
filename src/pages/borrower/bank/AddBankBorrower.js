@@ -1,7 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { InputLabel, SelectDropdown } from "../../../components/molekul";
+import {
+  InputLabel,
+  SelectBank,
+  // SelectDropdown,
+} from "../../../components/molekul";
 import { Button } from "../../../components/atom";
 import {
   postBalanceAccountBank,
@@ -82,13 +86,22 @@ const AddBankBorrower = () => {
                     >
                       Nomor Rekening
                     </InputLabel>
-                    <SelectDropdown
+                    {/* <SelectDropdown
                       // caption="Pilih Bank"
                       data={banks}
                       control={control}
                       name="selectedOption"
                       errors={errors.selectedOption}
-                    />
+                    /> */}
+
+                    <SelectBank
+                      data={banks}
+                      control={control}
+                      name="selectedOption"
+                      errors={errors.selectedOption}
+                    >
+                      Pilih Bank
+                    </SelectBank>
                   </div>
                   <Button
                     className={`bg-indigo-500 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-md text-sm`}

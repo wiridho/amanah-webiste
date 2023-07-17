@@ -1,9 +1,7 @@
 import React from "react";
-import "../../style/landing.css";
 import FeatureOne from "../../assets/img/landing/feature-1.png";
 import FeatureTwo from "../../assets/img/landing/feature-2.png";
 import Hero from "../../assets/img/landing/hero.png";
-import Logo from "../../assets/img/landing/logo.svg";
 
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
 import { Link } from "react-router-dom";

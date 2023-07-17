@@ -64,7 +64,7 @@ const Deposit = () => {
       <StatusKYC
         component={
           paymentStatus === "waitingPayment" ? (
-            <div className="group w-full sm:w-2/5 flex flex-col  bg-white border border-gray-200 shadow-sm rounded-xl ">
+            <div className="w-2/5 flex flex-col  bg-white border border-gray-200 shadow-sm rounded-xl ">
               <div className="h-52 overflow-hidden flex flex-col justify-center items-center bg-blue-600 rounded-t-xl">
                 <img
                   src={DepositImg}
@@ -74,27 +74,31 @@ const Deposit = () => {
                 />
               </div>
               <div className="p-4 md:p-6">
-                <h3 className="text-xl font-semibold text-gray-800">
-                  Deposit Dana
-                </h3>
-                <p className="mt-4 mb-5 text-gray-500">
-                  Klik tombol di bawah untuk melakukan deposit. Anda akan
-                  diarahkan ke flip untuk menyelesaikan proses pembayaran. Dana
-                  di Aplikasi Amanah akan bertambah setelah pembayaran selesai.
-                </p>
                 <div className="flex flex-col gap-3">
+                  <h3 className="lg:text-2xl font-semibold text-gray-800">
+                    Deposit Dana
+                  </h3>
+                  <p className="mt-4 mb-5 text-gray-500">
+                    Klik tombol di bawah untuk melakukan deposit. Anda akan
+                    diarahkan ke flip untuk menyelesaikan proses pembayaran.
+                    Dana di Aplikasi Amanah akan bertambah setelah pembayaran
+                    selesai.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1">
                   <a
-                    className="flex justify-center  bg-blue-100 text-blue-500 hover:bg-blue-200 px-4 py-2 hover:text-blue-500  w-full rounded-md "
+                    className="flex justify-center text-blue-500 px-4 py-2"
                     href={paymentLink}
                     rel="noreferrer"
                     target="_blank"
                   >
-                    <span className="flex items-center justify-center gap-1  font-medium">
+                    <span className="flex items-center justify-center gap-1 font-medium">
                       Lanjutkan Pembayaran
                       <HiOutlineChevronRight />
                     </span>
                   </a>
                   <Button
+                    onClick={() => setPaymentStatus(null)}
                     className={`border border-red-500 text-red-500 w-full`}
                   >
                     Kembali
@@ -103,9 +107,9 @@ const Deposit = () => {
               </div>
             </div>
           ) : (
-            <div className="w-full sm:w-2/5 p-6 rounded-lg bg-white border border-gray-200 shadow">
+            <div className="w-2/5 p-6 rounded-lg bg-white border border-gray-200 shadow">
               <div className="flex flex-col gap-4 mb-2">
-                <p className="text-2xl text-gray-700 text-center font-semibold">
+                <p className="text-2xl  text-gray-700 text-center font-semibold">
                   Deposit
                 </p>
                 <div className="flex items-center justify-center">
@@ -116,7 +120,6 @@ const Deposit = () => {
                   />
                 </div>
               </div>
-
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-5">
                   <div>
@@ -131,7 +134,7 @@ const Deposit = () => {
                       render={({ field }) => (
                         <CurrencyInput
                           placeholder="Minimal Rp500.000"
-                          className="w-full border border-gray-300 px-4 py-2 rounded-lg bg-gray-50 focus:ring-1 outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                          className="w-full border border-gray-300 px-4 lg:px-5 lg:py-2.5 py-2 rounded-lg bg-gray-50 focus:ring-1 outline-none focus:ring-indigo-500 focus:border-indigo-500"
                           value={field.value}
                           onValueChange={(value) => handleInputChange(value)}
                           decimalSeparator=","
@@ -151,7 +154,7 @@ const Deposit = () => {
                   </div>
                   <div className="flex flex-col gap-2">
                     <span className="text-gray-400 text-sm">Select one :</span>
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {nominalOptions.map((nominal) => {
                         const value = Number(nominal.replace(/[.,]/g, ""));
                         const isSelected = selectedNominal === value;
@@ -159,7 +162,7 @@ const Deposit = () => {
                           <div className="col-span-1" key={nominal}>
                             <span
                               type="button"
-                              className={`px-5 py-2.5 border w-full rounded-md hover:bg-gray-50 hover:text-black cursor-pointer ${
+                              className={`text-center py-2.5 text-sm sm:text-sm  border w-full rounded-md hover:bg-gray-50 hover:text-black cursor-pointer ${
                                 isSelected
                                   ? "border-green-500 text-green-500"
                                   : "border-gray-200"

@@ -9,11 +9,13 @@ const InputLabel = ({
   register,
   errors,
   placeholder,
+  defaultValue,
 }) => {
   return (
     <div>
       <Label>{children}</Label>
       <Input
+        defaultValue={defaultValue}
         placeholder={placeholder}
         type={type}
         className={className}
@@ -29,6 +31,10 @@ const InputLabel = ({
         </span>
       )}
       {(errors?.type === "max" || errors?.type === "min") && (
+        <span className="text-xs text-red-500 block">{errors.message}</span>
+      )}
+
+      {errors?.type === "pattern" && (
         <span className="text-xs text-red-500 block">{errors.message}</span>
       )}
     </div>

@@ -7,15 +7,16 @@ import {
   HiOutlinePlus,
   HiOutlineCurrencyDollar,
 } from "react-icons/hi";
-import { BiLogOut, BiHome, BiUser, BiMoneyWithdraw } from "react-icons/bi";
+import { BiLogOut, BiHome, BiUser } from "react-icons/bi";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { MdHistory, MdPayment } from "react-icons/md";
+import { MdHistory } from "react-icons/md";
 import { GiReceiveMoney } from "react-icons/gi";
 import { setMessage, setSuccess } from "../../../store/reducer/AuthReducer";
 import { borrowerActions } from "../../../store/reducer/Borrower/BorrowerReducer";
 import { balanceTransActions } from "../../../store/reducer/Balance/BalanceTransactionReducer";
+import Swal from "sweetalert2";
 // End Icon
 
 const Sidebar = () => {
@@ -24,16 +25,25 @@ const Sidebar = () => {
   const { statusKYC } = useSelector((state) => state.auth);
 
   const logout = () => {
-    navigate("/login");
-    window.localStorage.removeItem("persist:root");
-    dispatch({ type: "DESTROY_SESSION" });
+    Swal.fire({
+      title: "Apakah anda ingin keluar?",
+      showCancelButton: true,
+      cancelButtonText: "Tidak",
+      confirmButtonText: "Ya, Keluar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Logout Berhasil", "", "success").then(() => {
+          navigate("/login");
+          window.localStorage.removeItem("persist:root");
+          dispatch({ type: "DESTROY_SESSION" });
+        });
+      }
+    });
   };
 
   const location = useLocation();
-  console.log(location.pathname);
 
   useEffect(() => {
-    console.log("pindah");
     dispatch(setMessage(null));
     dispatch(setSuccess(false));
     dispatch(borrowerActions.setMessage(null));

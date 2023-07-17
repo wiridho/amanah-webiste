@@ -34,7 +34,10 @@ const StatusKYC = ({ component }) => {
         message={
           <div>
             <span>
-              Akun anda belum diverifikasi, silahkan verifikasi terlebih dahulu{" "}
+              Maaf, akun Anda{" "}
+              <span className="font-bold">belum diverifikasi</span>. Untuk
+              menggunakan layanan kami, Anda perlu melakukan verifikasi terlebih
+              dahulu{" "}
             </span>
             <Link
               className={"underline font-semibold"}

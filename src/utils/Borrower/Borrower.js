@@ -5,7 +5,7 @@ export const checkStatusLoan = (status) => {
     statusLoan = "Menunggu Pendanaan";
   } else if (status === "in borrowing") {
     statusLoan = "Dana Terkumpul";
-  } else if (status === "disbursement ") {
+  } else if (status === "disbursement") {
     statusLoan = "Sudah dicairkan";
   } else if (status === "repayment") {
     statusLoan = "Sudah Dibayar";

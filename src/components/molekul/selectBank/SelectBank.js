@@ -3,37 +3,42 @@ import Select from "react-select";
 import { Controller } from "react-hook-form";
 import { Label } from "../../atom";
 
-const SelectDropdown = ({ data, name, control, errors }) => {
-  const options = data.map((item) => ({
-    value: item.bank_code,
-    label: item.name,
-  }));
+const SelectBank = ({ data, name, control, errors, children, field }) => {
+  const dataBank =
+    data &&
+    data.map((item) => ({
+      value: item.bank_code,
+      label: item.name,
+    }));
+
+  console.log(dataBank);
 
   return (
     <div>
-      <Label className="block text-sm font-medium text-gray-900">
-        Pilih akun bank
-      </Label>
+      <Label>{children}</Label>
       <Controller
         name={name}
         control={control}
         rules={{
-          required: "Nominal wajib diisi!",
+          required: `${field} wajib diisi!`,
         }}
         render={({ field }) => (
           <Select
             {...field}
-            options={options}
+            options={dataBank}
             placeholder="Silahkan pilih bank"
             isClearable
           />
         )}
       />
-      {errors?.name && (
+      {/* {errors?.name && (
         <span className="text-red-500 text-xs">{errors?.name?.message}</span>
+      )} */}
+      {errors?.["type"] === "required" && (
+        <span className="text-red-500 text-xs">{errors?.message}</span>
       )}
     </div>
   );
 };
 
-export default SelectDropdown;
+export default SelectBank;

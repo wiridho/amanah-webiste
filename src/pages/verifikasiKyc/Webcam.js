@@ -101,7 +101,9 @@ const WebcamCapture = ({ selfieFile, fileName, setImageUrl }) => {
           )}
         </>
       ) : (
-        <div>No webcam available</div>
+        <div>
+          <span>No Webcam Available</span>
+        </div>
       )}
     </div>
   );

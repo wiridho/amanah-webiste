@@ -95,7 +95,7 @@ const AjukanPinjaman = () => {
                       render={({ field }) => (
                         <div>
                           <CurrencyInput
-                            placeholder="Rp500.000"
+                            placeholder="Minimal Rp500.000"
                             className="w-full border border-gray-300 px-4 py-2 rounded-lg bg-gray-50 focus:ring-1 outline-none focus:ring-indigo-500 focus:border-indigo-500"
                             value={field.value}
                             onValueChange={(value) => {
@@ -131,7 +131,7 @@ const AjukanPinjaman = () => {
                       render={({ field }) => (
                         <div>
                           <CurrencyInput
-                            placeholder="Rp50.000"
+                            placeholder="Minimal Rp50.000"
                             className="w-full border border-gray-300 px-4 py-2 rounded-lg bg-gray-50 focus:ring-1 outline-none focus:ring-indigo-500 focus:border-indigo-500"
                             value={field.value}
                             onValueChange={(value) => {
@@ -166,7 +166,7 @@ const AjukanPinjaman = () => {
                   </div>
                   <div>
                     <SelectInput
-                      field={"Hubungan kerabat"}
+                      field={"Kategori Pinjaman"}
                       name="borrowingCategory"
                       control={control}
                       options={opsiKategori}

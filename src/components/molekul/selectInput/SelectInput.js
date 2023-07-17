@@ -3,34 +3,30 @@ import Select from "react-select";
 import { Controller } from "react-hook-form";
 import { Label } from "../../atom";
 
-const SelectInput = ({ children, name, options, control, errors, field }) => {
+const SelectInput = ({ children, name, options, control, errors, rules }) => {
   const [selectedValue, setSelectedValue] = useState(null);
   return (
     <div>
       <Label>{children}</Label>
       <Controller
         name={name}
-        rules={{
-          required: {
-            value: true,
-            message: `${field} wajib diisi!`,
-          },
-        }}
+        rules={rules}
         control={control}
-        render={({ field: { onChange, value } }) => (
+        render={({ field }) => (
           <>
             <Select
               {...field}
               options={options}
-              value={selectedValue?.find((c) => c?.value === value)}
-              onChange={(val) => onChange(val?.value)}
+              value={selectedValue?.find((c) => c?.value === field?.value)}
+              onChange={(val) => field?.onChange(val?.value)}
             />
           </>
         )}
       />
-
-      {errors?.["type"] === "required" && (
-        <span className="text-red-500 text-xs">{errors?.message}</span>
+      {errors?.[name]?.["type"] === "required" && (
+        <span className="text-red-500 text-xs">
+          {errors?.[name]?.["message"]}
+        </span>
       )}
     </div>
   );

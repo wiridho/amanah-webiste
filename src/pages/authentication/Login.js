@@ -107,11 +107,11 @@ const Login = () => {
               </div>
               <Button
                 type="submit"
-                className="w-full mt-3 bg-blue-600 text-white hover:bg-blue-700"
+                className="w-full mt-3 bg-blue-500 text-white hover:bg-blue-700"
               >
                 {load ? (
                   <div className="flex items-center justify-center gap-2">
-                    <Loading />
+                    <Loading className={"w-4 h-4 text-white"} />
                     <span>Loading </span>
                   </div>
                 ) : (
