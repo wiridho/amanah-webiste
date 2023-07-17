@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {} from "react-icons";
-import { BsDatabase } from "react-icons/bs";
-import {
-  MdDashboard,
-  MdMoneyOffCsred,
-  MdStream,
-  MdSummarize,
-} from "react-icons/md";
-import { RiFundsFill, RiMoneyCnyBoxFill, RiNumber2 } from "react-icons/ri";
+import { MdDashboard } from "react-icons/md";
+import { RiMoneyCnyBoxFill } from "react-icons/ri";
 import CardInfo from "../../components/admin/CardInfo";
 import {
   getMostCategoryBorrowed,
   getMostLoansFundings,
   getTotalCounts,
-} from "../../service/admin/totalCount";
+} from "../../service/admin/adminService";
 import { useDispatch, useSelector } from "react-redux";
 import { FormatMataUang } from "../../utils/FormatMataUang";
 

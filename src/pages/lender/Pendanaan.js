@@ -22,6 +22,7 @@ import {
 } from "../../service/lender/autoLend";
 import _ from "lodash";
 import Swal from "sweetalert2";
+import { FormatMataUang } from "../../utils/FormatMataUang";
 
 const Pendanaan = () => {
   const dispatch = useDispatch();
@@ -108,118 +109,113 @@ const Pendanaan = () => {
       <div className="grid grid-cols-[auto_1fr] gap-10 ">
         {/* Filter */}
         <div>
-          <div className="">
-            <div className="shadow-md rounded-md bg-white p-2 mb-4">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="flex flex-col gap-4">
-                  <div className="">
-                    <Accordion
-                      name="imbalHasil"
-                      title="Imbal Hasil"
-                      type={"text"}
-                      register={register}
-                      children={
+          <div className="shadow-md rounded-md bg-white p-2 mb-4">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="flex flex-col gap-4">
+                <div className="">
+                  <Accordion
+                    name="imbalHasil"
+                    title="Imbal Hasil"
+                    type={"text"}
+                    register={register}
+                    children={
+                      <div className="">
                         <div className="">
-                          <div className="">
-                            <InputLabel
-                              placeholder={"Rp100.000"}
-                              children={"Imbal hasil minimum"}
-                              type={"number"}
-                              register={{
-                                ...register("yield_min"),
-                              }}
-                              errors={errors.email}
-                            />
-                          </div>
-                          <div className="pb-5">
-                            <InputLabel
-                              placeholder={"Rp100.000.000"}
-                              children={"Imbal hasil maksimum"}
-                              type={"number"}
-                              register={{
-                                ...register("yield_max"),
-                              }}
-                            />
-                          </div>
-                        </div>
-                      }
-                    />
-                  </div>
-
-                  <div>
-                    <Accordion
-                      title={"Durasi Pengembalian"}
-                      children={
-                        <div>
-                          <RangeSlider
-                            id="range-slider"
-                            className={"my-3"}
-                            min={1}
-                            max={12}
-                            step={1}
-                            value={value}
-                            onInput={setValue}
+                          <InputLabel
+                            placeholder={"Rp100.000"}
+                            children={"Imbal hasil minimum"}
+                            type={"number"}
+                            register={{
+                              ...register("yield_min"),
+                            }}
+                            errors={errors.email}
                           />
-                          <span className="flex justify-center pb-4 font-nunito-sans text-sm">
-                            {value[0]}-{value[1]} Bulan
-                          </span>
                         </div>
-                      }
-                    />
-                  </div>
+                        <div className="pb-5">
+                          <InputLabel
+                            placeholder={"Rp100.000.000"}
+                            children={"Imbal hasil maksimum"}
+                            type={"number"}
+                            register={{
+                              ...register("yield_max"),
+                            }}
+                          />
+                        </div>
+                      </div>
+                    }
+                  />
                 </div>
-                <Button
-                  className={
-                    "bg-blue-500 w-full text-white mt-3  font-semibold hover:bg-blue-600"
-                  }
-                  type={"submit"}
-                >
-                  Atur Filter
-                </Button>
-                <Button
-                  type={"button"}
-                  onClick={handleReset}
-                  className={
-                    "w-full border-[1px] border-gray-200 font-semibold text-blue-500  my-2 hover:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all text-sm"
-                  }
-                >
-                  Reset
-                </Button>
-              </form>
-            </div>
 
-            <div className="shadow-md bg-white p-4 rounded-md ">
-              <p className="font-semibold mb-2">Terapkan Auto Lending</p>
-              <span>
-                Kemudahan pembiayaan pendanaan yang fleksibel melalui Auto
-                Lending
-              </span>
-              {/* Auto Lend */}
-              {autoLend?.status === undefined && (
-                <ButtonIcon
-                  className={
-                    "w-full bg-blue-500 justify-center !gap-2 text-white text-center"
-                  }
-                  onClick={() => setModal(true)}
-                >
-                  <MdOutlineSchedule /> Autolend
-                </ButtonIcon>
-              )}
-            </div>
+                <div>
+                  <Accordion
+                    title={"Durasi Pengembalian"}
+                    children={
+                      <div>
+                        <RangeSlider
+                          id="range-slider"
+                          className={"my-3"}
+                          min={1}
+                          max={12}
+                          step={1}
+                          value={value}
+                          onInput={setValue}
+                        />
+                        <span className="flex justify-center pb-4 font-nunito-sans text-sm">
+                          {value[0]}-{value[1]} Bulan
+                        </span>
+                      </div>
+                    }
+                  />
+                </div>
+              </div>
+              <Button
+                className={
+                  "bg-blue-500 w-full text-white mt-3  font-semibold hover:bg-blue-600"
+                }
+                type={"submit"}
+              >
+                Atur Filter
+              </Button>
+              <Button
+                type={"button"}
+                onClick={handleReset}
+                className={
+                  "w-full border-[1px] border-gray-200 font-semibold text-blue-500  my-2 hover:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all text-sm"
+                }
+              >
+                Reset
+              </Button>
+            </form>
+          </div>
 
+          <div className="shadow-md bg-white p-4 rounded-md ">
+            <p className=" mb-2">Terapkan Auto Lending</p>
+            {autoLend?.status === undefined && (
+              <ButtonIcon
+                className={
+                  "w-full bg-blue-500 justify-center !gap-2 text-white text-center"
+                }
+                onClick={() => setModal(true)}
+              >
+                <MdOutlineSchedule /> Autolend
+              </ButtonIcon>
+            )}
             {autoLend?.status !== undefined && (
               <Accordion
                 title={"Autolend anda"}
                 children={
-                  <div>
+                  <div className="flex flex-col gap-3">
                     <div>
                       <p className="block">Nominal Pendanaan</p>
-                      <p>{autoLend?.amountToLend}</p>
+                      <p className="font-bold">
+                        {FormatMataUang(autoLend?.amountToLend)}
+                      </p>
                     </div>
                     <div>
                       <p className="block">Imbal Hasil</p>
-                      <span>{autoLend?.yieldRange?.start}</span>-
-                      <span>{autoLend?.yieldRange?.end}</span>
+                      <span>{FormatMataUang(autoLend?.yieldRange?.start)}</span>
+                      {" - "}
+                      <span>{FormatMataUang(autoLend?.yieldRange?.end)}</span>
                     </div>
                     <div>
                       <p className="block">Kategori Pinjaman</p>
@@ -231,7 +227,7 @@ const Pendanaan = () => {
                       <span>{autoLend?.tenorLength?.end}</span> Bulan
                     </div>
                     <Button
-                      className={"text-red-500 border border-red-400"}
+                      className={"text-red-500 border border-red-400 w-full"}
                       onClick={() => handleDeleteAutoLend()}
                       type={"button"}
                     >

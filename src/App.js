@@ -56,9 +56,13 @@ import KonfirmasiPencairanPinjaman from "./pages/borrower/pencairanPinjaman/Konf
 // Admin
 import DashboardAdmin from "./components/template/DashboardAdmin";
 import HomeAdmin from "./pages/admin/Home";
-import LoanAdmin from "./pages/admin/Loans";
 import LoginAdmin from "./pages/authentication/LoginAdmin";
 import ForgotPasswordChange from "./pages/authentication/ForgotPasswordChange";
+import ListKycAdmin from "./pages/admin/ListKycAdmin";
+import ListUser from "./pages/admin/ListUser";
+import LoanUser from "./pages/admin/LoanUser";
+import ListAutoLending from "./pages/admin/ListAutoLending";
+import ListFunding from "./pages/admin/ListFunding";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
@@ -169,7 +173,7 @@ function App() {
         )}
 
         {roles === "admin" && (
-          // Dashboard Borrower
+          // Dashboard Admin
           <>
             <Route
               path="*"
@@ -190,7 +194,11 @@ function App() {
               }
             >
               <Route index element={<HomeAdmin />} />
-              <Route path="loans" element={<LoanAdmin />} />
+              <Route path="kyc" element={<ListKycAdmin />} />
+              <Route path="users" element={<ListUser />} />
+              <Route path="loan" element={<LoanUser />} />
+              <Route path="funding" element={<ListFunding />} />
+              <Route path="auto-lend" element={<ListAutoLending />} />
             </Route>
           </>
         )}
