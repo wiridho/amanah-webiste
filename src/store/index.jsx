@@ -10,13 +10,17 @@ import BalanceTransactionReducer from "./reducer/Balance/BalanceTransactionReduc
 import BorrowerReducer from "./reducer/Borrower/BorrowerReducer.jsx";
 
 const reducers = combineReducers({
+  // Auth
   auth: AuthReducer,
+
   // Balance
   balance: BalanceReducer,
   balance_transaction: BalanceTransactionReducer,
   balance_account: BalanceAccountReducer,
+
   // Lender
   lender: LenderFundingReducer,
+
   // Borrower
   borrower: BorrowerReducer,
 });

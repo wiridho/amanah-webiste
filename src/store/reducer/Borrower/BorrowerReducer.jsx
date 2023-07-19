@@ -3,6 +3,7 @@ import {
   getBorrowersLoan,
   getBorrowersPaymentSchedule,
   postBorrowersLoan,
+  postLoanDisbursement,
   postPelunasanTagihan,
 } from "../../../service/Borrower/borrower";
 import { getProfileBorrower } from "../../../service/Borrower/profile";
@@ -95,6 +96,21 @@ const borrowerSlice = createSlice({
         state.load = false;
         state.error = true;
         state.message = action.payload;
+      })
+
+      // Post Pencairan Pinjaman
+      .addCase(postLoanDisbursement.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(postLoanDisbursement.fulfilled, (state, action) => {
+        state.success = true;
+        state.load = false;
+        state.error = false;
+      })
+      .addCase(postLoanDisbursement.rejected, (state, action) => {
+        state.success = false;
+        state.load = false;
+        state.error = true;
       })
 
       // Get profile borrower

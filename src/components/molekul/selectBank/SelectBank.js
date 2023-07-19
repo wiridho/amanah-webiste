@@ -11,8 +11,6 @@ const SelectBank = ({ data, name, control, errors, children, field }) => {
       label: item.name,
     }));
 
-  console.log(dataBank);
-
   return (
     <div>
       <Label>{children}</Label>
@@ -31,9 +29,7 @@ const SelectBank = ({ data, name, control, errors, children, field }) => {
           />
         )}
       />
-      {/* {errors?.name && (
-        <span className="text-red-500 text-xs">{errors?.name?.message}</span>
-      )} */}
+
       {errors?.["type"] === "required" && (
         <span className="text-red-500 text-xs">{errors?.message}</span>
       )}

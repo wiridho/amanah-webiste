@@ -6,7 +6,7 @@ import { postLenderFunding } from "../../../service/lender/funding";
 
 const PreviewKontrak = () => {
   const { state } = useLocation();
-  const { url, detail, data } = state;
+  const { url, data } = state;
   const { accessToken } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();

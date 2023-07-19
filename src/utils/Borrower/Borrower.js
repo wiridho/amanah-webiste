@@ -3,7 +3,9 @@ export const checkStatusLoan = (status) => {
 
   if (status === "on request" || status === "on process") {
     statusLoan = "Menunggu Pendanaan";
-  } else if (status === "in borrowing") {
+  } else if (status === "pending") {
+    statusLoan = "Pending";
+  } else if (status === "in borrowing" || status === "Belum dicairkan") {
     statusLoan = "Dana Terkumpul";
   } else if (status === "disbursement") {
     statusLoan = "Sudah dicairkan";

@@ -11,7 +11,7 @@ const Accordion = ({ title, children }) => {
     setContentHeight(contentRef.current.scrollHeight);
   };
   return (
-    <div className="bg-white shadow-sm rounded">
+    <div className="bg-slate-50 shadow rounded">
       <button
         className="flex items-center justify-between w-full p-3 rounded-lg text-gray-900 focus:outline-none"
         onClick={toggleAccordion}

@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { setMessage } from "../../store/reducer/AuthReducer";
+import InputCurrency from "../../components/molekul/InputCurrency/InputCurrency";
 
 const KycBorrower = () => {
   const [imageUrlSelfie, setImageUrlSelfie] = useState(false);
@@ -59,6 +60,11 @@ const KycBorrower = () => {
     formData.append("personal.birthDate", data.birthDate);
     formData.append("personal.work.name", data.workName);
     formData.append("personal.work.salary", data.salary);
+
+    formData.append("personal.work.annualIncome", data.annualIncome);
+    formData.append("personal.work.totalMonthlyDebt", data.totalMonthlyDebt);
+    formData.append("personal.homeOwnershipType", data.homeOwnershipType);
+
     formData.append(
       "relativesContact.firstRelative.name",
       data?.firstRelative?.name
@@ -92,6 +98,10 @@ const KycBorrower = () => {
         formData,
       })
     );
+    // const formDataObject = Object.fromEntries(formData.entries());
+
+    // Tampilkan objek FormData di konsol menggunakan console.log
+    // console.log(formDataObject);
   };
 
   const handleDataKtp = (data) => {
@@ -109,6 +119,14 @@ const KycBorrower = () => {
     const isStateFilled = gambarKTP && gambarSelfie;
     return isFormFilled && isStateFilled;
   };
+
+  const ownerShipType = [
+    { value: "Mortgage", label: "Mortgage" },
+    { value: "Rent", label: "Rent" },
+    { value: "Own", label: "Own" },
+  ];
+
+  console.log(errors);
 
   return (
     <div>
@@ -214,7 +232,18 @@ const KycBorrower = () => {
                 </InputLabel>
               </div>
               <div className="col-span-2">
-                <InputLabel
+                <InputCurrency
+                  name={"salary"}
+                  control={control}
+                  placeholder={"Masukkan Pendapatan Perbulan"}
+                  rules={{
+                    required: "Pendapatan Perbulan wajib diisi",
+                  }}
+                  errors={errors}
+                >
+                  Pendapatan Perbulan
+                </InputCurrency>
+                {/* <InputLabel
                   type={"number"}
                   name={"Pendapatan"}
                   register={{
@@ -225,7 +254,45 @@ const KycBorrower = () => {
                   errors={errors.salary}
                 >
                   Pendapatan Perbulan
-                </InputLabel>
+                </InputLabel> */}
+              </div>
+              <div className="col-span-2">
+                <SelectInput
+                  field={"Kredit Rumah"}
+                  name="homeOwnershipType"
+                  control={control}
+                  options={ownerShipType}
+                  defaultValue={genderOptions[0]}
+                  errors={errors}
+                >
+                  Rumah Kredit
+                </SelectInput>
+              </div>
+              <div className="col-span-2">
+                <InputCurrency
+                  name={"annualIncome"}
+                  control={control}
+                  placeholder={"Masukkan Pendapatan Pertahun"}
+                  rules={{
+                    required: "Pendapatan Pertahun wajib diisi",
+                  }}
+                  errors={errors}
+                >
+                  Pendapat Pertahun
+                </InputCurrency>
+              </div>
+              <div className="col-span-2">
+                <InputCurrency
+                  name={"totalMonthlyDebt"}
+                  control={control}
+                  placeholder={"Masukkan Total Hutang Bulanan"}
+                  rules={{
+                    required: "Perdapatan Pertahun wajib diisi",
+                  }}
+                  errors={errors}
+                >
+                  Total Hutang Bulanan
+                </InputCurrency>
               </div>
             </div>
           </div>

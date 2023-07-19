@@ -4,6 +4,7 @@ import { FormatMataUang } from "../../utils/FormatMataUang";
 import moment from "moment";
 import CardPinjamanBerjalan from "../../components/organism/cardPinjamanBerjalan/CardPinjamanBerjalan";
 import ErrorImg from "../../assets/img/error/error.png";
+import { checkStatusLoan } from "../../utils/Borrower/Borrower";
 
 const RiwayatPeminjaman = () => {
   const { loanHistory } = useSelector((state) => state.borrower);
@@ -89,7 +90,7 @@ const RiwayatPeminjaman = () => {
               ) : (
                 <CardPinjamanBerjalan
                   activeLoan={activeLoan}
-                  statusLoanAcitve={statusLoanAcitve}
+                  statusLoanAcitve={checkStatusLoan}
                   progress={progress}
                 />
               )}

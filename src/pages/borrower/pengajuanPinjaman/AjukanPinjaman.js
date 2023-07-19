@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CurrencyInput from "react-currency-input-field";
 import { Controller, useForm } from "react-hook-form";
 import { Button, Label } from "../../../components/atom";
+import { opsiTenor, opsiKategori } from "../../../utils/optionValues";
 import {
   InputLabel,
   RadioButton,
@@ -10,6 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getBorrowersLoan } from "../../../service/Borrower/borrower";
+import InputCurrency from "../../../components/molekul/InputCurrency/InputCurrency";
 
 const AjukanPinjaman = () => {
   const { accessToken } = useSelector((state) => state.auth);
@@ -34,38 +36,10 @@ const AjukanPinjaman = () => {
   }, []);
 
   const onSubmit = (data) => {
-    navigate("/borrower/preview-kontrak", {
+    console.log(data);
+    navigate("/borrower/konfirmasi-pinjaman", {
       state: data,
     });
-  };
-
-  const opsiKategori = [
-    { value: "Pendidikan", label: "Pendidikan" },
-    { value: "Hiburan", label: "Hiburan" },
-    { value: "Pribadi", label: "Pribadi" },
-    { value: "Usaha", label: "Usaha" },
-    { value: "other", label: "other" },
-  ];
-  const opsiTenor = [
-    { value: "1", label: "1 Bulan" },
-    { value: "2", label: "2 Bulan" },
-    { value: "3", label: "3 Bulan" },
-    { value: "4", label: "4 Bulan" },
-    { value: "5", label: "5 Bulan" },
-    { value: "6", label: "6 Bulan" },
-    { value: "7", label: "7 Bulan" },
-    { value: "8", label: "8 Bulan" },
-    { value: "9", label: "9 Bulan" },
-    { value: "10", label: "10 Bulan" },
-    { value: "11", label: "11 Bulan" },
-    { value: "12", label: "12 Bulan" },
-  ];
-  const validasiStep = (value) => {
-    const amount = parseFloat(value.replace(/[^\d.-]/g, "")); // Menghapus karakter non-angka dari value input
-    if (amount % 50000 !== 0) {
-      return "Kelipatan nominal harus Rp50.000!";
-    }
-    return true;
   };
 
   return (
@@ -80,98 +54,57 @@ const AjukanPinjaman = () => {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div>
                   <div>
-                    <Label>Nominal</Label>
-                    <Controller
-                      name="amount"
+                    <InputCurrency
+                      name={"amount"}
                       control={control}
+                      placeholder={"Rp100.000"}
                       rules={{
-                        required: "Nominal wajib diisi!",
-                        min: {
-                          value: 500000,
-                          message: `Minimal nominal pinjaman Rp500.000`,
-                        },
-                        validate: { validasiStep },
+                        required: "Nominal Pinjaman wajib diisi",
                       }}
-                      render={({ field }) => (
-                        <div>
-                          <CurrencyInput
-                            placeholder="Minimal Rp500.000"
-                            className="w-full border border-gray-300 px-4 py-2 rounded-lg bg-gray-50 focus:ring-1 outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                            value={field.value}
-                            onValueChange={(value) => {
-                              field.onChange(value);
-                            }}
-                            onBlur={field.onBlur}
-                            decimalSeparator=","
-                            groupSeparator="."
-                            prefix="Rp"
-                            decimalsLimit={2}
-                          />
-                        </div>
-                      )}
-                    />
-                    {errors.amount && (
-                      <span className="text-red-500 text-xs">
-                        {errors.amount.message}
-                      </span>
-                    )}
+                      errors={errors}
+                    >
+                      Nominal Pinjaman
+                    </InputCurrency>
                   </div>
                   <div>
-                    <Label>Imbal Hasil</Label>
-                    <Controller
-                      name="yieldReturn"
+                    <InputCurrency
+                      name={"yieldReturn"}
                       control={control}
+                      placeholder={"Rp50.000"}
                       rules={{
-                        required: "Imbal hasil wajib diisi!",
-                        min: {
-                          value: 50000,
-                          message: `Minimal imbal hasil pinjaman Rp50.000`,
-                        },
+                        required: "Imbal hasil wajib diisi",
                       }}
-                      render={({ field }) => (
-                        <div>
-                          <CurrencyInput
-                            placeholder="Minimal Rp50.000"
-                            className="w-full border border-gray-300 px-4 py-2 rounded-lg bg-gray-50 focus:ring-1 outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                            value={field.value}
-                            onValueChange={(value) => {
-                              field.onChange(value);
-                            }}
-                            onBlur={field.onBlur}
-                            decimalSeparator=","
-                            groupSeparator="."
-                            prefix="Rp"
-                            decimalsLimit={2}
-                          />
-                        </div>
-                      )}
-                    />
-                    {errors.yieldReturn && (
-                      <span className="text-red-500 text-xs">
-                        {errors.yieldReturn.message}
-                      </span>
-                    )}
+                      errors={errors}
+                    >
+                      Imbal Hasil
+                    </InputCurrency>
                   </div>
                   <div>
                     <SelectInput
                       field={"Tenor"}
                       name="tenor"
+                      rules={{
+                        required: "Tenor wajib diisi",
+                      }}
                       control={control}
                       options={opsiTenor}
                       defaultValue={opsiTenor[0]}
-                      errors={errors?.["tenor"]}
+                      errors={errors}
                     >
                       Tenor
                     </SelectInput>
                   </div>
                   <div>
                     <SelectInput
+                      rules={{
+                        required: "Kategori pinjaman wajib diisi",
+                      }}
                       field={"Kategori Pinjaman"}
                       name="borrowingCategory"
                       control={control}
                       options={opsiKategori}
                       defaultValue={opsiKategori[0]}
-                      errors={errors?.["borrowingCategory"]}
+                      errors={errors}
                     >
                       Kategori Pinjaman
                     </SelectInput>
@@ -188,6 +121,20 @@ const AjukanPinjaman = () => {
                       errors={errors.purpose}
                     >
                       Tujuan Peminjaman
+                    </InputLabel>
+                  </div>
+                  <div>
+                    <InputLabel
+                      type={"text"}
+                      name={"Link Produk"}
+                      register={{
+                        ...register("productLink", {
+                          required: true,
+                        }),
+                      }}
+                      errors={errors.productLink}
+                    >
+                      Link Produk
                     </InputLabel>
                   </div>
                   <div className="">

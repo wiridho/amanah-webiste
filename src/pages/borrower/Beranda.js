@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
+import _ from "lodash";
 
 // icon
 import { AiOutlineSchedule } from "react-icons/ai";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 
+// image
+import BillImg from "../../assets/img/bill/bill.png";
+import CalendarImg from "../../assets/img/calendar/calendar.png";
+
+// Component
 import { Badge, Button } from "../../components/atom";
 
+// Service
 import {
   getBorrowersLoan,
   getBorrowersPaymentSchedule,
@@ -15,12 +23,10 @@ import {
   postPelunasanTagihan,
 } from "../../service/Borrower/borrower";
 import { FormatMataUang } from "../../utils/FormatMataUang";
-import { Link, useNavigate } from "react-router-dom";
 import { getProfileBorrower } from "../../service/Borrower/profile";
 import { getBorrowerStatusKYC } from "../../service/Borrower/borrowerVerificationKYC";
 import { setStatusKYC } from "../../store/reducer/AuthReducer";
 import { checkStatusLoan, sisaPembayaran } from "../../utils/Borrower/Borrower";
-import _ from "lodash";
 import StatusKYC from "../../components/molekul/statusKYC/StatusKYC";
 import { checkNaN } from "../../utils/CheckNan";
 
@@ -127,7 +133,6 @@ const Beranda = () => {
         </span>
       );
     }
-
     return status;
   };
 
@@ -141,7 +146,7 @@ const Beranda = () => {
     }
   }
 
-  console.log(loanHistory);
+  console.log(loanHistory?.active?.status);
 
   return (
     <div className="grid grid-cols-6 gap-10 font-nunito-sans ">
@@ -191,20 +196,50 @@ const Beranda = () => {
             </article>
           </div>
           <div>
-            <article className="rounded-lg border border-gray-100 bg-white p-5">
-              <div className="flex items-center justify-between">
-                <div className="flex flex-col gap-2">
-                  <p className="text-sm text-gray-500 ">Tagihan bulan ini</p>
-                  <p className="text-2xl font-medium text-gray-900">
-                    {paymentSchedule?.currentMonth < 1
-                      ? "Tidak ada tagihan bulan ini"
-                      : FormatMataUang(paymentSchedule?.currentMonth)}
-                  </p>
+            <article className="rounded-lg border border-gray-100 bg-white">
+              <div className="border-b border-b-gray-200 p-5 flex items-center gap-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 text-blue-900"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"
+                  />
+                </svg>
+                <span className="text-blue-900 font-medium">
+                  Tagihan bulan ini
+                </span>
+              </div>
+              <div className="flex items-center justify-between p-5">
+                <div className="flex flex-col gap-2 content-center w-full">
+                  <div className="text-2xl font-medium text-gray-900 ">
+                    {paymentSchedule?.currentMonth < 1 ? (
+                      <div className="flex flex-col justify-center items-center w-full ">
+                        <img
+                          src={BillImg}
+                          className=""
+                          style={{ width: 100, height: 100 }}
+                          alt=""
+                        />
+                        <p className="text-red-400 text-base pt-3">
+                          Tidak ada tagihan bulan ini
+                        </p>
+                      </div>
+                    ) : (
+                      FormatMataUang(paymentSchedule?.currentMonth)
+                    )}
+                  </div>
                   {paymentSchedule?.currentMonth < 1 ? (
                     ""
                   ) : (
                     <p className=" text-red-500 text-xs">
-                      Jatuh tempo pada{" "}
+                      Jatuh tempo pada
                       {moment(jatuhTempoCurrentMonth()).format(
                         "DD MMMM YYYY hh:mm"
                       )}
@@ -238,6 +273,7 @@ const Beranda = () => {
             </article>
           </div>
           {/* Loan Disbursement */}
+
           {disbursement?.hasOwnProperty("amount") ? (
             <div className="col-span-3">
               <article className="rounded-lg border border-gray-100 bg-white p-5">
@@ -246,7 +282,7 @@ const Beranda = () => {
                     <div>
                       <p className="text-sm text-gray-500 ">Status Pinjaman</p>
                       <p className="text-lg font-medium text-gray-900">
-                        {checkStatusLoan(loanHistory?.active?.status)}
+                        {checkStatusLoan(disbursement?.status)}
                       </p>
                     </div>
                     <div>
@@ -275,22 +311,25 @@ const Beranda = () => {
                     </div>
                   </div>
                 </div>
-                <Button
-                  onClick={() => navigate("list-bank")}
-                  type={"button"}
-                  className={`w-full mt-3 ${
-                    loanHistory?.active?.status === "in borrowing"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-500 text-white cursor-not-allowed"
-                  }`}
-                  disabled={
-                    loanHistory?.active?.status !== "in borrowing"
-                      ? true
-                      : false
-                  }
-                >
-                  Cairkan Dana
-                </Button>
+                {disbursement?.status === "in borrowing" ||
+                  (disbursement?.status === "Belum dicairkan" && (
+                    <Button
+                      onClick={() => navigate("form-pencairan")}
+                      type={"button"}
+                      className={`w-full mt-3 ${
+                        disbursement?.status === "Belum dicairkan"
+                          ? "bg-blue-600 text-white"
+                          : "bg-gray-500 text-white cursor-not-allowed"
+                      }`}
+                      disabled={
+                        disbursement?.status !== "Belum dicairkan"
+                          ? true
+                          : false
+                      }
+                    >
+                      Cairkan Dana
+                    </Button>
+                  ))}
               </article>
             </div>
           ) : (
@@ -307,8 +346,11 @@ const Beranda = () => {
           </div>
           <div className=" flex flex-col gap-3 py-3 px-5">
             {paymentSchedule?.paymentSchedule?.length < 1 ? (
-              <div className="flex justify-center items-center">
-                <span> Tidak ada jadwal pembayaran </span>
+              <div className="flex flex-col justify-center items-center">
+                <img src={CalendarImg} style={{ width: 100 }} alt="" />
+                <span className="text-red-400 text-base pt-4">
+                  Tidak ada jadwal pembayaran
+                </span>
               </div>
             ) : (
               paymentSchedule?.paymentSchedule?.map((item, index) => {
@@ -455,11 +497,33 @@ const Beranda = () => {
             </div>
           </>
         )}
+
         <div className="mt-3">
-          <div className="shadow-md">
+          <div className="shadow-md bg-white rounded-md ">
             <div className="">
-              <div className="flex flex-col justify-between p-5 bg-white">
-                <div className="flex flex-col text-center	bg-blue-100 p-4 rounded-md">
+              <div className="border-b border-b-gray-200 p-5 flex items-center gap-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 text-blue-900"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z"
+                  />
+                </svg>
+
+                {/* <AiOutlineSchedule size={25} className="text-blue-900" /> */}
+                <span className="text-blue-900 font-medium">
+                  Pinjaman Aktif
+                </span>
+              </div>
+              <div className="flex flex-col justify-between p-5 bg-white ">
+                <div className="flex flex-col text-center	bg-blue-100 p-4">
                   <span className="text-blue-600">Pinjaman aktif anda</span>
                   <span className="text-2xl font-semibold text-blue-600">
                     {FormatMataUang(activeLoan?.amount)}
@@ -471,13 +535,17 @@ const Beranda = () => {
                       Estimasi Imbal Hasil
                     </span>
                     <span className="font-semibold  text-gray-700">
-                      {FormatMataUang(activeLoan?.yieldReturn)}
+                      {activeLoan?.yieldReturn !== undefined
+                        ? FormatMataUang(activeLoan?.yieldReturn)
+                        : "-"}
                     </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-base text-gray-800">Tenor</span>
                     <span className="font-semibold  text-gray-700">
-                      {activeLoan?.tenor} Bulan
+                      {activeLoan?.tenor !== undefined
+                        ? `${activeLoan?.tenor} bulan`
+                        : "-"}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -485,7 +553,9 @@ const Beranda = () => {
                       Kategori Pinjaman
                     </span>
                     <span className="font-semibold  text-gray-700">
-                      {activeLoan?.borrowingCategory}
+                      {activeLoan?.borrowingCategory !== undefined
+                        ? `${activeLoan?.borrowingCategory}`
+                        : "-"}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -501,7 +571,7 @@ const Beranda = () => {
                   <div className="flex justify-between">
                     <span className="text-base text-gray-800">Tujuan</span>
                     <span className="font-semibold  text-gray-700">
-                      {activeLoan?.purpose}
+                      {activeLoan?.purpose ? `${activeLoan?.purpose}` : "-"}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -509,53 +579,53 @@ const Beranda = () => {
                       Status Pinjaman
                     </span>
                     <span className="font-semibold  text-gray-700">
-                      {statusLoanAcitve(activeLoan?.status)}
+                      {statusLoanAcitve(activeLoan?.status) !== undefined
+                        ? statusLoanAcitve(activeLoan?.status)
+                        : "-"}
                     </span>
                   </div>
                 </div>
               </div>
             </div>
-            <span className="rounded-md ">
-              <div className="border-t-[1px] rounded-b-md">
-                <div className="py-3 px-5">
-                  <div className="flex gap-6 mb-2">
-                    <div className="flex flex-col ">
-                      <span className="text-[13px] text-[#194175] ">
-                        Terdanai
-                      </span>
-                      <span className="text-sm text-[#194175] font-semibold">
-                        {checkNaN(progress.toFixed(2))}%
-                      </span>
-                    </div>
-                    <div className="border-r-[1px]"></div>
-                    <div className="flex flex-col">
-                      <span className="text-[13px] text-[#194175] ">
-                        Pinjaman Terkumpul
-                      </span>
-                      <span className="text-sm font-semibold text-gray-700">
-                        {FormatMataUang(activeLoan?.totalFund)}
-                      </span>
-                    </div>
+            <div className="border-t-[1px]">
+              <div className="py-3 px-5 rounded-b-md">
+                <div className="flex gap-6 mb-2">
+                  <div className="flex flex-col ">
+                    <span className="text-[13px] text-[#194175] ">
+                      Terdanai
+                    </span>
+                    <span className="text-sm text-[#194175] font-semibold">
+                      {checkNaN(progress.toFixed(2))}%
+                    </span>
                   </div>
+                  <div className="border-r-[1px]"></div>
+                  <div className="flex flex-col">
+                    <span className="text-[13px] text-[#194175] ">
+                      Pinjaman Terkumpul
+                    </span>
+                    <span className="text-sm font-semibold text-gray-700">
+                      {FormatMataUang(activeLoan?.totalFund)}
+                    </span>
+                  </div>
+                </div>
+                <span
+                  role="progressbar"
+                  aria-labelledby="ProgressLabel"
+                  className="block rounded-full bg-gray-200"
+                >
                   <span
-                    role="progressbar"
-                    aria-labelledby="ProgressLabel"
-                    className="block rounded-full bg-gray-200"
+                    className="block h-4 rounded-full bg-green-400 text-center text-[10px]/4"
+                    style={{
+                      width: `${isNaN(progress) ? "0" : progress}%`,
+                    }}
                   >
-                    <span
-                      className="block h-4 rounded-full bg-green-400 text-center text-[10px]/4"
-                      style={{
-                        width: `${isNaN(progress) ? "0" : progress}%`,
-                      }}
-                    >
-                      <span className="font-bold text-white">
-                        {isNaN(progress) ? "0.00%" : `${progress.toFixed(2)}%`}
-                      </span>
+                    <span className="font-bold text-white">
+                      {isNaN(progress) ? "0.00%" : `${progress.toFixed(2)}%`}
                     </span>
                   </span>
-                </div>
+                </span>
               </div>
-            </span>
+            </div>
           </div>
         </div>
       </div>
