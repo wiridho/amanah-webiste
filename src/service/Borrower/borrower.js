@@ -84,33 +84,66 @@ export const getLoanDisbursement = async ({ accessToken }) => {
   }
 };
 
-export const postLoanDisbursement = async ({ accessToken, navigate, data }) => {
-  try {
-    const response = await axios.post(
-      `${apiConfig.baseUrl}/borrowers/loan/disbursement`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
-    Swal.fire(
-      "Pencairan dana berhasil!",
-      `${response?.data?.message}`,
-      "success"
-    );
-    navigate("/borrower/riwayat-pinjaman");
-    return response?.data?.data;
-  } catch (error) {
-    Swal.fire(
-      "Pencairan dana gagal!",
-      `${error?.response?.data?.message}`,
-      "error"
-    );
-    return null;
+// export const postLoanDisbursement = async ({ accessToken, navigate, data }) => {
+//   try {
+//     const response = await axios.post(
+//       `${apiConfig.baseUrl}/borrowers/loan/disbursement`,
+//       data,
+//       {
+//         headers: {
+//           "Content-Type": "multipart/form-data",
+//           Authorization: `Bearer ${accessToken}`,
+//         },
+//       }
+//     );
+//     Swal.fire(
+//       "Pencairan dana berhasil!",
+//       `${response?.data?.message}`,
+//       "success"
+//     );
+//     navigate();
+//     return response?.data?.data;
+//   } catch (error) {
+//     Swal.fire(
+//       "Pencairan dana gagal!",
+//       `${error?.response?.data?.message}`,
+//       "error"
+//     );
+//     return null;
+//   }
+// };
+
+export const postLoanDisbursement = createAsyncThunk(
+  "borrowers/postLoanDisbursement",
+  async ({ accessToken, data, navigate }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${apiConfig.baseUrl}/borrowers/loan/disbursement`,
+        data,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      Swal.fire(
+        "Pencairan dana berhasil!",
+        `${response?.data?.message}`,
+        "success"
+      );
+      navigate();
+      return response?.data?.data;
+    } catch (error) {
+      Swal.fire(
+        "Pencairan dana gagal!",
+        `${error?.response?.data?.message}`,
+        "error"
+      );
+      return null;
+    }
   }
-};
+);
 
 // Pelunasan Tagihan
 export const postPelunasanTagihan = createAsyncThunk(

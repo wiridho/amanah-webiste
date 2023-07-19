@@ -20,78 +20,7 @@ const Portofolio = () => {
     dispatch(getLenderFunding({ accessToken }));
   }, [dispatch, accessToken]);
 
-  // const portofolio = {
-  //   active: {
-  //     summary: {
-  //       totalFunding: 120000,
-  //       totalYield: 70000,
-  //     },
-  //     funding: [
-  //       {
-  //         funds: {
-  //           amount: 500000,
-  //           yieldReturn: 50000,
-  //           repaymentDate: "2023-09-10T00:00:00.000Z",
-  //         },
-  //         Loan: {
-  //           borrower: {
-  //             name: "John Doe",
-  //             creditScore: 500,
-  //           },
-  //           loan: {
-  //             loanId: "tes",
-  //             amount: 5000000,
-  //             tenor: 5,
-  //           },
-  //         },
-  //       },
-  //       {
-  //         funds: {
-  //           amount: 1200000,
-  //           yieldReturn: 40000,
-  //           repaymentDate: "2023-10-10T00:00:00.000Z",
-  //         },
-  //         Loan: {
-  //           borrower: {
-  //             name: "The Undertaker",
-  //             creditScore: 500,
-  //           },
-  //           loan: {
-  //             loanId: "tes2",
-  //             amount: 5000000,
-  //             tenor: 2,
-  //           },
-  //         },
-  //       },
-  //     ],
-  //   },
-  //   done: {
-  //     summary: {
-  //       totalFunding: 5000000,
-  //       totalYield: 200000,
-  //     },
-  //     funding: [
-  //       {
-  //         funds: {
-  //           amount: 500000,
-  //           yieldReturn: 50000,
-  //           repaymentDate: "2023-08-10T00:00:00.000Z",
-  //         },
-  //         Loan: {
-  //           borrower: {
-  //             name: "Lionel Messi",
-  //             creditScore: 500,
-  //           },
-  //           loan: {
-  //             loanId: "640410c5465ed9af9ccb8912",
-  //             amount: 5000000,
-  //             tenor: 5,
-  //           },
-  //         },
-  //       },
-  //     ],
-  //   },
-  // };
+  console.log(portofolio);
 
   return (
     <div className="font-nunito-sans">
@@ -131,12 +60,14 @@ const Portofolio = () => {
         <div className="col-span-3">
           {portofolio?.[tab]?.funding?.map((item, index) => {
             const { name, creditScore } = item?.Loan?.borrower;
-            const { repaymentDate, amount, yieldReturn } = item?.funds;
-            const { tenor, loanId } = item?.Loan?.loan;
+            const { repaymentDate, amount, yieldReturn, createdDate } =
+              item?.funds;
+            const { tenor, loanId, contract } = item?.Loan?.loan;
             return (
               <div className="mb-5" key={index}>
                 <div>
                   <CardPortofolio
+                    contract={contract}
                     name={name}
                     creditScore={creditScore}
                     repaymentDate={repaymentDate}
@@ -144,6 +75,7 @@ const Portofolio = () => {
                     yieldReturn={yieldReturn}
                     tenor={tenor}
                     loanId={loanId}
+                    createdDate={createdDate}
                   />
                 </div>
               </div>

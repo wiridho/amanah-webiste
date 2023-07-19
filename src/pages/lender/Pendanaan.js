@@ -14,7 +14,11 @@ import { Button } from "../../components/atom";
 
 import LoanNotAvailable from "../../assets/img/error/loanNotAvailable.png";
 
-import { MdOutlineSchedule } from "react-icons/md";
+import {
+  MdOutlineAddBusiness,
+  MdOutlineSchedule,
+  MdWorkHistory,
+} from "react-icons/md";
 import ModalAutoLend from "../../components//organism/modalAutoLend/ModalAutoLend";
 import {
   deleteFundingAuto,
@@ -180,7 +184,7 @@ const Pendanaan = () => {
                 type={"button"}
                 onClick={handleReset}
                 className={
-                  "w-full border-[1px] border-gray-200 font-semibold text-blue-500  my-2 hover:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all text-sm"
+                  "w-full  font-semibold text-blue-500 hover:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all text-sm"
                 }
               >
                 Reset
@@ -189,7 +193,6 @@ const Pendanaan = () => {
           </div>
 
           <div className="shadow-md bg-white p-4 rounded-md ">
-            <p className=" mb-2">Terapkan Auto Lending</p>
             {autoLend?.status === undefined && (
               <ButtonIcon
                 className={
@@ -197,7 +200,7 @@ const Pendanaan = () => {
                 }
                 onClick={() => setModal(true)}
               >
-                <MdOutlineSchedule /> Autolend
+                <MdWorkHistory size={25} /> Tambah Auto Lending
               </ButtonIcon>
             )}
             {autoLend?.status !== undefined && (
@@ -227,7 +230,9 @@ const Pendanaan = () => {
                       <span>{autoLend?.tenorLength?.end}</span> Bulan
                     </div>
                     <Button
-                      className={"text-red-500 border border-red-400 w-full"}
+                      className={
+                        "text-red-500 border  hover:bg-red-500 hover:text-white border-red-400  w-full mb-2"
+                      }
                       onClick={() => handleDeleteAutoLend()}
                       type={"button"}
                     >

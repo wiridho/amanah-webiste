@@ -90,20 +90,11 @@ const WithdrawTambahBank = () => {
                   >
                     Nomor Rekening
                   </InputLabel>
-
-                  {/* <SelectDropdown
-                    caption="Select an option"
-                    data={banks}
-                    control={control}
-                    name="selectedOption"
-                    errors={errors.selectedOption}
-                  /> */}
                   <SelectBank
                     field={"Bank"}
                     name="selectedOption"
                     control={control}
                     data={banks}
-                    // defaultValue={genderOptions[0]}
                     errors={errors?.selectedOption}
                   >
                     Pilih Bank

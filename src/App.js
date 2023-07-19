@@ -63,6 +63,8 @@ import ListUser from "./pages/admin/ListUser";
 import LoanUser from "./pages/admin/LoanUser";
 import ListAutoLending from "./pages/admin/ListAutoLending";
 import ListFunding from "./pages/admin/ListFunding";
+import FormPencairanPinjaman from "./pages/borrower/pencairanPinjaman/FormPencairanPinjaman";
+import ValidasiKontrak from "./pages/public/ValidasiKontrak";
 
 function App() {
   const { roles, is_auth } = useSelector((state) => state.auth);
@@ -133,6 +135,12 @@ function App() {
               path="/"
               element={<Navigate to={"/borrower"} replace={true} />}
             />
+            <Route
+              path="/contract/validation/:id"
+              element={
+                <ProtectRoute valid={is_auth} children={<ValidasiKontrak />} />
+              }
+            />
 
             <Route
               path="borrower"
@@ -154,6 +162,11 @@ function App() {
                 path="konfirmasi-pinjaman"
                 element={<KonfirmasiPinjaman />}
               />
+              <Route
+                path="form-pencairan"
+                element={<FormPencairanPinjaman />}
+              />
+
               <Route
                 path="konfirmasi-pencairan"
                 element={<KonfirmasiPencairanPinjaman />}

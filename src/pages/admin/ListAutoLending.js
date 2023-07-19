@@ -75,7 +75,7 @@ const ListAutoLending = () => {
   return (
     <div className="flex flex-col gap-3 font-nunito-sans">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold">List data user</h1>
+        <h1 className="text-xl font-semibold">List User Auto Lend</h1>
         <div className="relative  w-1/4 flex items-center">
           <input
             type="text"

@@ -7,6 +7,7 @@ import {
   getFundingAuto,
   postFundingAuto,
 } from "../../../service/lender/autoLend";
+import { getProfileLender } from "../../../service/lender/profile";
 
 const initialState = {
   success: null,
@@ -17,6 +18,7 @@ const initialState = {
   portofolio: null,
   profit: null,
   autoLend: null,
+  profile: null,
 };
 
 const lenderFundingSlice = createSlice({
@@ -111,6 +113,20 @@ const lenderFundingSlice = createSlice({
         state.error = false;
       })
       .addCase(deleteFundingAuto.rejected, (state, action) => {
+        state.load = false;
+        state.error = true;
+        state.message = action.payload;
+      })
+      // Get profile lender
+      .addCase(getProfileLender.pending, (state) => {
+        state.load = true;
+      })
+      .addCase(getProfileLender.fulfilled, (state, action) => {
+        state.load = false;
+        state.error = false;
+        state.profile = action.payload;
+      })
+      .addCase(getProfileLender.rejected, (state, action) => {
         state.load = false;
         state.error = true;
         state.message = action.payload;

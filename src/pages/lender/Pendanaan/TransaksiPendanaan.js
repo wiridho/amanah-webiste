@@ -6,25 +6,27 @@ import { postLenderFunding } from "../../../service/lender/funding";
 import { BiWallet } from "react-icons/bi";
 import { FormatMataUang } from "../../../utils/FormatMataUang";
 import { IoWarningOutline } from "react-icons/io5";
-import { Button } from "../../../components/atom";
+import { Button, Input, Label, Message } from "../../../components/atom";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { estimasiImbalHasil } from "../../../utils/EstimasiImbalHasil";
 import { handleGetBalance } from "../../../service/balance/balance";
 import CurrencyInput from "react-currency-input-field";
+import { setMessage } from "../../../store/reducer/Lender/LenderFundingReducer";
 
 const TransaksiPendanaan = ({
   totalPinjaman,
   totalImbalHasil,
   sisaPendanaan,
   contract,
+  setModal,
 }) => {
   const [getInputValue, setGetInputValue] = useState("");
-
   const { loanId } = useParams();
   const { accessToken } = useSelector((state) => state.auth);
   const { balance } = useSelector((state) => state.balance);
+  const { message } = useSelector((state) => state.lender);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -32,8 +34,6 @@ const TransaksiPendanaan = ({
   // Calling useForm
   const {
     handleSubmit,
-    getValues,
-    control,
     formState: { errors },
   } = useForm();
 
@@ -45,42 +45,31 @@ const TransaksiPendanaan = ({
     getBalance();
   }, []);
 
-  const onSubmit = (data) => {
-    navigate("/funder/pendanaan/preview-kontrak", {
-      state: {
-        url: contract,
-        backLink: `/funder/pendanaan/${loanId}`,
-        data: { ...data, ...{ loanId } },
-      },
-    });
-  };
+  const validasiBalance = (amount) => {
+    const data = {
+      amount: totalPinjaman,
+      loanId: loanId,
+    };
 
-  const validasiStep = (value) => {
-    const amount = parseFloat(value.replace(/[^\d.-]/g, "")); // Menghapus karakter non-angka dari value input
-    if (amount % 50000 !== 0) {
-      return "Kelipatan harus Rp50,000";
-    }
-    return true;
-  };
-
-  const validasiBalance = (value) => {
-    const amount = parseFloat(value.replace(/[^\d.-]/g, "")); // Menghapus karakter non-angka dari value input
     const saldo = parseFloat(balance);
     console.log(balance);
     if (amount > saldo) {
-      return "Saldo anda tidak cukup!";
+      console.log("entry");
+      dispatch(setMessage("Saldo Tidak Cukup"));
+    } else {
+      dispatch(
+        postLenderFunding({
+          data,
+          accessToken,
+          navigate: () => navigate("/funder"),
+        })
+      );
+      return true;
     }
-    return true;
   };
 
-  const validasiSisaPendanaan = (value) => {
-    const amount = parseFloat(value.replace(/[^\d.-]/g, "")); // Menghapus karakter non-angka dari value input
-    const sisaSlot = parseFloat(sisaPendanaan);
-    if (amount > sisaSlot) {
-      const result = `Pendanaan tidak boleh melebihi sisa slot saat ini! Maksimal ${sisaSlot}`;
-      return result;
-    }
-    return true;
+  const onSubmit = () => {
+    validasiBalance(totalPinjaman);
   };
 
   let estImbalHasil = estimasiImbalHasil({
@@ -89,11 +78,25 @@ const TransaksiPendanaan = ({
     getInputValue,
   });
 
+  const handleClose = () => {
+    setModal(false);
+    dispatch(setMessage(null));
+  };
+
   return (
     <div>
       <div className="">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex items-center gap-3 text-gray-500">
+          {
+            <Message
+              status={false}
+              message={message}
+              visible={message !== null ? true : false}
+              close={true}
+              onClose={() => dispatch(setMessage(null))}
+            />
+          }
+          <div className="flex items-center gap-3 my-3 text-gray-500">
             <BiWallet className="w-6 h-6" />
             <h3 className=" text-md ">Saldo Akun</h3>
           </div>
@@ -106,40 +109,8 @@ const TransaksiPendanaan = ({
           <div>
             <div>
               <div className="relative mt-2 rounded-md shadow-sm">
-                <Controller
-                  name="amount"
-                  control={control}
-                  rules={{
-                    required: "Nominal wajib diisi!",
-                    min: {
-                      value: 100000,
-                      message: `Minimal Pendanaan Rp100.000`,
-                    },
-                    validate: {
-                      validasiStep,
-                      validasiBalance,
-                      validasiSisaPendanaan,
-                    },
-                  }}
-                  render={({ field }) => (
-                    <div>
-                      <CurrencyInput
-                        placeholder="Rp100.000"
-                        className="w-full border border-gray-300 px-4 py-2 rounded-lg bg-gray-50 focus:ring-1 outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                        value={field.value}
-                        onValueChange={(value) => {
-                          setGetInputValue(value);
-                          field.onChange(value);
-                        }}
-                        onBlur={field.onBlur}
-                        decimalSeparator=","
-                        groupSeparator="."
-                        prefix="Rp"
-                        decimalsLimit={2}
-                      />
-                    </div>
-                  )}
-                />
+                <Label>Nominal Pinjaman</Label>
+                <input value={FormatMataUang(totalPinjaman)} disabled />
               </div>
               {errors.amount && (
                 <span className="text-red-500 text-xs">
@@ -172,18 +143,23 @@ const TransaksiPendanaan = ({
               </span>
             </div>
           </div>
-
           <Button
+            type={"submit"}
             className={
-              "mt-5 bg-indigo-500 hover:bg-indigo-700 !rounded-full text-white w-full"
+              "mt-5 bg-indigo-500 hover:bg-indigo-700  text-white w-full"
             }
           >
             Danai
           </Button>
-          {/* <span className="rounded-full bg-green-100 px-3 py-1.5 text-xs font-medium text-green-600">
-          4.3
-        </span> */}
         </form>
+
+        <Button
+          type={"button"}
+          onClick={handleClose}
+          className="w-full  bg-red-500 text-white font-semibold mt-2  py-2 px-4"
+        >
+          Tutup
+        </Button>
       </div>
     </div>
   );

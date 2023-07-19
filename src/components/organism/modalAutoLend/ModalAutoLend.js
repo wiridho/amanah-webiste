@@ -91,8 +91,19 @@ const ModalAutoLend = ({ onClose }) => {
       <div className="fixed inset-0 w-full h- full bg-black opacity-40"></div>
       <div className="flex items-center min-h-screen">
         <div className="relative w-full max-w-lg mx-auto bg-white rounded-md p-6">
-          <div className="flex flex-col">
-            <span className="font-bold text-lg text-gray-800">Autolend </span>
+          <div className="flex flex-col gap-4">
+            <div
+              className="flex flex-col gap-2
+            "
+            >
+              <span className="font-bold text-2xl text-gray-800 text-center">
+                Autolend{" "}
+              </span>
+              <span className="text-gray-600 text-sm">
+                Mohon lengkapi data di bawah ini untuk mengatur auto lending
+                Anda.
+              </span>
+            </div>
             <div className="">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="">
@@ -186,7 +197,7 @@ const ModalAutoLend = ({ onClose }) => {
                     "bg-blue-500 hover:bg-blue-600 text-white w-full mt-4"
                   }
                 >
-                  Submit
+                  Setup Auto Lending
                 </Button>
               </form>
               <Button
