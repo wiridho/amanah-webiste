@@ -203,7 +203,7 @@ const ModalAutoLend = ({ onClose }) => {
               <Button
                 type={"button"}
                 onClick={onClose}
-                className=" text-red-500 hover:text-red-600 w-full "
+                className=" text-red-500 hover:text-red-700 w-full "
               >
                 Tutup
               </Button>

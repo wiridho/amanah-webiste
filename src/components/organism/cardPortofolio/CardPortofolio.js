@@ -2,7 +2,7 @@ import React from "react";
 import moment from "moment/moment";
 import { FaFilePdf } from "react-icons/fa";
 import { Badge } from "../../atom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { titleCase } from "../../../utils/FormatTitleCase";
 import { FormatMataUang } from "../../../utils/FormatMataUang";
 
@@ -16,13 +16,17 @@ const CardPortofolio = ({
   loanId,
   contract,
 }) => {
+  const navigate = useNavigate();
   return (
     <div className="bg-white shadow-md rounded-md border border-gray-100  p-4 sm:p-6 lg:p-6 relative block overflow-hidden ">
-      <Link to={`/funder/pendanaan/${loanId}`} className=" ">
+      <div
+        onClick={() =>
+          navigate(`/funder/pendanaan/${loanId}`, { state: contract })
+        }
+        className=" cursor-pointer"
+      >
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold text-[#194175] sm:text-xl ">
-            {titleCase(name)}
-          </h3>
+          <h3 className="text-xl font-bold text-darkBlue">{titleCase(name)}</h3>
           <span>
             <Badge className={"border border-indigo-600  text-indigo-500"}>
               {creditScore}
@@ -32,23 +36,23 @@ const CardPortofolio = ({
 
         <div className="mt-4 flex flex-col gap-2">
           <div className="flex justify-between">
-            <span className="text-base text-[#194175] font-medium">
+            <span className="text-base text-darkBlue font-medium">
               Pendanaanmu
             </span>
-            <span className="font-mono font-semibold text-gray-700">
+            <span className="font-mono font-semibold text-darkBlue">
               {FormatMataUang(amount)}
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-base text-gray-800">
+            <span className="text-base text-darkBlue font-medium">
               Estimasi Imbal Hasil
             </span>
-            <span className="font-semibold  font-mono text-gray-700">
+            <span className="font-semibold  font-mono text-darkBlue">
               {FormatMataUang(yieldReturn)}
             </span>
           </div>
         </div>
-      </Link>
+      </div>
       <span class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
       <span className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-indigo-500 via-indigo-700 to-indigo-900"></span>
       <dl className="mt-6 flex gap-4 sm:gap-6 justify-between">

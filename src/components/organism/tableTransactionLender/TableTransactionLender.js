@@ -45,7 +45,7 @@ const TableTransactionLender = ({ list, onSelect, onClick, params }) => {
           </div>
         </div>
       </div>
-      <div className="relative max-h-[460px] !overflow-y-auto shadow sm:rounded-lg">
+      <div className="relative max-h-[460px] !overflow-y-auto ">
         <table className="w-full text-sm text-left text-gray-500">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr>
@@ -92,35 +92,6 @@ const TableTransactionLender = ({ list, onSelect, onClick, params }) => {
       >
         Lihat lebih
       </Button>
-      {/* <div className=" rounded-lg">
-        <div className="max-h-96 overflow-auto">
-          <table className="w-full rounded-lg ">
-            <thead className="text-left text-xs  text-gray-700 uppercase   ">
-              <tr>
-                <th>No</th>
-                <th>Tanggal</th>
-                <th>Jumlah</th>
-                <th>Status</th>
-                <th>Type</th>
-              </tr>
-            </thead>
-            <tbody className="bg-slate-100">
-              {list !== null &&
-                list.map((item, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{moment(item?.createdDate).format("DD MMM YYYY")}</td>
-                      <td>{FormatMataUang(item?.amount)}</td>
-                      <td>{item?.status}</td>
-                      <td>{item?.type}</td>
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-      </div> */}
     </div>
   );
 };

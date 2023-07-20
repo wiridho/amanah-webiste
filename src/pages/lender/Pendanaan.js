@@ -102,11 +102,11 @@ const Pendanaan = () => {
   };
 
   return (
-    <div className="">
+    <div className="font-nunito-sans">
       <div className="flex items-center justify-between mb-4">
         <div className="">
           <h1 className="text-2xl font-semibold">Pendanaan</h1>
-          <span>Total 5 Aktif, 5 Penuh, 100 Berhasil</span>
+          <span>Total {loanList?.length} pinjaman tesedia</span>
         </div>
       </div>
       {/* Main Content */}
@@ -184,7 +184,7 @@ const Pendanaan = () => {
                 type={"button"}
                 onClick={handleReset}
                 className={
-                  "w-full  font-semibold text-blue-500 hover:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all text-sm"
+                  "w-full mt-2 font-semibold text-blue-500 hover:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all text-sm"
                 }
               >
                 Reset

@@ -110,20 +110,14 @@ const TransaksiPendanaan = ({
             <div>
               <div className="relative mt-2 rounded-md shadow-sm">
                 <Label>Nominal Pinjaman</Label>
-                <input value={FormatMataUang(totalPinjaman)} disabled />
+                <input
+                  type="text"
+                  value={FormatMataUang(totalPinjaman)}
+                  disabled
+                  className="opacity-70 pointer-events-none py-3 px-4 block w-full bg-gray-50 border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500"
+                />
               </div>
-              {errors.amount && (
-                <span className="text-red-500 text-xs">
-                  {errors.amount.message}
-                </span>
-              )}
             </div>
-            {errors.nominal && (
-              <span className="flex gap-2 items-center text-xs  text-red-500">
-                <IoWarningOutline />
-                {errors.nominal?.message}
-              </span>
-            )}
           </div>
 
           <div className="mt-2">
@@ -156,7 +150,7 @@ const TransaksiPendanaan = ({
         <Button
           type={"button"}
           onClick={handleClose}
-          className="w-full  bg-red-500 text-white font-semibold mt-2  py-2 px-4"
+          className="w-full  bg-red-500 hover:bg-red-600 text-white font-semibold mt-2  py-2 px-4"
         >
           Tutup
         </Button>

@@ -258,14 +258,14 @@ const KycBorrower = () => {
               </div>
               <div className="col-span-2">
                 <SelectInput
-                  field={"Kredit Rumah"}
+                  field={"Jenis Kepemilikan Rumah"}
                   name="homeOwnershipType"
                   control={control}
                   options={ownerShipType}
                   defaultValue={genderOptions[0]}
                   errors={errors}
                 >
-                  Rumah Kredit
+                  Jenis kepemilikan rumah
                 </SelectInput>
               </div>
               <div className="col-span-2">
