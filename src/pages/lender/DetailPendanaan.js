@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 // Service
 import { getDetailLoan } from "../../service/loans/loan";
@@ -19,7 +19,7 @@ import {
 } from "react-icons/hi";
 import { FaFilePdf } from "react-icons/fa";
 import { FormatMataUang } from "../../utils/FormatMataUang";
-import { BsPersonFill } from "react-icons/bs";
+import { BsFiletypePdf, BsPersonFill } from "react-icons/bs";
 import { BiCategoryAlt, BiCoinStack, BiTimer } from "react-icons/bi";
 import { MdOutlineSentimentSatisfied } from "react-icons/md";
 import { TbCalendarDue } from "react-icons/tb";
@@ -27,10 +27,12 @@ import { FaBalanceScale } from "react-icons/fa";
 
 import { TruncateString } from "../../utils/Truncate";
 import { titleCase } from "../../utils/FormatTitleCase";
+import { getLenderFunding } from "../../service/lender/portofolio";
 
 const DetailPendanaan = () => {
   const { loanId } = useParams();
   const { accessToken, statusKYC } = useSelector((state) => state.auth);
+  const { portofolio } = useSelector((state) => state.lender);
   const [load, setLoad] = useState(true);
   const [detailData, setDetailData] = useState(null);
   let progress = (detailData?.totalFunding / detailData?.amount) * 100;
@@ -38,8 +40,12 @@ const DetailPendanaan = () => {
   const [openModalVerified, setOpenModalVerified] = useState(false);
   const [openModalPending, setOpenModalPending] = useState(false);
   const [openModalNotVerified, setOpenModalNotVerified] = useState(false);
+  const location = useLocation();
+  const { state } = location;
+  console.log("state", state);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -67,8 +73,12 @@ const DetailPendanaan = () => {
     { to: "#", label: "Detail Pendanaan", bold: true },
   ];
 
+  useEffect(() => {
+    dispatch(getLenderFunding({ accessToken }));
+  }, [dispatch, accessToken]);
+
   return (
-    <div className="">
+    <div className="font-nunito-sans">
       {detailData === null ? (
         <div>'Data Kosong'</div>
       ) : (
@@ -94,14 +104,34 @@ const DetailPendanaan = () => {
                         </span>
                       </div>
                       <div className="flex  flex-col  gap-3 px-6 py-4">
-                        <div className="flex items-center gap-4">
-                          <BsPersonFill className="text-4xl text-gray-500" />
-                          <span className="text-lg font-semibold text-[#303030]">
-                            {TruncateString(
-                              titleCase(detailData?.borrower?.name),
-                              20
-                            )}
-                          </span>
+                        <div className="flex justify-between">
+                          <div className="flex items-center gap-4">
+                            <BsPersonFill className="text-4xl text-gray-500" />
+                            <span className="text-lg font-semibold text-[#303030]">
+                              {TruncateString(
+                                titleCase(detailData?.borrower?.name),
+                                20
+                              )}
+                            </span>
+                          </div>
+                          {state && (
+                            <div className="bg-gray-200 hover:bg-gray-300 m-2 p-3 rounded-md">
+                              <div className="flex items-center gap-2">
+                                <BsFiletypePdf
+                                  size={20}
+                                  className="text-gray-800"
+                                />
+                                <a
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  href={state}
+                                  className=" font-semibold text-gray-800"
+                                >
+                                  Kontrak
+                                </a>
+                              </div>
+                            </div>
+                          )}
                         </div>
                         <div className="grid grid-cols-3 gap-3 ">
                           <div className="flex flex-col">
@@ -141,7 +171,7 @@ const DetailPendanaan = () => {
                   </div>
                   {/* Informasi Peminjam */}
 
-                  {/* Kontrak */}
+                  {/* Link Produk */}
                   <div className="block rounded bg-white shadow sm:p-3 lg:p-3">
                     <div className="flex items-center justify-between gap-2 px-2">
                       <div className="flex items-center gap-3">
@@ -164,6 +194,7 @@ const DetailPendanaan = () => {
                           Produk yang akan dibeli
                         </p>
                       </div>
+
                       <a
                         target="_blank"
                         rel="noopener noreferrer"

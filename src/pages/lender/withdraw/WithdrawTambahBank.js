@@ -112,7 +112,7 @@ const WithdrawTambahBank = () => {
         </div>
       ) : (
         <div className="h-screen flex justify-center items-center  gap-2">
-          <Loading className={"w-6 h-6"} />
+          <Loading className={"w-6 h-6 text-blue-500"} />
           <span className="text-lg">Loading</span>
         </div>
       )}

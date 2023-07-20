@@ -1,6 +1,7 @@
 import React from "react";
 import { FormatMataUang } from "../../../utils/FormatMataUang";
 import moment from "moment";
+import { statusLoanActive } from "../../../utils/Borrower/Borrower";
 
 const CardPinjamanBerjalan = ({ activeLoan, statusLoanAcitve, progress }) => {
   return (
@@ -52,7 +53,7 @@ const CardPinjamanBerjalan = ({ activeLoan, statusLoanAcitve, progress }) => {
               <div className="flex justify-between">
                 <span className="text-base text-gray-800">Status Pinjaman</span>
                 <span className="font-semibold  text-gray-700">
-                  {statusLoanAcitve(activeLoan?.status)}
+                  {statusLoanActive(activeLoan?.status)}
                 </span>
               </div>
             </div>

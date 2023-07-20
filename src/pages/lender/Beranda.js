@@ -2,14 +2,25 @@ import React, { useEffect, useState } from "react";
 
 import { CardBalance } from "../../components/organism";
 import { useDispatch, useSelector } from "react-redux";
-import { MdOutlineTrendingDown, MdOutlineTrendingUp } from "react-icons/md";
 import { getLenderProfit } from "../../service/lender/profit";
 import { FormatMataUang } from "../../utils/FormatMataUang";
 import { getRecommendLoan } from "../../service/loans/loan";
 import CardPendanaan from "./CardPendanaan";
-import { BsDatabase } from "react-icons/bs";
-import { BiTransfer } from "react-icons/bi";
+import { BiCoinStack, BiTransfer } from "react-icons/bi";
 import { FaBalanceScale } from "react-icons/fa";
+import LoanImg from "../../assets/img/loan/Group 1.svg";
+
+// Swiper
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "../../style/swipper.css";
+import "swiper/css/pagination";
+
+import { titleCase } from "../../utils/FormatTitleCase";
+import { TruncateString } from "../../utils/Truncate";
+import { Link } from "react-router-dom";
+import { BsPersonFill } from "react-icons/bs";
 
 const Beranda = () => {
   const [loanList, setListLoan] = useState(null);
@@ -30,7 +41,6 @@ const Beranda = () => {
     const response = await getRecommendLoan({
       accessToken,
     });
-    console.log(response);
     setListLoan(response?.data);
   };
 
@@ -80,15 +90,216 @@ const Beranda = () => {
           </div>
         </div>
         {/* Rekomendasi Pendanaan */}
-        <div className="flex flex-col gap-3">
-          <span className="text-[17px] text-[#011419] font-semibold">
-            Rekomendasi Pendanaan
-          </span>
-          <div>
+        <div className="">
+          <div className="mb-3">
+            <span className="text-[17px] text-[#011419] font-semibold">
+              Rekomendasi Pendanaan
+            </span>
+          </div>
+          <div className="grid grid-cols-1 ">
             {loanList?.length > 0 ? (
-              <CardPendanaan to={"/pendanaan"} data={loanList} />
+              <div className="">
+                <Swiper
+                  autoplay={{
+                    delay: 8000,
+                  }}
+                  pagination={true}
+                  modules={[Autoplay, Pagination]}
+                  className="mySwiper"
+                >
+                  {loanList.map((loan, index) => {
+                    let progress = (loan.totalFunding / loan.amount) * 100;
+                    return (
+                      <SwiperSlide key={index} className="mb-2">
+                        <Link
+                          className="mb-2"
+                          to={"/funder/pendanaan" + `/${loan.loanId}`}
+                          key={index}
+                        >
+                          <div className="flex bg-white mb-6 p-3 lg:p-5 relative rounded">
+                            <div className="absolute top-0 left-0 bg-[#4381cf] text-white  rounded-r-full px-2 py-1 ">
+                              <span
+                                className="transititext-primary  transition duration-100 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 font-semibold "
+                                data-te-toggle="tooltip"
+                                title={titleCase(loan.borrowingCategory)}
+                              >
+                                {TruncateString(
+                                  titleCase(loan.borrowingCategory),
+                                  20
+                                )}
+                              </span>
+                            </div>
+                            <div className="grow mt-4">
+                              <div className="flex h-full ">
+                                <div className="mt-4">
+                                  <div className=" flex justify-center items-center h-12 w-12 rounded-full border-2  border-indigo-400 ">
+                                    <BsPersonFill className="h-9 w-9 text-indigo-600" />
+                                  </div>
+                                </div>
+                                <div className="text-left  ml-2 p-2">
+                                  <h1 className="text-lg font-semibold text-[#303030]">
+                                    {TruncateString(loan.borrower.name, 16)}
+                                  </h1>
+                                  <div className="flex flex-col items-start">
+                                    <h1 className="text-xs pt-2 font-semibold text-[#303030]">
+                                      Imbal hasil
+                                    </h1>
+                                    <h4 className="flex mt-2 items-center">
+                                      <BiCoinStack className=" w-5 h-5 text-indigo-600 rounded mr-1" />
+                                      <span className="text-base">
+                                        {FormatMataUang(loan.yieldReturn)}
+                                      </span>
+                                    </h4>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="w-3/4 p-4 mt-4">
+                              <div>
+                                <div className="grid grid-cols-6 font-lato">
+                                  <div className="flex flex-col gap-2 col-span-2 ">
+                                    <span className="text-xs text-gray-600 ">
+                                      Jumlah Pinjaman
+                                    </span>
+                                    <span className="font-bold text-base text-gray-custom1 ">
+                                      {FormatMataUang(loan.amount)}
+                                    </span>
+                                  </div>
+                                  <div className="flex flex-col gap-2 col-span-2 ">
+                                    <span className="text-xs text-gray-600 ">
+                                      Skema Pelunasan
+                                    </span>
+                                    <span className=" text-sm text-grayCustom1 font-semibold">
+                                      {loan.paymentSchema}
+                                    </span>
+                                  </div>
+                                  <div className="flex flex-col gap-2">
+                                    <span className="text-xs text-gray-600 ">
+                                      Tenor
+                                    </span>
+                                    <div className="font-semibold text-sm text-grayCustom1 ">
+                                      <span>{loan.tenor} Bulan</span>
+                                    </div>
+                                  </div>
+                                  <div className="flex flex-col gap-2">
+                                    <span className="text-xs text-gray-600 ">
+                                      Tujuan Peminjaman
+                                    </span>
+                                    <span className="font-semibold text-sm text-grayCustom1">
+                                      {TruncateString(loan.purpose, 36)}
+                                    </span>
+                                  </div>
+                                </div>
+                                {/* Progress */}
+                                <div className="mt-5">
+                                  <span className="block text-xs mb-2 text-grayCustom1">
+                                    Sisa Pendanaan:{" "}
+                                    <span className="font-semibold	">
+                                      {FormatMataUang(
+                                        loan.amount - loan.totalFunding
+                                      )}
+                                    </span>
+                                  </span>
+                                  <span
+                                    role="progressbar"
+                                    aria-labelledby="ProgressLabel"
+                                    className="block rounded-full bg-gray-200"
+                                  >
+                                    <span
+                                      className="block h-4 rounded-full bg-green-500 text-center text-[10px]/4"
+                                      style={{ width: `${progress}%` }}
+                                    >
+                                      <span className="font-bold text-white">
+                                        {progress.toFixed(2)}%
+                                      </span>
+                                    </span>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </SwiperSlide>
+                    );
+                  })}
+                </Swiper>
+              </div>
             ) : (
-              "ga ada rekomendasi"
+              <div className="min-h-[15rem] flex flex-col bg-white  shadow-md rounded-md ">
+                <div className="flex flex-auto flex-col justify-center items-center p-4 md:p-5">
+                  <img src={LoanImg} alt="" />
+                  {/* <svg
+                    className="max-w-[5rem] text-gray-800"
+                    viewBox="0 0 375 428"
+                    fill="none "
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M254.509 253.872L226.509 226.872"
+                      className="stroke-gray-400  "
+                      stroke="currentColor"
+                      strokeWidth={7}
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M237.219 54.3721C254.387 76.4666 264.609 104.226 264.609 134.372C264.609 206.445 206.182 264.872 134.109 264.872C62.0355 264.872 3.60864 206.445 3.60864 134.372C3.60864 62.2989 62.0355 3.87207 134.109 3.87207C160.463 3.87207 184.993 11.6844 205.509 25.1196"
+                      className="stroke-gray-400 "
+                      stroke="currentColor"
+                      strokeWidth={7}
+                      strokeLinecap="round"
+                    />
+                    <rect
+                      x="270.524"
+                      y="221.872"
+                      width="137.404"
+                      height="73.2425"
+                      rx="36.6212"
+                      transform="rotate(40.8596 270.524 221.872)"
+                      className="fill-gray-400 "
+                      fill="currentColor"
+                    />
+                    <ellipse
+                      cx="133.109"
+                      cy="404.372"
+                      rx="121.5"
+                      ry="23.5"
+                      className="fill-gray-400 "
+                      fill="currentColor"
+                    />
+                    <path
+                      d="M111.608 188.872C120.959 177.043 141.18 171.616 156.608 188.872"
+                      className="stroke-gray-400 "
+                      stroke="currentColor"
+                      strokeWidth={7}
+                      strokeLinecap="round"
+                    />
+                    <ellipse
+                      cx="96.6084"
+                      cy="116.872"
+                      rx={9}
+                      ry={12}
+                      className="fill-gray-400 "
+                      fill="currentColor"
+                    />
+                    <ellipse
+                      cx="172.608"
+                      cy="117.872"
+                      rx={9}
+                      ry={12}
+                      className="fill-gray-400 "
+                      fill="currentColor"
+                    />
+                    <path
+                      d="M194.339 147.588C189.547 148.866 189.114 142.999 189.728 138.038C189.918 136.501 191.738 135.958 192.749 137.131C196.12 141.047 199.165 146.301 194.339 147.588Z"
+                      className="fill-gray-400"
+                      fill="currentColor"
+                    />
+                  </svg> */}
+                  <p className="mt-5 text-sm text-red-900 ">
+                    Rekomendasi pendanaan sedang tidak ada
+                  </p>
+                </div>
+              </div>
             )}
           </div>
         </div>

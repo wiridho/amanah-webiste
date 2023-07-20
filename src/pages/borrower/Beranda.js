@@ -7,6 +7,7 @@ import _ from "lodash";
 // icon
 import { AiOutlineSchedule } from "react-icons/ai";
 import { HiOutlineInformationCircle } from "react-icons/hi";
+import { CgOpenCollective } from "react-icons/cg";
 
 // image
 import BillImg from "../../assets/img/bill/bill.png";
@@ -26,7 +27,11 @@ import { FormatMataUang } from "../../utils/FormatMataUang";
 import { getProfileBorrower } from "../../service/Borrower/profile";
 import { getBorrowerStatusKYC } from "../../service/Borrower/borrowerVerificationKYC";
 import { setStatusKYC } from "../../store/reducer/AuthReducer";
-import { checkStatusLoan, sisaPembayaran } from "../../utils/Borrower/Borrower";
+import {
+  checkStatusLoan,
+  sisaPembayaran,
+  statusLoanActive,
+} from "../../utils/Borrower/Borrower";
 import StatusKYC from "../../components/molekul/statusKYC/StatusKYC";
 import { checkNaN } from "../../utils/CheckNan";
 
@@ -100,41 +105,41 @@ const Beranda = () => {
     return billId;
   };
 
-  const statusLoanAcitve = (params) => {
-    let status = "";
-    const statusWaiting = ["on request", "on process"];
-    const statusSelesai = ["Repayment", "late repayment"];
+  // const statusLoanActive = (params) => {
+  //   let status = "";
+  //   const statusWaiting = ["on request", "on process"];
+  //   const statusSelesai = ["Repayment", "late repayment"];
 
-    if (statusWaiting.includes(params)) {
-      status = (
-        <span className="text-yellow-400 bg-yellow-50 px-2 rounded">
-          Menunggu Pendanaan
-        </span>
-      );
-    }
-    if (params === "disbursement") {
-      status = (
-        <span className="text-indigo-400 bg-indigo-50 px-2 rounded">
-          Sudah Dicairkan
-        </span>
-      );
-    }
-    if (params === "in borrowing") {
-      status = (
-        <span className="text-indigo-400 bg-indigo-50 px-2 rounded">
-          Pinjaman Terkumpul
-        </span>
-      );
-    }
-    if (statusSelesai.includes(params)) {
-      status = (
-        <span className="text-green-400 bg-green-50 px-2 rounded">
-          Pinjaman Sudah Lunas
-        </span>
-      );
-    }
-    return status;
-  };
+  //   if (statusWaiting.includes(params)) {
+  //     status = (
+  //       <span className="text-yellow-400 bg-yellow-50 px-2 rounded">
+  //         Menunggu Pendanaan
+  //       </span>
+  //     );
+  //   }
+  //   if (params === "disbursement") {
+  //     status = (
+  //       <span className="text-indigo-400 bg-indigo-50 px-2 rounded">
+  //         Sudah Dicairkan
+  //       </span>
+  //     );
+  //   }
+  //   if (params === "in borrowing") {
+  //     status = (
+  //       <span className="text-indigo-400 bg-indigo-50 px-2 rounded">
+  //         Pinjaman Terkumpul
+  //       </span>
+  //     );
+  //   }
+  //   if (statusSelesai.includes(params)) {
+  //     status = (
+  //       <span className="text-green-400 bg-green-50 px-2 rounded">
+  //         Pinjaman Sudah Lunas
+  //       </span>
+  //     );
+  //   }
+  //   return status;
+  // };
 
   function getStatusClass(status) {
     if (status === "paid") {
@@ -151,9 +156,9 @@ const Beranda = () => {
   return (
     <div className="grid grid-cols-6 gap-10 font-nunito-sans ">
       <div className="col-span-3">
-        <div className="flex flex-col  gap-4">
+        <div className="flex flex-col gap-4">
           <div>
-            <article className="flex  flex-col gap-4 rounded-lg border border-gray-100 bg-white p-6">
+            <article className="flex flex-col gap-4 rounded-md shadow-md border border-gray-100 bg-white p-6">
               <div className="flex flex-col items-center  gap-4">
                 <div>
                   <span className="text-lg text-blue-900 font-semibold">
@@ -196,7 +201,7 @@ const Beranda = () => {
             </article>
           </div>
           <div>
-            <article className="rounded-lg border border-gray-100 bg-white">
+            <article className="rounded-md shadow-md border border-gray-100 bg-white">
               <div className="border-b border-b-gray-200 p-5 flex items-center gap-3">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -251,13 +256,14 @@ const Beranda = () => {
                 ) : (
                   <div
                     onClick={showModalPembayaran}
-                    className="cursor-pointer bg-blue-100   rounded-full p-2"
+                    className="cursor-pointer bg-blue-100 hover:bg-blue-200 flex items-center gap-1 font-medium  rounded-full p-3"
                   >
+                    <span className="text-blue-500">Bayar</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      className="w-8 h-8 text-blue-500"
+                      className="w-5 h-5 text-blue-500"
                     >
                       <path d="M12 7.5a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" />
                       <path
@@ -276,36 +282,42 @@ const Beranda = () => {
 
           {disbursement?.hasOwnProperty("amount") ? (
             <div className="col-span-3">
-              <article className="rounded-lg border border-gray-100 bg-white p-5">
+              <div className="border-b border-b-gray-200 p-5 flex items-center gap-3 bg-white rounded-t-md  shadow-md">
+                <CgOpenCollective size={25} className="text-blue-900" />
+                <span className="text-blue-900 font-medium">
+                  Pencairan Pinjaman
+                </span>
+              </div>
+              <article className="  bg-white p-5 rounded-b-md  shadow-md">
                 <div className="flex items-center justify-between">
-                  <div className="flex flex-col gap-1">
-                    <div>
+                  <div className="w-full flex flex-col gap-4">
+                    <div className=" flex justify-between items-center">
                       <p className="text-sm text-gray-500 ">Status Pinjaman</p>
-                      <p className="text-lg font-medium text-gray-900">
-                        {checkStatusLoan(disbursement?.status)}
+                      <p className="font-medium text-gray-900">
+                        {statusLoanActive(disbursement?.status)}
                       </p>
                     </div>
-                    <div>
+                    <div className="flex justify-between items-center">
                       <p className="text-sm text-gray-500 ">Nominal Pinjaman</p>
-                      <p className="text-lg font-medium text-gray-900">
+                      <p className=" font-medium text-gray-900">
                         {FormatMataUang(disbursement?.amount)}
                       </p>
                     </div>
-                    <div>
+                    <div className="flex justify-between items-center">
                       <p className="text-sm text-gray-500 ">Tenor</p>
-                      <p className="text-lg font-medium text-gray-900">
+                      <p className=" font-medium text-gray-900">
                         {disbursement?.tenor} Bulan
                       </p>
                     </div>
-                    <div>
+                    <div className="flex justify-between items-center">
                       <p className="text-sm text-gray-500 ">Imbal hasil</p>
-                      <p className="text-lg font-medium text-gray-900">
+                      <p className=" font-medium text-gray-900">
                         {FormatMataUang(disbursement?.yieldReturn)}
                       </p>
                     </div>
-                    <div>
+                    <div className="flex justify-between items-center">
                       <p className="text-sm text-gray-500 ">Skema Pembayaran</p>
-                      <p className="text-lg font-medium text-gray-900">
+                      <p className=" font-medium text-gray-900">
                         {disbursement?.paymentSchema}
                       </p>
                     </div>
@@ -318,7 +330,7 @@ const Beranda = () => {
                       type={"button"}
                       className={`w-full mt-3 ${
                         disbursement?.status === "Belum dicairkan"
-                          ? "bg-blue-600 text-white"
+                          ? "bg-blue-500 text-white hover:bg-blue-700"
                           : "bg-gray-500 text-white cursor-not-allowed"
                       }`}
                       disabled={
@@ -327,7 +339,7 @@ const Beranda = () => {
                           : false
                       }
                     >
-                      Cairkan Dana
+                      Cairkan Dana Sekarang
                     </Button>
                   ))}
               </article>
@@ -339,7 +351,7 @@ const Beranda = () => {
       </div>
 
       <div className="col-span-3">
-        <article className="flex  flex-col rounded-lg bg-white">
+        <article className="flex flex-col rounded-lg bg-white shadow-md">
           <div className="border-b border-b-gray-200 p-5 flex items-center gap-3">
             <AiOutlineSchedule size={25} className="text-blue-900" />
             <span className="text-blue-900 font-medium">Jadwal Pembayaran</span>
@@ -409,11 +421,55 @@ const Beranda = () => {
         {paymentModal && (
           <div className="fixed inset-0 z-10 overflow-y-auto">
             <div className="fixed inset-0 w-full h-full bg-black opacity-40"></div>
-            <div className="flex items-center min-h-screen">
+            <div className="flex items-center min-h-screen font-nunito-sans">
               <div className="relative w-full max-w-lg px-6 py-4 mx-auto bg-white rounded-md shadow-lg">
                 <div className="mt-2 text-center">
                   <div className="flex flex-col">
-                    <div className="flex flex-col gap-10">
+                    <div className="flex flex-col bg-white border shadow-sm rounded-md p-4 md:p-5">
+                      <h3 className="text-lg font-bold text-gray-800 ">
+                        Selesaikan Pembayaran
+                      </h3>
+
+                      <p className="mt-2 text-gray-800">
+                        Segera lanjutkan pembayaran anda untuk menyelesaikan
+                        proses ini dan nikmatisepenuhnya manfaat layanan kami.
+                      </p>
+                      <div className="flex justify-between items-center">
+                        <a
+                          href={paymentLink}
+                          onClick={() => setPaymentModal(false)}
+                          rel="noreferrer"
+                          // className="underline"
+                          target="_blank"
+                          className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-blue-500 hover:text-blue-700"
+                        >
+                          Lanjutkan Pembayaran
+                          <svg
+                            className="w-2.5 h-auto"
+                            width={16}
+                            height={16}
+                            viewBox="0 0 16 16"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14"
+                              stroke="currentColor"
+                              strokeWidth={2}
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        </a>
+                        <button
+                          type="button"
+                          className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-red-500 hover:text-red-700"
+                          onClick={() => setPaymentModal((state) => !state)}
+                        >
+                          Tutup
+                        </button>
+                      </div>
+                    </div>
+                    {/* <div className="flex flex-col gap-10">
                       <div className="flex flex-col text-center	bg-blue-100 p-4 rounded-md">
                         <div>
                           <span>Silahkan klik link untuk </span>
@@ -428,7 +484,7 @@ const Beranda = () => {
                           </a>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
@@ -479,13 +535,13 @@ const Beranda = () => {
                     </div>
                     <div className="items-center gap-2 mt-3 sm:flex">
                       <button
-                        className="w-full mt-2 p-2.5 flex-1 text-white bg-blue-600 rounded-md outline-none ring-offset-2 ring-blue-600 focus:ring-1"
+                        className="w-full mt-2 p-2.5 flex-1 text-white bg-blue-500 hover:bg-blue-600 rounded-md outline-none ring-offset-2 ring-blue-600 focus:ring-1"
                         onClick={postBayarSekarang}
                       >
                         Bayar Langsung
                       </button>
                       <button
-                        className="w-full mt-2 p-2.5 flex-1 text-gray-800 rounded-md outline-none border ring-offset-2 ring-red-600 focus:ring-1"
+                        className="w-full mt-2 p-2.5 flex-1 text-red-500 rounded-md outline-none  ring-offset-2 ring-red-600 focus:ring-1"
                         onClick={() => setShowModal(false)}
                       >
                         Tutup
@@ -579,8 +635,9 @@ const Beranda = () => {
                       Status Pinjaman
                     </span>
                     <span className="font-semibold  text-gray-700">
-                      {statusLoanAcitve(activeLoan?.status) !== undefined
-                        ? statusLoanAcitve(activeLoan?.status)
+                      {console.log(activeLoan?.status)}
+                      {activeLoan?.status !== undefined
+                        ? statusLoanActive(activeLoan?.status)
                         : "-"}
                     </span>
                   </div>

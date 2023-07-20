@@ -47,60 +47,69 @@ const FormPencairanPinjaman = () => {
         navigate: () => navigate("/borrower/riwayat-pinjaman"),
       })
     );
-    console.log(data);
   };
 
   return (
-    <div className="h-screen flex justify-center items-center">
-      <div className="w-2/5 flex flex-col  bg-white border border-gray-200 shadow-sm rounded-xl ">
+    <div className="h-screen flex justify-center items-center font-nunito-sans">
+      <div className="w-2/5 flex flex-col  bg-white border border-gray-200  rounded-md shadow-md ">
         <div className="p-4 md:p-6">
           <div>
-            <span>Form Pengajuan</span>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <SelectBank
-                field={"Bank"}
-                data={banks}
-                control={control}
-                name="selectedOption"
-                errors={errors.selectedOption}
-              >
-                Pilih Bank
-              </SelectBank>
-              <InputLabel
-                placeholder={"91090104039102"}
-                type={"text"}
-                name={"Account"}
-                register={{
-                  ...register("account", {
-                    required: true,
-                  }),
-                }}
-                errors={errors.account}
-              >
-                Nomor Rekening
-              </InputLabel>
-              <InputLabel
-                name={"Halaman Bukti Pembayaran"}
-                register={{
-                  ...register("productPageImage", {
-                    required: true,
-                  }),
-                }}
-                type={"file"}
-                className={
-                  "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600"
-                }
-                errors={errors?.productPageImage}
-              >
-                Halaman Bukti Pembayaran
-              </InputLabel>
-              <Button
-                type={"submit"}
-                className={`px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white w-full mt-4`}
-              >
-                Submit
-              </Button>
-            </form>
+            <div className="flex flex-col gap-4 mb-4">
+              <span className="flex justify-center font-semibold text-2xl text-gray-700">
+                Cairkan Dana
+              </span>
+              <p className=" text-gray-500 text-sm">
+                Silakan isi form berikut untuk melakukan pencairan dana anda,
+                pastikan data yang dimasukkan benar.
+              </p>
+            </div>
+            <div>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <SelectBank
+                  field={"Bank"}
+                  data={banks}
+                  control={control}
+                  name="selectedOption"
+                  errors={errors.selectedOption}
+                >
+                  Pilih Bank
+                </SelectBank>
+                <InputLabel
+                  placeholder={"91090104039102"}
+                  type={"text"}
+                  name={"Account"}
+                  register={{
+                    ...register("account", {
+                      required: true,
+                    }),
+                  }}
+                  errors={errors.account}
+                >
+                  Nomor Rekening
+                </InputLabel>
+                <InputLabel
+                  name={"Halaman Bukti Pembayaran"}
+                  register={{
+                    ...register("productPageImage", {
+                      required: true,
+                    }),
+                  }}
+                  type={"file"}
+                  className={
+                    "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-500 file:text-white hover:file:bg-blue-600"
+                  }
+                  errors={errors?.productPageImage}
+                >
+                  Halaman Bukti Pembayaran
+                </InputLabel>
+                <Button
+                  type={"submit"}
+                  className={`px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white w-full mt-4`}
+                >
+                  Cairkan Dana Sekarang
+                </Button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
