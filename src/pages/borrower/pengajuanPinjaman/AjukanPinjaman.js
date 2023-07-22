@@ -12,9 +12,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getBorrowersLoan } from "../../../service/Borrower/borrower";
 import InputCurrency from "../../../components/molekul/InputCurrency/InputCurrency";
+import WarnigGif from "../../../assets/img/success/warning2.gif";
+import UserImg from "../../../assets/img/user/user.png";
+
+import { Link } from "react-router-dom";
 
 const AjukanPinjaman = () => {
-  const { accessToken } = useSelector((state) => state.auth);
+  const { accessToken, statusKYC } = useSelector((state) => state.auth);
   const { paymentSchedule, loanHistory } = useSelector(
     (state) => state.borrower
   );
@@ -33,7 +37,7 @@ const AjukanPinjaman = () => {
 
   useEffect(() => {
     handleGetHistory();
-  }, []);
+  }, [statusKYC]);
 
   const onSubmit = (data) => {
     console.log(data);
@@ -41,6 +45,79 @@ const AjukanPinjaman = () => {
       state: data,
     });
   };
+
+  if (statusKYC === "not verified") {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="group flex flex-col w-full sm:w-2/6  bg-white border border-gray-200 shadow-sm rounded-xl">
+          <div className="h-52 flex flex-col justify-center items-center  rounded-t-xl relative">
+            <img
+              src={UserImg}
+              alt=""
+              className="p-2 overflow-hidden object-cover"
+            />
+          </div>
+          <div className="p-4 md:px-6 md:py-4">
+            <span className="block mb-1 text-xs font-semibold uppercase text-blue-600"></span>
+            <h3 className="text-xl font-semibold text-gray-800">
+              Status KYC belum diverfikasi
+            </h3>
+            <p className="mt-3 text-gray-500">
+              Akun anda belum verifikasi KYC Kami sangat menyarankan Anda untuk
+              segera melakukan
+              <span className="font-semibold"> verifikasi KYC.</span> Dengan
+              verifikasi KYC yang lengkap, Anda akan memperoleh akses penuh
+              untuk melakukan transaksi di platform kami.
+            </p>
+          </div>
+          <div className="mt-auto flex border-t border-gray-200 px-4 md:px-6 py-3 ">
+            <Link
+              to={"/borrower"}
+              className="text-blue-500 hover:text-blue-700"
+            >
+              Kembali ke halaman utama{" "}
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (statusKYC === "pending") {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="group flex flex-col w-full sm:w-2/6  bg-white border border-gray-200 shadow-sm rounded-xl">
+          <div className="h-52 flex flex-col justify-center items-center bg-yellow-100  rounded-t-xl relative">
+            <img
+              src={WarnigGif}
+              alt=""
+              className="w-1/2 overflow-hidden object-cover"
+            />
+          </div>
+          <div className="p-4 md:px-6 md:py-4">
+            <span className="block mb-1 text-xs font-semibold uppercase text-blue-600"></span>
+            <h3 className="text-xl font-semibold text-gray-800">
+              Status KYC sedang diproses
+            </h3>
+            <p className="mt-3 text-gray-500">
+              Proses verifikasi KYC Anda{" "}
+              <span className="font-semibold"> sedang diproses</span> Mohon
+              ditunggu hingga status KYC Anda disetujui oleh admin, Terima kasih
+              atas kesabaran Anda.
+            </p>
+          </div>
+          <div className="mt-auto flex border-t border-gray-200 px-4 md:px-6 py-3 ">
+            <Link
+              to={"/borrower"}
+              className="text-blue-500 hover:text-blue-700"
+            >
+              Kembali ke halaman utama{" "}
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="h-screen flex justify-center items-center font-nunito-sans">
@@ -172,7 +249,7 @@ const AjukanPinjaman = () => {
                   <div>
                     <Button
                       className={
-                        "mt-3 bg-blue-500 hover:bg-blue-700 px-4 py-2 text-white"
+                        "w-full mt-3 bg-blue-500 hover:bg-blue-700 px-4 py-2 text-white"
                       }
                       type="submit"
                     >

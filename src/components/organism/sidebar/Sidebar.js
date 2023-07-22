@@ -74,8 +74,8 @@ const Sidebar = () => {
               </div>
             </li>
             <li>
-              <CustomLink to="/" icon={<BiHome className="text-xl" />}>
-                Dashboard
+              <CustomLink to="/funder" icon={<BiHome className="text-xl" />}>
+                Beranda
               </CustomLink>
             </li>
             <li>

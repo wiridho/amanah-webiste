@@ -80,7 +80,7 @@ const ListUser = () => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredData = data.filter((item) =>
+  const filteredData = data?.filter((item) =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 

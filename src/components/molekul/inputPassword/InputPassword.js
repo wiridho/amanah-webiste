@@ -13,6 +13,8 @@ const InputPassword = ({
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
+  console.log(errors);
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -49,6 +51,9 @@ const InputPassword = ({
           Password harus terdiri dari 8 karakter, mengandung setidaknya satu
           huruf besar, satu huruf kecil, dan satu karakter khusus.
         </span>
+      )}
+      {errors?.type === "validate" && (
+        <span className="text-xs text-red-500 block">{errors?.message}</span>
       )}
       <div />
     </div>

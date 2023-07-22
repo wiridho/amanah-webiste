@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAvailableLoan } from "../../service/loans/loan";
 import { useForm } from "react-hook-form";
-import { Accordion } from "../../components/atom";
+import { Accordion, Loading } from "../../components/atom";
 import { ButtonIcon, InputLabel } from "../../components/molekul";
 
 import RangeSlider from "react-range-slider-input";
@@ -14,11 +14,7 @@ import { Button } from "../../components/atom";
 
 import LoanNotAvailable from "../../assets/img/error/loanNotAvailable.png";
 
-import {
-  MdOutlineAddBusiness,
-  MdOutlineSchedule,
-  MdWorkHistory,
-} from "react-icons/md";
+import { MdWorkHistory } from "react-icons/md";
 import ModalAutoLend from "../../components//organism/modalAutoLend/ModalAutoLend";
 import {
   deleteFundingAuto,
@@ -27,6 +23,7 @@ import {
 import _ from "lodash";
 import Swal from "sweetalert2";
 import { FormatMataUang } from "../../utils/FormatMataUang";
+import { opsiKategori } from "../../utils/optionValues";
 
 const Pendanaan = () => {
   const dispatch = useDispatch();
@@ -62,8 +59,10 @@ const Pendanaan = () => {
   useEffect(() => {
     filterDefault();
     if (load) {
-      getAutoLend();
-      setLoad(false);
+      setTimeout(() => {
+        getAutoLend();
+        setLoad(false);
+      }, 1000);
     }
   }, [load, autoLend]);
 
@@ -88,7 +87,6 @@ const Pendanaan = () => {
       cancelButtonText: "Tidak",
       confirmButtonText: "Ya, Batalkan",
     }).then(async (result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         await dispatch(deleteFundingAuto({ data: autoLend?._id, accessToken }));
         getAutoLend();
@@ -248,35 +246,40 @@ const Pendanaan = () => {
         {modal && <ModalAutoLend onClose={() => setModal(false)} />}
 
         {/* Card Pendanaan */}
-        {loanList?.length > 0 ? (
-          <div className="">
-            <CardPendanaan data={loanList} />
-          </div>
+        {load ? (
+          <Loading className={"w-4 h-4 text-blue-500"} />
         ) : (
-          <div className="h-3/4 flex items-center justify-center">
-            <div className="w-3/4 rounded-md border shadow-sm bg-white">
-              <div className="p-5 flex items-center justify-center">
-                <div className="flex flex-col gap-4 justify-center items-center">
-                  <span className="text-3xl text-center font-semibold text-[#434E65] ">
-                    Ooops!
-                  </span>
-                  <img
-                    src={LoanNotAvailable}
-                    style={{ width: 200, height: 200 }}
-                    alt=""
-                  />
-                  <div className="flex flex-col gap-1">
-                    <span className="text-xl text-center font-bold text-red-500 ">
-                      Tidak ada pinjaman
-                    </span>
-                    <span className=" font-normal text-center text-red-400 ">
-                      Maaf sedang tidak ada pinjaman yang tersedia
-                    </span>
+          <>
+            {loanList?.length > 0 ? (
+              <CardPendanaan data={loanList} />
+            ) : (
+              //ga ada loan
+              <div className="h-3/4 flex items-center justify-center">
+                <div className="w-3/4 rounded-md border shadow-sm bg-white">
+                  <div className="p-5 flex items-center justify-center">
+                    <div className="flex flex-col gap-4 justify-center items-center">
+                      <span className="text-3xl text-center font-semibold text-[#434E65] ">
+                        Ooops!
+                      </span>
+                      <img
+                        src={LoanNotAvailable}
+                        style={{ width: 200, height: 200 }}
+                        alt=""
+                      />
+                      <div className="flex flex-col gap-1">
+                        <span className="text-xl text-center font-bold text-red-500 ">
+                          Tidak ada pinjaman
+                        </span>
+                        <span className=" font-normal text-center text-red-400 ">
+                          Maaf sedang tidak ada pinjaman yang tersedia
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            )}
+          </>
         )}
       </div>
     </div>

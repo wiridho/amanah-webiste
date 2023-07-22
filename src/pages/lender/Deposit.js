@@ -133,7 +133,7 @@ const Deposit = () => {
                       defaultValue=""
                       render={({ field }) => (
                         <CurrencyInput
-                          placeholder="Minimal Rp500.000"
+                          placeholder="Rp500.000"
                           className="w-full border border-gray-300 px-4 lg:px-5 lg:py-2.5 py-2 rounded-lg bg-gray-50 focus:ring-1 outline-none focus:ring-indigo-500 focus:border-indigo-500"
                           value={field.value}
                           onValueChange={(value) => handleInputChange(value)}

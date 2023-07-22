@@ -7,7 +7,7 @@ import thunk from "redux-thunk";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "borrower", "balance_transaction", "balance"],
+  whitelist: ["auth", "borrower", "lender", "balance_transaction", "balance"],
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 

@@ -13,9 +13,14 @@ const StatusKYC = ({ component }) => {
       <WarningMessage
         message={
           <div>
-            <span>akun anda sedang dalam tinjauan, silahkan tekan</span>
+            <span>
+              Akun anda sedang{" "}
+              <span className="font-semibold">dalam tinjauan</span> , mohon
+              ditunggu hingga verifikasi kyc disetujui oleh admin. Lihat status
+            </span>
 
             <Link
+              className="underline"
               to={`/${roles === "lender" ? "funder" : "borrower"}/kyc/status`}
             >
               {" "}

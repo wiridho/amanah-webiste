@@ -16,8 +16,10 @@ import { MdDelete } from "react-icons/md";
 import { TruncateString } from "../../../utils/Truncate";
 
 import BankWarning from "../../../assets/img/bank/bankWarning.png";
+import Swal from "sweetalert2";
 
 const Withdraw = () => {
+  const [load, setLoad] = useState(true);
   const { accessToken } = useSelector((state) => state.auth);
   const [listBank, setListBank] = useState(null);
   const navigate = useNavigate();
@@ -32,9 +34,12 @@ const Withdraw = () => {
 
   useEffect(() => {
     (async () => {
-      await getListBank();
+      if (load) {
+        await getListBank();
+        setLoad(false);
+      }
     })();
-  }, []);
+  }, [load]);
 
   const chooseBank = (item) => {
     let list = listBank.map((data) => {
@@ -52,17 +57,23 @@ const Withdraw = () => {
     navigate("/funder/withdraw");
   };
 
-  const deleteBank = async (accountNumber, accessToken) => {
+  const deleteBank = async (param) => {
     try {
       const response = await axios.delete(
         `${apiConfig.baseUrl}/balance/account`,
-        { accountNumber },
         {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+          data: param,
+          headers: { Authorization: `Bearer ${accessToken}` },
         }
       );
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Berhasil menghapus akun bank",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setLoad(true);
       return response?.data;
     } catch (error) {
       console.log(error);
@@ -100,7 +111,7 @@ const Withdraw = () => {
                 </thead>
                 <tbody>
                   {listBank?.length > 0 ? (
-                    listBank.map((item, index) => {
+                    listBank?.map((item, index) => {
                       return (
                         <tr
                           key={index}
@@ -122,8 +133,7 @@ const Withdraw = () => {
                               className="hover:text-red-500"
                               onClick={() =>
                                 deleteBank({
-                                  accoutNumber: item?.accountNumber,
-                                  accessToken,
+                                  accountNumber: item?.accountNumber,
                                 })
                               }
                             />
