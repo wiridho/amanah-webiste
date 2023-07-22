@@ -1,12 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
 import FeatureOne from "../../assets/img/landing/feature-1.png";
 import FeatureTwo from "../../assets/img/landing/feature-2.png";
 import Hero from "../../assets/img/landing/hero.png";
 
 import LogoAmana from "../../assets/img/logo/LogoAmana2.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getProfileLender } from "../../service/lender/profile";
+import { getProfileBorrower } from "../../service/Borrower/profile";
+import Swal from "sweetalert2";
 
 const Lending = () => {
+  const { is_auth, roles, accessToken } = useSelector((state) => state.auth);
+  const [dropDown, setDropDown] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const profileLender = useSelector((state) => state.lender?.profile?.name);
+  const profileBorrower = useSelector((state) => state.borrower?.profile?.name);
+
+  useEffect(() => {
+    if (roles === "lender") {
+      dispatch(getProfileLender({ accessToken }));
+    } else if (roles === "borrower") {
+      dispatch(getProfileBorrower({ accessToken }));
+    }
+  }, []);
+
+  const logout = () => {
+    Swal.fire({
+      title: "Apakah anda ingin keluar?",
+      // showDenyButton: true,
+      showCancelButton: true,
+      cancelButtonText: "Tidak",
+      confirmButtonText: "Ya, Keluar",
+      // denyButtonText: `Tidak`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        Swal.fire("Logout Berhasil", "", "success").then(() => {
+          navigate("/login");
+          window.localStorage.removeItem("persist:root");
+          dispatch({ type: "DESTROY_SESSION" });
+        });
+      }
+    });
+  };
+
   return (
     <div className="font-nunito-sans">
       <header className="fixed w-full">
@@ -22,60 +63,97 @@ const Lending = () => {
                 Amanah
               </span>
             </a>
-            <div className="flex items-center lg:order-2">
-              <div className="hidden mt-2 mr-4 sm:inline-block">
-                <Link
-                  className="github-button"
-                  to="register-init"
-                  data-size="large"
-                  data-icon="octicon-star"
-                  data-show-count="true"
-                  aria-label="Star themesberg/landwind on GitHub"
-                >
-                  Register
-                </Link>
-              </div>
 
-              <Link
-                to="login"
-                className="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 "
-              >
-                Login
-              </Link>
-              <button
-                data-collapse-toggle="mobile-menu-2"
-                type="button"
-                className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                aria-controls="mobile-menu-2"
-                aria-expanded="false"
-              >
-                <span className="sr-only">Open main menu</span>
-                <svg
-                  className="w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <svg
-                  className="hidden w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
+            {/* Dropdown */}
+
+            <div className="flex items-center lg:order-2">
+              {is_auth && (
+                <div className="relative">
+                  <div
+                    className="inline-flex items-center overflow-hidden rounded-md border bg-white"
+                    onClick={() => setDropDown(!dropDown)}
+                  >
+                    <span className="border-e px-4 py-2 text-sm/none text-gray-600 hover:bg-gray-50 hover:text-gray-700">
+                      {roles === "lender" ? profileLender : profileBorrower}
+                    </span>
+                    <button className="h-full p-2 text-gray-600 hover:bg-gray-50 hover:text-gray-700">
+                      <span className="sr-only">Menu</span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {dropDown && (
+                    <div
+                      className="absolute end-0 z-10 mt-2 w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg"
+                      role="menu"
+                    >
+                      <div className="p-2">
+                        <Link
+                          to={roles === "lender" ? "/funder" : "/borrower"}
+                          className="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+                          role="menuitem"
+                        >
+                          Dashboard
+                        </Link>
+                      </div>
+
+                      <div className="p-2">
+                        <button
+                          onClick={logout}
+                          type="submit"
+                          className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                            />
+                          </svg>
+                          Logout
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+              {!is_auth && (
+                <div className="flex items-center">
+                  <div className="mt-2 mr-4 sm:inline-block">
+                    <Link className="" to="register-init">
+                      Register
+                    </Link>
+                  </div>
+                  <div>
+                    <Link
+                      to="login"
+                      className="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 sm:mr-2 lg:mr-0 "
+                    >
+                      Login
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
+
             <div
               className="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1"
               id="mobile-menu-2"
@@ -259,10 +337,7 @@ const Lending = () => {
                 work, eliminate toil, and deploy changes with ease.
               </p>
               {/* List */}
-              <ul
-                role="list"
-                className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700"
-              >
+              <ul className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700">
                 <li className="flex space-x-3">
                   {/* Icon */}
                   <svg
@@ -346,10 +421,7 @@ const Lending = () => {
                 work, eliminate toil, and deploy changes with ease.
               </p>
               {/* List */}
-              <ul
-                role="list"
-                className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700"
-              >
+              <ul className="pt-8 space-y-5 border-t border-gray-200 my-7 dark:border-gray-700">
                 <li className="flex space-x-3">
                   {/* Icon */}
                   <svg

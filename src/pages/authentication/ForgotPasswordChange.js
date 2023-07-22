@@ -13,8 +13,6 @@ const ForgotPasswordChange = () => {
   // const location = useLocation();
   // console.log(location.pathname);
   const { email, token } = useParams();
-  console.log(email);
-  console.log(token);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { message, load, success } = useSelector((state) => state.auth);
@@ -23,23 +21,31 @@ const ForgotPasswordChange = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm();
+
+  const newPassword = watch("newPassword");
+  const confirmPassword = watch("confirmPassword");
 
   const onSubmit = (data) => {
     data["token"] = token;
     data["email"] = email;
-    dispatch(
-      forgotPassChange({
-        data,
-        navigate: () => navigate("/login"),
-      })
-    );
+    // dispatch(
+    //   forgotPassChange({
+    //     data,
+    //     navigate: () => navigate("/login"),
+    //   })
+    // );
+    console.log(data);
   };
 
   // useEffect(() => {
   //   dispatch(setMessage(null));
   // }, [location.pathname]);
+
+  console.log("errors", errors);
+
   return (
     <>
       <div className="h-screen grid grid-cols-1 sm:grid-cols-2 overflow-hidden">
@@ -82,7 +88,7 @@ const ForgotPasswordChange = () => {
               <div>
                 <InputPassword
                   placeholder={"********"}
-                  name={"Password"}
+                  name={"New Password"}
                   type={"password"}
                   label={"Password"}
                   register={{
@@ -90,9 +96,31 @@ const ForgotPasswordChange = () => {
                       required: true,
                     }),
                   }}
-                  errors={errors.password}
+                  errors={errors.newPassword}
                 >
                   New Password
+                </InputPassword>
+              </div>
+              <div>
+                <InputPassword
+                  placeholder={"********"}
+                  name={"confirmPassword"}
+                  type={"password"}
+                  label={"Confirm Password"}
+                  register={{
+                    ...register("cpassword", {
+                      required: true,
+                      validate: (value) => {
+                        if (value !== newPassword) {
+                          return "The passwords do not match";
+                        }
+                        return true;
+                      },
+                    }),
+                  }}
+                  errors={errors?.cpassword}
+                >
+                  Confirm Password
                 </InputPassword>
               </div>
               <Button
@@ -105,7 +133,7 @@ const ForgotPasswordChange = () => {
                     <span>Loading </span>
                   </div>
                 ) : (
-                  "Forgot Password"
+                  "Reset Password"
                 )}
               </Button>
               <div className="flex justify-between text-primary mt-1">

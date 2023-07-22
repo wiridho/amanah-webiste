@@ -73,18 +73,90 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public Route */}
+        {/* <Route
+          // is_public={is_public}
+          path="/contract/validation/:id"
+          element={<ValidasiKontrak />}
+        /> */}
+        <Route path="/" element={<Lending />} />
+        <Route path="/beranda" element={<Lending />} />
+        <Route
+          path="/contract/validation/:id"
+          element={
+            <ProtectRoute valid={is_public} children={<ValidasiKontrak />} />
+          }
+        />
+        <Route
+          path="/register-init"
+          element={
+            <ProtectRoute valid={is_public} children={<RegisterInit />} />
+          }
+        />
+        <Route
+          path="/register/:roles"
+          element={<ProtectRoute valid={is_public} children={<Register />} />}
+        />
+        <Route
+          path="/authentication/verification/email/:userId/:token"
+          element={
+            <ProtectRoute valid={is_public} children={<VerifyEmail />} />
+          }
+        />
+        <Route
+          path="/register/success"
+          element={
+            <ProtectRoute
+              valid={is_public}
+              children={<RegisterVerifySucess />}
+            />
+          }
+        />
+
+        <Route
+          path="/login"
+          element={<ProtectRoute valid={is_public} children={<Login />} />}
+        />
+
+        <Route
+          path="/forgot-password"
+          element={
+            <ProtectRoute
+              valid={is_public}
+              children={<ForgotPasswordRequest />}
+            />
+          }
+        />
+        <Route
+          path="/reset-password/:token/:userId/:email"
+          element={
+            <ProtectRoute
+              valid={is_public}
+              children={<ForgotPasswordChange />}
+            />
+          }
+        />
+        <Route
+          path="/login/admin"
+          element={<ProtectRoute valid={is_public} children={<LoginAdmin />} />}
+        />
+        <Route
+          path="/verifylogin"
+          element={
+            <ProtectRoute valid={is_public} children={<VerifyLogin />} />
+          }
+        />
+        <Route path="*" element={<Navigate to={"/login"} replace={true} />} />
+
         {roles === "lender" && (
           // Dahboard Lender
           <>
             <Route
-              path="*"
-              element={<Navigate to={"/funder"} replace={true} />}
+              path="/contract/validation/:id"
+              element={
+                <ProtectRoute valid={is_auth} children={<ValidasiKontrak />} />
+              }
             />
-            <Route
-              path="/"
-              element={<Navigate to={"/funder"} replace={true} />}
-            />
-
             <Route
               path="funder"
               element={
@@ -102,7 +174,6 @@ function App() {
                 path="pendanaan/preview-kontrak"
                 element={<PreviewKontrak />}
               />
-
               {/* Withdraw */}
               <Route path="withdraw" element={<Withdraw />} />
               <Route path="withdraw/listBank" element={<WithdrawListBank />} />
@@ -114,13 +185,15 @@ function App() {
               {/* Deposit */}
               <Route path="deposit" element={<Deposit />} />
               <Route path="deposit/intruksi" element={<DepositIntruksi />} />
-
               <Route path="portofolio" element={<Portofolio />} />
               <Route path="profile" element={<Profile />} />
-
               {/* KYC */}
               <Route path="kyc" element={<Kyc />} />
               <Route path="kyc/status" element={<Status_KYC />} />
+              <Route
+                path="*"
+                element={<Navigate to={"/funder"} replace={true} />}
+              />
             </Route>
           </>
         )}
@@ -128,20 +201,11 @@ function App() {
           // Dashboard Borrower
           <>
             <Route
-              path="*"
-              element={<Navigate to={"/borrower"} replace={true} />}
-            />
-            <Route
-              path="/"
-              element={<Navigate to={"/borrower"} replace={true} />}
-            />
-            <Route
               path="/contract/validation/:id"
               element={
                 <ProtectRoute valid={is_auth} children={<ValidasiKontrak />} />
               }
             />
-
             <Route
               path="borrower"
               element={
@@ -182,9 +246,12 @@ function App() {
               <Route path="list-bank" element={<ListBankBorrower />} />
               <Route path="add-bank" element={<AddBankBorrower />} />
             </Route>
+            <Route
+              path="*"
+              element={<Navigate to={"/borrower"} replace={true} />}
+            />
           </>
         )}
-
         {roles === "admin" && (
           // Dashboard Admin
           <>
@@ -215,73 +282,6 @@ function App() {
             </Route>
           </>
         )}
-
-        {/* Public Route */}
-        <Route path="*" element={<Navigate to={"/login"} replace={true} />} />
-
-        <Route
-          path="/"
-          element={<ProtectRoute valid={is_public} children={<Lending />} />}
-        />
-
-        <Route
-          path="/register-init"
-          element={
-            <ProtectRoute valid={is_public} children={<RegisterInit />} />
-          }
-        />
-
-        <Route
-          path="/register/:roles"
-          element={<ProtectRoute valid={is_public} children={<Register />} />}
-        />
-        <Route
-          path="/authentication/verification/email/:userId/:token"
-          element={
-            <ProtectRoute valid={is_public} children={<VerifyEmail />} />
-          }
-        />
-        <Route
-          path="/register/success"
-          element={
-            <ProtectRoute
-              valid={is_public}
-              children={<RegisterVerifySucess />}
-            />
-          }
-        />
-        <Route
-          path="/login"
-          element={<ProtectRoute valid={is_public} children={<Login />} />}
-        />
-        <Route
-          path="/forgot-password"
-          element={
-            <ProtectRoute
-              valid={is_public}
-              children={<ForgotPasswordRequest />}
-            />
-          }
-        />
-        <Route
-          path="/reset-password/:token/:userId/:email"
-          element={
-            <ProtectRoute
-              valid={is_public}
-              children={<ForgotPasswordChange />}
-            />
-          }
-        />
-        <Route
-          path="/login/admin"
-          element={<ProtectRoute valid={is_public} children={<LoginAdmin />} />}
-        />
-        <Route
-          path="/verifylogin"
-          element={
-            <ProtectRoute valid={is_public} children={<VerifyLogin />} />
-          }
-        />
       </Routes>
     </BrowserRouter>
   );

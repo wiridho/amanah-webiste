@@ -63,6 +63,7 @@ export const handleLogin = createAsyncThunk(
         data
       );
       navigate("/verifylogin");
+
       return response?.data?.data;
     } catch (error) {
       const message_error = error.response?.data?.message;
@@ -92,15 +93,14 @@ export const handleLoginAdmin = createAsyncThunk(
 // Handle Verify Login OTP
 export const verifyLoginOtp = createAsyncThunk(
   "auth/verifyLoginOtp",
-  async ({ body, navigate }, { rejectWithValue }) => {
+  async ({ body }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
         `${apiConfig.baseUrl}/authentication/login?action=login`,
         body
       );
-      console.log("response verify login otp", response.data.data);
-      navigate("/");
-      return response?.data.data;
+
+      return response?.data?.data;
     } catch (err) {
       const message_error = err.response?.data?.message;
       return rejectWithValue(message_error);

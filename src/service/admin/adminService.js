@@ -128,3 +128,15 @@ export const getMostCategoryBorrowed = async ({ accessToken }) => {
     return null;
   }
 };
+
+export const validateContract = async ({ id }) => {
+  try {
+    const response = await axios.get(
+      `${apiConfig.baseUrl}/loans/validation/contract/${id}`
+    );
+    return response?.data?.data;
+  } catch (error) {
+    console.log("ERRRRR", error);
+    return null;
+  }
+};

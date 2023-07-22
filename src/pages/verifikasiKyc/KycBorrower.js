@@ -6,9 +6,18 @@ import {
   RadioButton,
   SelectInput,
 } from "../../components/molekul";
+
+// Image
+import CamImg from "../../assets/img/people/cam.png";
+import KTPimg from "../../assets/img/ktp/KTP.png";
+
 import { Button, Label, Message } from "../../components/atom";
 import Webcam from "./Webcam";
-import { BsFillPersonVcardFill, BsPerson } from "react-icons/bs";
+import {
+  BsCheckCircleFill,
+  BsFillPersonVcardFill,
+  BsPerson,
+} from "react-icons/bs";
 import { verificationBorrowerKYC } from "../../service/Borrower/borrowerVerificationKYC";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -98,10 +107,6 @@ const KycBorrower = () => {
         formData,
       })
     );
-    // const formDataObject = Object.fromEntries(formData.entries());
-
-    // Tampilkan objek FormData di konsol menggunakan console.log
-    // console.log(formDataObject);
   };
 
   const handleDataKtp = (data) => {
@@ -129,7 +134,7 @@ const KycBorrower = () => {
   console.log(errors);
 
   return (
-    <div>
+    <div className="font-nunito-sans">
       <div className="">
         <Message
           status={success}
@@ -138,15 +143,16 @@ const KycBorrower = () => {
           onClose={() => dispatch(setMessage(null))}
         />
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-          <div className="p-5 bg-white rounded-md">
-            <h2 className="text-lg font-semibold leading-7 text-gray-600">
-              Personal Information
+          <div className="p-8 bg-white rounded-md">
+            <h2 className="text-lg font-semibold leading-7 text-gray-800">
+              Informasi Personal
             </h2>
-            <div className="grid grid-cols-6 gap-3">
+            <div className="grid grid-cols-6 gap-5">
               <div className="col-span-2">
                 <InputLabel
                   type={"number"}
                   name={"No.KTP"}
+                  placeholder={"•••• •••• •••• ••••"}
                   register={{
                     ...register("idCardNumber", {
                       required: true,
@@ -235,7 +241,7 @@ const KycBorrower = () => {
                 <InputCurrency
                   name={"salary"}
                   control={control}
-                  placeholder={"Masukkan Pendapatan Perbulan"}
+                  placeholder={"Pendapatan Perbulan"}
                   rules={{
                     required: "Pendapatan Perbulan wajib diisi",
                   }}
@@ -243,18 +249,6 @@ const KycBorrower = () => {
                 >
                   Pendapatan Perbulan
                 </InputCurrency>
-                {/* <InputLabel
-                  type={"number"}
-                  name={"Pendapatan"}
-                  register={{
-                    ...register("salary", {
-                      required: true,
-                    }),
-                  }}
-                  errors={errors.salary}
-                >
-                  Pendapatan Perbulan
-                </InputLabel> */}
               </div>
               <div className="col-span-2">
                 <SelectInput
@@ -272,7 +266,7 @@ const KycBorrower = () => {
                 <InputCurrency
                   name={"annualIncome"}
                   control={control}
-                  placeholder={"Masukkan Pendapatan Pertahun"}
+                  placeholder={"Pendapatan Pertahun"}
                   rules={{
                     required: "Pendapatan Pertahun wajib diisi",
                   }}
@@ -296,13 +290,16 @@ const KycBorrower = () => {
               </div>
             </div>
           </div>
-          <div className="p-5 bg-white rounded-md flex flex-col gap-7">
+          <div className="p-8 bg-white rounded-md flex flex-col gap-7">
             <h2 className="text-lg font-semibold leading-7 text-gray-900">
               Informasi Kontak
             </h2>
             <div>
-              <h1 className="text-gray-600"> Kerabat 1</h1>
-              <div className="grid grid-cols-6 gap-3">
+              <h1 className="text-gray-600 text-sm font-medium">
+                {" "}
+                Kerabat Pertama
+              </h1>
+              <div className="grid grid-cols-6 gap-5">
                 <div className="col-span-2">
                   <InputLabel
                     placeholder={"Nama lengkap kerabat"}
@@ -342,17 +339,20 @@ const KycBorrower = () => {
                     defaultValue={genderOptions[0]}
                     errors={errors?.["firstRelative"]?.["relation"]}
                   >
-                    Hubungan dengan Kerabat 1
+                    Hubungan dengan kerabat pertama
                   </SelectInput>
                 </div>
               </div>
             </div>
             <div>
-              <h1 className="text-gray-600"> Kerabat 2</h1>
-              <div className="grid grid-cols-6 gap-3">
+              <h1 className="text-gray-600 text-sm font-medium">
+                {" "}
+                Kerabat Kedua
+              </h1>
+              <div className="grid grid-cols-6 gap-5">
                 <div className="col-span-2">
                   <InputLabel
-                    placeholder={"Nama lengkap kerabat 2"}
+                    placeholder={"Nama lengkap kerabat"}
                     name={"Nama"}
                     type={"text"}
                     register={{
@@ -389,7 +389,7 @@ const KycBorrower = () => {
                     defaultValue={genderOptions[0]}
                     errors={errors?.["secondRelative"]?.["relation"]}
                   >
-                    Hubungan dengan kerabat 2
+                    Hubungan dengan kerabat kedua
                   </SelectInput>
                 </div>
               </div>
@@ -427,6 +427,13 @@ const KycBorrower = () => {
                 </div>
               )}
             </div>
+            <div className="mt-2 col-span-3 flex flex-col items-center justify-center  bg-slate-50 p-4">
+              <span className="text-sm font-semibold text-center flex gap-2">
+                Contoh Pengambilan gambar selfie
+                <BsCheckCircleFill className="text-green-400 " size={20} />
+              </span>
+              <img src={CamImg} className="" alt="" />
+            </div>
             <div className="col-span-3 flex flex-col items-center justify-center">
               <div>
                 <Label>Ambil foto KTP</Label>
@@ -456,6 +463,13 @@ const KycBorrower = () => {
                   </ButtonIcon>
                 </div>
               )}
+            </div>
+            <div className="mt-2 col-span-3 flex flex-col items-center justify-center  bg-slate-50 p-4">
+              <span className="text-sm font-semibold text-center flex gap-2">
+                Contoh Pengambilan gambar KTP
+                <BsCheckCircleFill className="text-green-400 " size={20} />
+              </span>
+              <img src={KTPimg} className="mt-4" alt="" />
             </div>
           </div>
 

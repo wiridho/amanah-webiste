@@ -9,6 +9,7 @@ import _, { get } from "lodash";
 import { postFundingAuto } from "../../../service/lender/autoLend";
 import SelectInputMulti from "../../molekul/selectInputMulti/SelectInputMulti";
 import { setMessage } from "../../../store/reducer/Lender/LenderFundingReducer";
+import { opsiKategori } from "../../../utils/optionValues";
 
 const ModalAutoLend = ({ onClose }) => {
   const { accessToken } = useSelector((state) => state.auth);
@@ -77,14 +78,6 @@ const ModalAutoLend = ({ onClose }) => {
 
     dispatch(postFundingAuto({ accessToken, data, onClose, dispatch }));
   };
-
-  const opsiKategori = [
-    { value: "Pendidikan", label: "Pendidikan" },
-    { value: "Hiburan", label: "Hiburan" },
-    { value: "Pribadi", label: "Pribadi" },
-    { value: "Usaha", label: "Usaha" },
-    { value: "other", label: "other" },
-  ];
 
   return (
     <div className="fixed inset-0 z-10 overflow-y-auto font-nunito-sans">

@@ -222,13 +222,15 @@ const ListKycAdmin = () => {
             </div>
           </div>
         )}
-        <DataTable
-          columns={columns}
-          data={data}
-          fixedHeader
-          pagination
-          responsive={true}
-        />
+        {data && (
+          <DataTable
+            columns={columns}
+            data={data}
+            fixedHeader
+            pagination
+            responsive={true}
+          />
+        )}
       </div>
     </div>
   );

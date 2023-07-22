@@ -9,6 +9,25 @@ export default function Example() {
   const { profile, load } = useSelector((state) => state.lender);
   const dispatch = useDispatch();
 
+  const badgeVerified = () => {
+    if (profile?.verified === false) {
+      return (
+        <span class="whitespace-nowrap rounded-full bg-green-100 px-2.5 py-0.5 text-sm text-green-700">
+          Sudah verifikasi
+        </span>
+      );
+    } else if (profile?.verified === true) {
+      return (
+        <span class="whitespace-nowrap rounded-full bg-red-100 px-2.5 py-0.5 text-sm text-red-700">
+          Belum verifikasi, silahkan verifikasi{" "}
+          <Link to={"/funder/kyc"} className="underline">
+            disini!
+          </Link>
+        </span>
+      );
+    }
+  };
+
   useEffect(() => {
     dispatch(getProfileLender({ accessToken }));
   }, []);
@@ -63,7 +82,8 @@ export default function Example() {
                   Verifikasi KYC
                 </dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                  {`${
+                  {badgeVerified()}
+                  {/* {`${
                     profile?.verified === true ? (
                       "Sudah Terverifikasi"
                     ) : (
@@ -72,7 +92,7 @@ export default function Example() {
                         <Link to={"/lender/kyc"}>Halaman Ini</Link>
                       </div>
                     )
-                  }`}
+                  }`} */}
                 </dd>
               </div>
             </dl>

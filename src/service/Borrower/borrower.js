@@ -61,6 +61,11 @@ export const postBorrowersLoan = createAsyncThunk(
       navigate();
       return response?.data;
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `${error?.response?.data?.message}`,
+      });
       const message_error = error.response?.data?.message;
       return rejectWithValue(message_error);
     }

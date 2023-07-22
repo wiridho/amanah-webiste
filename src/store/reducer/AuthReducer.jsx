@@ -25,7 +25,7 @@ const initialState = {
 
   // buat private route
   is_auth: false,
-  roles: "",
+  roles: null,
 };
 
 const authSlice = createSlice({

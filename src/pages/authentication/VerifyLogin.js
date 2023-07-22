@@ -22,7 +22,6 @@ const VerifyLogin = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(body);
     dispatch(verifyLoginOtp({ body, navigate }));
   };
 

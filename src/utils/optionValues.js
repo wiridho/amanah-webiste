@@ -17,5 +17,5 @@ export const opsiKategori = [
   { value: "Bisnis Kecil", label: "Bisnis Kecil" },
   { value: "Tempat Tinggal", label: "Tempat Tinggal" },
   { value: "Kesehatan", label: "Kesehatan" },
-  { value: "Kendaraaan", label: "Kendaraaan" },
+  { value: "Kendaraan", label: "Kendaraan" },
 ];
