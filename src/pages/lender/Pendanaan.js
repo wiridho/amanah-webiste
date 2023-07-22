@@ -23,7 +23,6 @@ import {
 import _ from "lodash";
 import Swal from "sweetalert2";
 import { FormatMataUang } from "../../utils/FormatMataUang";
-import { opsiKategori } from "../../utils/optionValues";
 
 const Pendanaan = () => {
   const dispatch = useDispatch();
@@ -62,7 +61,7 @@ const Pendanaan = () => {
       setTimeout(() => {
         getAutoLend();
         setLoad(false);
-      }, 1000);
+      }, 500);
     }
   }, [load, autoLend]);
 

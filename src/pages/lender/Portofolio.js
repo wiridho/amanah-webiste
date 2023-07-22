@@ -21,13 +21,14 @@ const Portofolio = () => {
     dispatch(getLenderFunding({ accessToken }));
   }, [dispatch, accessToken]);
 
-  console.log(portofolio);
-
   return (
     <div className="font-nunito-sans">
       {load ? (
-        <span>
-          <Loading /> Loading
+        <span className="h-screen flex justify-center items-center">
+          <div className="flex items-center gap-3">
+            <Loading className={"w-5 h-5 text-blue-500"} />
+            <span className="text-base">Loading</span>
+          </div>
         </span>
       ) : (
         <>

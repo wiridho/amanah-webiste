@@ -1,32 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProfileLender } from "../../service/lender/profile";
-import { Link } from "react-router-dom";
 import { Loading } from "../../components/atom";
+import { badgeVerified } from "../../utils/Lender/lender";
 
 export default function Example() {
   const { accessToken } = useSelector((state) => state.auth);
   const { profile, load } = useSelector((state) => state.lender);
   const dispatch = useDispatch();
-
-  const badgeVerified = () => {
-    if (profile?.verified === false) {
-      return (
-        <span class="whitespace-nowrap rounded-full bg-green-100 px-2.5 py-0.5 text-sm text-green-700">
-          Sudah verifikasi
-        </span>
-      );
-    } else if (profile?.verified === true) {
-      return (
-        <span class="whitespace-nowrap rounded-full bg-red-100 px-2.5 py-0.5 text-sm text-red-700">
-          Belum verifikasi, silahkan verifikasi{" "}
-          <Link to={"/funder/kyc"} className="underline">
-            disini!
-          </Link>
-        </span>
-      );
-    }
-  };
 
   useEffect(() => {
     dispatch(getProfileLender({ accessToken }));
@@ -36,7 +17,7 @@ export default function Example() {
     <div className="">
       {load ? (
         <div className="h-screen flex justify-center items-center gap-3">
-          <Loading className={"w-8 h-8 text-blue-500"} />{" "}
+          <Loading className={"w-6 h-6 text-blue-500"} />
           <span className="text-lg">Loading</span>
         </div>
       ) : (
@@ -82,17 +63,7 @@ export default function Example() {
                   Verifikasi KYC
                 </dt>
                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                  {badgeVerified()}
-                  {/* {`${
-                    profile?.verified === true ? (
-                      "Sudah Terverifikasi"
-                    ) : (
-                      <div>
-                        <span>Silahkan Verifikasi Ke</span>
-                        <Link to={"/lender/kyc"}>Halaman Ini</Link>
-                      </div>
-                    )
-                  }`} */}
+                  {badgeVerified(profile?.verified)}
                 </dd>
               </div>
             </dl>

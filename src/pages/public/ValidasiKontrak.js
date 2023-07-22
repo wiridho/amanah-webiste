@@ -5,7 +5,7 @@ import { validateContract } from "../../service/admin/adminService";
 import { useEffect } from "react";
 import { useState } from "react";
 import { FormatMataUang } from "../../utils/FormatMataUang";
-// return import { PaperClipIcon } from '@heroicons/react/20/solid'
+import { Loading } from "../../components/atom";
 
 const ValidasiKontrak = () => {
   const { id } = useParams();
@@ -21,8 +21,6 @@ const ValidasiKontrak = () => {
       await getValidateContract();
     })();
   }, []);
-
-  console.log("data", data);
 
   if (!data) {
     return (
@@ -54,25 +52,6 @@ const ValidasiKontrak = () => {
             </p>
 
             <div class="flex items-center w-full mt-6 gap-x-3 shrink-0 sm:w-auto">
-              {/* <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="w-5 h-5 rtl:rotate-180"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18"
-                                    />
-                                </svg>
-
-                                <span>Go back</span>
-                            </button> */}
-
               <Link
                 to={"/beranda"}
                 class="w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
@@ -90,12 +69,7 @@ const ValidasiKontrak = () => {
     <div className="flex items-center h-screen flex-col mt-32 font-nunito-sans">
       <div className="bg-slate-50 w-full p-4 text-gray-700 sm:px-8 md:px-12 lg:px-28 xl:px-44 flex justify-center">
         <div className="max-w-5xl w-full flex gap-4 items-center">
-          <img
-            src={LOGO}
-            alt=""
-            srcset=""
-            className="bg-gray-700 p-4 rounded-xl"
-          />
+          <img src={LOGO} alt="" className="bg-gray-700 p-4 rounded-xl" />
           <span className="text-sm sm:text-sm md:text-2xl lg:text-2xl xl:text-3xl font-bold">
             Validasi Kontrak Pinjaman / Pendanaan
           </span>
@@ -112,12 +86,14 @@ const ValidasiKontrak = () => {
               pendanaan telah melakukan pendanaan. Kontrak ini dibuat secara
               otomatis oleh sistem dan tidak memerlukan tanda tangan fisik.
             </h3>
-            {/* <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-                            Personal details and application.
-                        </p> */}
           </div>
           {!data ? (
-            "loading..."
+            <div className="h-sreen flex justify-center items-center">
+              <div className="flex items-center gap-3">
+                <Loading className={"w-5 h-5 text-blue-500"} />
+                <span>Loading</span>
+              </div>
+            </div>
           ) : (
             <div className="mt-6 border-t border-gray-100 w-full">
               <dl className="divide-y divide-gray-100 w-full ">
@@ -205,20 +181,6 @@ const ValidasiKontrak = () => {
                     {data?.lenders?.[0]?.date}
                   </dd>
                 </div>
-                {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-900">
-                                    About
-                                </dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                    Fugiat ipsum ipsum deserunt culpa aute sint
-                                    do nostrud anim incididunt cillum culpa
-                                    consequat. Excepteur qui ipsum aliquip
-                                    consequat sint. Sit id mollit nulla mollit
-                                    nostrud in ea officia proident. Irure
-                                    nostrud pariatur mollit ad adipisicing
-                                    reprehenderit deserunt qui eu.
-                                </dd>
-                            </div> */}
               </dl>
             </div>
           )}
