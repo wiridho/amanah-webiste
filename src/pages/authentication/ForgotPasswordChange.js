@@ -10,8 +10,7 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 
 const ForgotPasswordChange = () => {
-  // const location = useLocation();
-  // console.log(location.pathname);
+  const location = useLocation();
   const { email, token } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -31,18 +30,17 @@ const ForgotPasswordChange = () => {
   const onSubmit = (data) => {
     data["token"] = token;
     data["email"] = email;
-    // dispatch(
-    //   forgotPassChange({
-    //     data,
-    //     navigate: () => navigate("/login"),
-    //   })
-    // );
-    console.log(data);
+    dispatch(
+      forgotPassChange({
+        data,
+        navigate: () => navigate("/login"),
+      })
+    );
   };
 
-  // useEffect(() => {
-  //   dispatch(setMessage(null));
-  // }, [location.pathname]);
+  useEffect(() => {
+    dispatch(setMessage(null));
+  }, [location.pathname]);
 
   console.log("errors", errors);
 

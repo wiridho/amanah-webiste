@@ -85,13 +85,7 @@ const CardBalance = () => {
           </div>
         </div>
         <div className=" flex justify-center">
-          <img
-            style={{}}
-            src={ImgHeader}
-            className="h-[290px] "
-            alt=""
-            srcset=""
-          />
+          <img style={{}} src={ImgHeader} className="h-[290px] " alt="" />
         </div>
       </div>
     </>

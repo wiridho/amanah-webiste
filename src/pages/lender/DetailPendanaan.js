@@ -17,7 +17,6 @@ import {
   HiOutlineFastForward,
   HiOutlineHome,
 } from "react-icons/hi";
-import { FaFilePdf } from "react-icons/fa";
 import { FormatMataUang } from "../../utils/FormatMataUang";
 import { BsFiletypePdf, BsPersonFill } from "react-icons/bs";
 import { BiCategoryAlt, BiCoinStack, BiTimer } from "react-icons/bi";
@@ -32,7 +31,6 @@ import { getLenderFunding } from "../../service/lender/portofolio";
 const DetailPendanaan = () => {
   const { loanId } = useParams();
   const { accessToken, statusKYC } = useSelector((state) => state.auth);
-  const { portofolio } = useSelector((state) => state.lender);
   const [load, setLoad] = useState(true);
   const [detailData, setDetailData] = useState(null);
   let progress = (detailData?.totalFunding / detailData?.amount) * 100;
@@ -175,7 +173,6 @@ const DetailPendanaan = () => {
                   <div className="block rounded bg-white shadow sm:p-3 lg:p-3">
                     <div className="flex items-center justify-between gap-2 px-2">
                       <div className="flex items-center gap-3">
-                        {/* <FaFilePdf className="text-gray-400 w-8 h-8" /> */}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -348,7 +345,6 @@ const DetailPendanaan = () => {
                   <span className="font-semibold inline-block mb-2 text-sm ">
                     Progress Pendanaan
                   </span>
-                  {/* <h3 className=" text-sm font-semibold ">Status Pendanaan</h3> */}
                   <div className="flex justify-between ">
                     <p className="mt-2 hidden text-sm sm:block font-semibold">
                       Sisa Slot
