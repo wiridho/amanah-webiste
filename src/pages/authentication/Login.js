@@ -62,10 +62,13 @@ const Login = () => {
 
           {/* Form */}
           <div className="max-w-[400px] w-full mx-auto bg-zinc-50 p-4 sm:p-6 sm:px-8 shadow-md rounded-md">
-            <div>
-              <h1 className="text-xl font-sans font-semibold pb-4">
-                Welcome back !
+            <div className="mb-5 text-center">
+              <h1 className="text-xl font-sans font-semibold pb-2 ">
+                Selamat datang
               </h1>
+              <span className="text-sm text-gray-400 ">
+                Silahkan log in untuk masuk ke akun anda
+              </span>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Message

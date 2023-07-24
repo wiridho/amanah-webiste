@@ -60,34 +60,34 @@ const HomeAdmin = () => {
                 </span>
               </div>
               <hr />
-              <div class="overflow-x-auto p-4">
-                <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                  <thead class="ltr:text-left rtl:text-right">
+              <div className="overflow-x-auto p-4">
+                <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                  <thead className="ltr:text-left rtl:text-right">
                     <tr>
-                      <th class="whitespace-nowrap px-4 py-2 text-start font-medium text-gray-900">
+                      <th className="whitespace-nowrap px-4 py-2 text-start font-medium text-gray-900">
                         Nama Lengkap
                       </th>
-                      <th class="whitespace-nowrap px-4 py-2 text-start font-medium text-gray-900">
+                      <th className="whitespace-nowrap px-4 py-2 text-start font-medium text-gray-900">
                         Email
                       </th>
-                      <th class="whitespace-nowrap px-4 py-2 text-start font-medium text-gray-900">
+                      <th className="whitespace-nowrap px-4 py-2 text-start font-medium text-gray-900">
                         Total Pendanaan
                       </th>
                     </tr>
                   </thead>
 
-                  <tbody class="divide-y divide-gray-200">
+                  <tbody className="divide-y divide-gray-200">
                     {loansFunding
                       ? loansFunding.lender.map((item) => {
                           return (
                             <tr>
-                              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                                 {item.name}
                               </td>
-                              <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                              <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                                 {item.email}
                               </td>
-                              <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                              <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                                 <span className="font-bold px-2 py-1 bg-rose-100 text-rose-800 rounded-lg">
                                   {FormatMataUang(item.totalAmount)}
                                 </span>
@@ -110,34 +110,34 @@ const HomeAdmin = () => {
                 </span>
               </div>
               <hr />
-              <div class="overflow-x-auto p-4">
-                <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                  <thead class="ltr:text-left rtl:text-right">
+              <div className="overflow-x-auto p-4">
+                <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                  <thead className="ltr:text-left rtl:text-right">
                     <tr>
-                      <th class="whitespace-nowrap px-4 py-2 text-start font-medium text-gray-900">
+                      <th className="whitespace-nowrap px-4 py-2 text-start font-medium text-gray-900">
                         Nama Lengkap
                       </th>
-                      <th class="whitespace-nowrap px-4 py-2 text-start font-medium text-gray-900">
+                      <th className="whitespace-nowrap px-4 py-2 text-start font-medium text-gray-900">
                         Email
                       </th>
-                      <th class="whitespace-nowrap px-4 py-2 text-start font-medium text-gray-900">
+                      <th className="whitespace-nowrap px-4 py-2 text-start font-medium text-gray-900">
                         Total Dana Pinjaman
                       </th>
                     </tr>
                   </thead>
 
-                  <tbody class="divide-y divide-gray-200">
+                  <tbody className="divide-y divide-gray-200">
                     {loansFunding
                       ? loansFunding.lender.map((item) => {
                           return (
                             <tr>
-                              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                                 {item.name}
                               </td>
-                              <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                              <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                                 {item.email}
                               </td>
-                              <td class="whitespace-nowrap px-4 py-2 text-gray-700">
+                              <td className="whitespace-nowrap px-4 py-2 text-gray-700">
                                 <span className="font-bold px-2 py-1 bg-rose-100 text-rose-800 rounded-lg">
                                   {FormatMataUang(item.totalAmount)}
                                 </span>
@@ -157,25 +157,25 @@ const HomeAdmin = () => {
                 Kategori Pinjaman Terbanyak
               </span>
               <hr className="mt-4 border-indigo-100" />
-              <div class="overflow-x-auto mt-4">
-                <table class="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
-                  {/* <thead class="ltr:text-left rtl:text-right">
+              <div className="overflow-x-auto mt-4">
+                <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
+                  {/* <thead className="ltr:text-left rtl:text-right">
                                         <tr>
-                                            <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                                                 Categori
                                             </th>
-                                            <th class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                                            <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
                                                 Total
                                             </th>
                                         </tr>
                                     </thead> */}
 
-                  <tbody class="divide-y divide-gray-200 ">
+                  <tbody className="divide-y divide-gray-200 ">
                     {mostCategoryBorrowed
                       ? mostCategoryBorrowed.map((item, index) => {
                           return (
                             <tr>
-                              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900 ">
+                              <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 ">
                                 <span className="font-bold text-gray-700">
                                   {" "}
                                   #{index + 1}{" "}
@@ -187,7 +187,7 @@ const HomeAdmin = () => {
                                   {item.borrowingCategory}
                                 </span>
                               </td>
-                              <td class="whitespace-nowrap text-end px-4 py-2">
+                              <td className="whitespace-nowrap text-end px-4 py-2">
                                 <span className="px-2 py-1 bg-indigo-100 text-indigo-800 rounded-xl font-medium">
                                   {item.total}x
                                 </span>

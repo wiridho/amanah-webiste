@@ -40,7 +40,6 @@ const DetailPendanaan = () => {
   const [openModalNotVerified, setOpenModalNotVerified] = useState(false);
   const location = useLocation();
   const { state } = location;
-  console.log("state", state);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -88,7 +87,7 @@ const DetailPendanaan = () => {
                 <div className="flex flex-col gap-4">
                   {/* Informasi Peminjam */}
                   <div className=" ">
-                    <span className="font-semibold inline-block mb-2 text-sm ">
+                    <span className="font-semibold inline-block mb-2 text-darkBlue text-base ">
                       Informasi Peminjam
                     </span>
                     <div className="rounded bg-white overflow-hidden shadow flex flex-col">
@@ -342,18 +341,18 @@ const DetailPendanaan = () => {
               <div className="sticky  top-[20px]">
                 {/* Card Funding */}
                 <div className="block p-5 bg-white border rounded-md shadow">
-                  <span className="font-semibold inline-block mb-2 text-sm ">
-                    Progress Pendanaan
+                  <span className="font-semibold text-darkBlue text-base">
+                    Status Pendanaan
                   </span>
                   <div className="flex justify-between ">
-                    <p className="mt-2 hidden text-sm sm:block font-semibold">
+                    {/* <p className="mt-2 hidden text-sm sm:block font-semibold">
                       Sisa Slot
                     </p>
                     <p className="mt-2 hidden text-sm sm:block">
                       {FormatMataUang(
                         detailData?.amount - detailData?.totalFunding
                       )}
-                    </p>
+                    </p> */}
                   </div>
                   <div className="flex justify-between">
                     <p className="mt-2 hidden text-sm sm:block font-semibold">
@@ -387,7 +386,7 @@ const DetailPendanaan = () => {
                     disabled={progress === 100 ? true : false}
                     onClick={onClick}
                     type={"button"}
-                    className={`bg-indigo-700 hover:bg-indigo-800 text-white font-semibold !rounded-full w-full ${
+                    className={`bg-blue-500 hover:bg-blue-700 text-white font-semibold !rounded-full w-full ${
                       progress === 100
                         ? "!bg-transparent text-white cursor-not-allowed border border-green-500 "
                         : ""

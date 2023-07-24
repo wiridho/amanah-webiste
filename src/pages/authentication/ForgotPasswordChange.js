@@ -25,7 +25,6 @@ const ForgotPasswordChange = () => {
   } = useForm();
 
   const newPassword = watch("newPassword");
-  const confirmPassword = watch("confirmPassword");
 
   const onSubmit = (data) => {
     data["token"] = token;
@@ -86,25 +85,25 @@ const ForgotPasswordChange = () => {
               <div>
                 <InputPassword
                   placeholder={"********"}
-                  name={"New Password"}
+                  name={"Kata sandi baru"}
                   type={"password"}
-                  label={"Password"}
                   register={{
                     ...register("newPassword", {
                       required: true,
+                      pattern:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                     }),
                   }}
                   errors={errors.newPassword}
                 >
-                  New Password
+                  Kata Sandi Baru
                 </InputPassword>
               </div>
               <div>
                 <InputPassword
                   placeholder={"********"}
-                  name={"confirmPassword"}
+                  name={"Konfirmasi kata sandi"}
                   type={"password"}
-                  label={"Confirm Password"}
                   register={{
                     ...register("cpassword", {
                       required: true,
@@ -118,7 +117,7 @@ const ForgotPasswordChange = () => {
                   }}
                   errors={errors?.cpassword}
                 >
-                  Confirm Password
+                  Konfirmasi Kata Sandi
                 </InputPassword>
               </div>
               <Button
@@ -127,7 +126,7 @@ const ForgotPasswordChange = () => {
               >
                 {load ? (
                   <div className="flex items-center justify-center gap-2">
-                    <Loading />
+                    <Loading className={"w-4 h-4 text-blue-500"} />
                     <span>Loading </span>
                   </div>
                 ) : (

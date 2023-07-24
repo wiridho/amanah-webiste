@@ -24,7 +24,7 @@ export const statusLoanActive = (status) => {
   if (status === "on request" || status === "on process") {
     statusLoan = (
       <span className="text-yellow-400 bg-yellow-50 px-2 rounded">
-        // Menunggu Pendanaan
+        Menunggu Pendanaan
       </span>
     );
   } else if (status === "pending") {

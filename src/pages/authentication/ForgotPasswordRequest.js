@@ -37,7 +37,7 @@ const ForgotPasswordRequest = () => {
 
   return (
     <>
-      <div className="h-screen grid grid-cols-1 sm:grid-cols-2 overflow-hidden">
+      <div className="h-screen grid grid-cols-1 sm:grid-cols-2 overflow-hidden font-nunito-sans">
         {/* Left Wrapper */}
         <div className="hidden bg-primary md:flex sm:block items-center relative">
           <div className="absolute bg-blue-600 opacity-100 h-screen w-full z-20 "></div>
@@ -75,6 +75,7 @@ const ForgotPasswordRequest = () => {
                 }}
               />
               <div>
+                <span>Silahkan masukkan email yang terdaftar</span>
                 <InputLabel
                   placeholder={"name@example.com"}
                   type={"text"}
@@ -91,7 +92,7 @@ const ForgotPasswordRequest = () => {
               </div>
               <Button
                 type="submit"
-                className="w-full mt-3 bg-blue-600 text-white hover:bg-blue-700"
+                className="w-full mt-4 bg-blue-600 text-white hover:bg-blue-700"
               >
                 {load ? (
                   <div className="flex items-center justify-center gap-2">
@@ -99,7 +100,7 @@ const ForgotPasswordRequest = () => {
                     <span>Loading </span>
                   </div>
                 ) : (
-                  "Forgot Password"
+                  <span className="text-sm">Kirim Link Ubah Kata Sandi</span>
                 )}
               </Button>
               <div className="flex justify-between text-primary mt-1">

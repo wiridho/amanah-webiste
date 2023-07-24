@@ -15,13 +15,7 @@ import { handleGetBalance } from "../../../service/balance/balance";
 import CurrencyInput from "react-currency-input-field";
 import { setMessage } from "../../../store/reducer/Lender/LenderFundingReducer";
 
-const TransaksiPendanaan = ({
-  totalPinjaman,
-  totalImbalHasil,
-  sisaPendanaan,
-  contract,
-  setModal,
-}) => {
+const TransaksiPendanaan = ({ totalPinjaman, totalImbalHasil, setModal }) => {
   const [getInputValue, setGetInputValue] = useState("");
   const { loanId } = useParams();
   const { accessToken } = useSelector((state) => state.auth);
@@ -83,6 +77,8 @@ const TransaksiPendanaan = ({
     dispatch(setMessage(null));
   };
 
+  console.log(estImbalHasil);
+
   return (
     <div>
       <div className="">
@@ -125,23 +121,19 @@ const TransaksiPendanaan = ({
               <span className="font-semibold">Ringkasan</span>
             </div>
             <div className="flex justify-between">
-              <span>Estimasi Imbal hasil</span>
-              <span>{FormatMataUang(estImbalHasil)}</span>
+              <span>Imbal hasil</span>
+              <span>{FormatMataUang(totalImbalHasil)}</span>
             </div>
             <div className="flex justify-between">
               <span>Estimasi total dana kembali</span>
               <span>
-                {FormatMataUang(
-                  parseInt(getInputValue) + parseInt(estImbalHasil)
-                )}
+                {FormatMataUang(parseInt(balance) + parseInt(totalImbalHasil))}
               </span>
             </div>
           </div>
           <Button
             type={"submit"}
-            className={
-              "mt-5 bg-indigo-500 hover:bg-indigo-700  text-white w-full"
-            }
+            className={"mt-5 bg-blue-500 hover:bg-blue-700  text-white w-full"}
           >
             Danai
           </Button>
