@@ -587,9 +587,7 @@ const Beranda = () => {
                 </div>
                 <div className="mt-4 flex flex-col gap-2">
                   <div className="flex justify-between">
-                    <span className="text-base text-gray-800">
-                      Estimasi Imbal Hasil
-                    </span>
+                    <span className="text-base text-gray-800">Imbal Hasil</span>
                     <span className="font-semibold  text-gray-700">
                       {activeLoan?.yieldReturn !== undefined
                         ? FormatMataUang(activeLoan?.yieldReturn)

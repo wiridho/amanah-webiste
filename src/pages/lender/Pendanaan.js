@@ -23,14 +23,19 @@ import {
 import _ from "lodash";
 import Swal from "sweetalert2";
 import { FormatMataUang } from "../../utils/FormatMataUang";
+import { Link } from "react-router-dom";
 
 const Pendanaan = () => {
   const dispatch = useDispatch();
   const [loanList, setListLoan] = useState(null);
   const [load, setLoad] = useState(true);
   const [value, setValue] = useState([1, 3]);
-  const { accessToken } = useSelector((state) => state.auth);
+  const { accessToken, statusKYC } = useSelector((state) => state.auth);
   const { autoLend } = useSelector((state) => state.lender);
+
+  const [openModalVerified, setOpenModalVerified] = useState(false);
+  const [openModalPending, setOpenModalPending] = useState(false);
+  const [openModalNotVerified, setOpenModalNotVerified] = useState(false);
 
   const [modal, setModal] = useState(null);
 
@@ -96,6 +101,16 @@ const Pendanaan = () => {
   const handleReset = async () => {
     reset();
     await filterDefault();
+  };
+
+  const onClick = () => {
+    if (statusKYC === "pending") {
+      setOpenModalPending(true);
+    } else if (statusKYC === "not verified") {
+      setOpenModalNotVerified(true);
+    } else {
+      setModal(true);
+    }
   };
 
   return (
@@ -188,6 +203,94 @@ const Pendanaan = () => {
               </Button>
             </form>
           </div>
+          {openModalPending && (
+            <>
+              {/* Modal Pending */}
+              <div
+                className={`z-10 fixed flex items-center justify-center transition-transform duration-1000 inset-0 backdrop-brightness-50 ${
+                  openModalPending ? "" : "hidden"
+                }`}
+              >
+                <div className=" bg-white w-full max-w-md rounded-md">
+                  <div className=" w-full max-w-2xl max-h-full  ">
+                    {/* Modal header */}
+                    <div className="flex items-start justify-between p-4 border-b rounded-t">
+                      <h3 className="text-xl font-semibold text-gray-900 ">
+                        Verifikasi KYC sedang diproses
+                      </h3>
+                    </div>
+                    {/* Modal body */}
+                    <div className="p-6 space-y-6">
+                      <p className="text-base leading-relaxed text-gray-500 ">
+                        Mohon tunggu, kami akan infokan ketika peninjauan telah
+                        selesai{" "}
+                        <Link
+                          className="underline text-blue-700 hover:text-blue-900"
+                          to={"/funder/kyc"}
+                        >
+                          kembali ke halaman utama!
+                        </Link>
+                      </p>
+                    </div>
+                    {/* Modal footer */}
+                    <div className="flex items-center px-5 py-3 space-x-2 justify-end border-t border-gray-200 rounded-b ">
+                      <button
+                        onClick={() => setOpenModalPending(false)}
+                        className="bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                      >
+                        Tutup
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+          {openModalNotVerified && (
+            <>
+              {/* Modal Not Verified */}
+              <div
+                className={`z-10 flex items-center justify-center fixed inset-0 backdrop-brightness-50 transition-opacity  ${
+                  openModalNotVerified
+                    ? "opacity-100"
+                    : "hidden opacity-0 pointer-events-none"
+                }`}
+              >
+                <div className=" bg-white w-full max-w-md rounded-md">
+                  <div className=" w-full max-w-2xl max-h-full  ">
+                    {/* Modal header */}
+                    <div className="flex items-start justify-between p-4 border-b rounded-t">
+                      <h3 className="text-xl font-semibold text-gray-900 ">
+                        Akun belum diverifikasi
+                      </h3>
+                    </div>
+                    {/* Modal body */}
+                    <div className="p-6 space-y-6">
+                      <p className="text-base leading-relaxed text-gray-500 ">
+                        Akun anda belum verifikasi KYC, silahkan verifikasi
+                        terlebih dahulu{" "}
+                        <Link
+                          className="underline text-blue-700 hover:text-blue-800"
+                          to={"/funder/kyc"}
+                        >
+                          disini!
+                        </Link>
+                      </p>
+                    </div>
+                    {/* Modal footer */}
+                    <div className="flex items-center justify-end px-5 py-3 space-x-2 border-t border-gray-200 rounded-b ">
+                      <button
+                        onClick={() => setOpenModalNotVerified(false)}
+                        className="bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                      >
+                        Tutup
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
 
           <div className="shadow-md bg-white p-4 rounded-md ">
             {autoLend?.status === undefined && (
@@ -195,7 +298,7 @@ const Pendanaan = () => {
                 className={
                   "w-full bg-blue-500 justify-center !gap-2 text-white text-center"
                 }
-                onClick={() => setModal(true)}
+                onClick={onClick}
               >
                 <MdWorkHistory size={25} /> Tambah Auto Lending
               </ButtonIcon>

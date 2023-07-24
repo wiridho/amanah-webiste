@@ -105,13 +105,9 @@ const ModalAutoLend = ({ onClose }) => {
                       <InputCurrency
                         name={"min"}
                         control={control}
-                        placeholder={"Minimal Rp50.000"}
+                        placeholder={"Rp50.000"}
                         rules={{
                           required: "Imbal Hasil minimum wajib diisi",
-                          min: {
-                            value: 50000,
-                            message: `Imbal Hasil minimum Rp50.000`,
-                          },
                         }}
                         errors={errors}
                       >
@@ -170,10 +166,6 @@ const ModalAutoLend = ({ onClose }) => {
                       control={control}
                       rules={{
                         required: "Nominal wajib diisi",
-                        min: {
-                          value: 100000,
-                          message: `Nominal Pendanaan minimal Rp100.000`,
-                        },
                         validate: {
                           validasiBalance,
                         },

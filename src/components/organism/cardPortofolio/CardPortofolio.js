@@ -45,7 +45,7 @@ const CardPortofolio = ({
           </div>
           <div className="flex justify-between">
             <span className="text-base text-darkBlue font-medium">
-              Estimasi Imbal Hasil
+              Imbal Hasil
             </span>
             <span className="font-semibold  font-mono text-darkBlue">
               {FormatMataUang(yieldReturn)}
@@ -53,7 +53,7 @@ const CardPortofolio = ({
           </div>
         </div>
       </div>
-      <span class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
+      <span className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600"></span>
       <span className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-indigo-500 via-indigo-700 to-indigo-900"></span>
       <dl className="mt-6 flex gap-4 sm:gap-6 justify-between">
         <div className="flex justify-between gap-7">
