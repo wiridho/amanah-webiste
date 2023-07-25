@@ -14,14 +14,17 @@ import { getBorrowersLoan } from "../../../service/Borrower/borrower";
 import InputCurrency from "../../../components/molekul/InputCurrency/InputCurrency";
 import WarnigGif from "../../../assets/img/success/warning2.gif";
 import UserImg from "../../../assets/img/user/user.png";
+import LoanImg from "../../../assets/img/loan/loan.png";
 
 import { Link } from "react-router-dom";
+import { getProfileBorrower } from "../../../service/Borrower/profile";
 
 const AjukanPinjaman = () => {
   const { accessToken, statusKYC } = useSelector((state) => state.auth);
-  const { paymentSchedule, loanHistory } = useSelector(
+  const { paymentSchedule, loanHistory, profile } = useSelector(
     (state) => state.borrower
   );
+  const { loanLimit } = profile;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -34,9 +37,13 @@ const AjukanPinjaman = () => {
   const handleGetHistory = () => {
     dispatch(getBorrowersLoan({ accessToken }));
   };
+  const getProfile = () => {
+    dispatch(getProfileBorrower({ accessToken }));
+  };
 
   useEffect(() => {
     handleGetHistory();
+    getProfile();
   }, [statusKYC]);
 
   const onSubmit = (data) => {
@@ -44,6 +51,16 @@ const AjukanPinjaman = () => {
     navigate("/borrower/konfirmasi-pinjaman", {
       state: data,
     });
+  };
+
+  const validasiLimit = (value) => {
+    const amount = parseFloat(value.replace(/[^\d.-]/g, ""));
+    console.log(amount);
+    if (amount > loanLimit) {
+      console.log("masuk");
+      return "Peminjaman tidak boleh melebihi limit pinjaman!";
+    }
+    return true;
   };
 
   if (statusKYC === "not verified") {
@@ -129,21 +146,22 @@ const AjukanPinjaman = () => {
                 Ajukan Pinjaman
               </span>
               <form onSubmit={handleSubmit(onSubmit)}>
-                <div>
-                  <div>
+                <div className="grid grid-cols-6 gap-2">
+                  <div className="col-span-6">
                     <InputCurrency
                       name={"amount"}
                       control={control}
                       placeholder={"Rp100.000"}
                       rules={{
                         required: "Nominal Pinjaman wajib diisi",
+                        validate: { validasiLimit },
                       }}
                       errors={errors}
                     >
                       Nominal Pinjaman
                     </InputCurrency>
                   </div>
-                  <div>
+                  <div className="col-span-6">
                     <InputCurrency
                       name={"yieldReturn"}
                       control={control}
@@ -156,9 +174,10 @@ const AjukanPinjaman = () => {
                       Imbal Hasil
                     </InputCurrency>
                   </div>
-                  <div>
+                  <div className="col-span-6">
                     <SelectInput
                       field={"Tenor"}
+                      placeholder={"Pilih..."}
                       name="tenor"
                       rules={{
                         required: "Tenor wajib diisi",
@@ -171,38 +190,43 @@ const AjukanPinjaman = () => {
                       Tenor
                     </SelectInput>
                   </div>
-                  <div>
-                    <SelectInput
-                      rules={{
-                        required: "Kategori pinjaman wajib diisi",
-                      }}
-                      field={"Kategori Pinjaman"}
-                      name="borrowingCategory"
-                      control={control}
-                      options={opsiKategori}
-                      defaultValue={opsiKategori[0]}
-                      errors={errors}
-                    >
-                      Kategori Pinjaman
-                    </SelectInput>
+                  <div className="col-span-6 grid grid-cols-6 gap-3 items-center">
+                    <div className="col-span-3">
+                      <SelectInput
+                        placeholder="Pilih..."
+                        rules={{
+                          required: "Kategori pinjaman wajib diisi",
+                        }}
+                        field={"Kategori Pinjaman"}
+                        name="borrowingCategory"
+                        control={control}
+                        options={opsiKategori}
+                        defaultValue={opsiKategori[0]}
+                        errors={errors}
+                      >
+                        Kategori Pinjaman
+                      </SelectInput>
+                    </div>
+                    <div className="col-span-3">
+                      <InputLabel
+                        type={"text"}
+                        placeholder={"Tujuan pinjaman anda"}
+                        name={"Tujuan Peminjaman"}
+                        register={{
+                          ...register("purpose", {
+                            required: true,
+                          }),
+                        }}
+                        errors={errors.purpose}
+                      >
+                        Tujuan Peminjaman
+                      </InputLabel>
+                    </div>
                   </div>
-                  <div>
+                  <div className="col-span-6">
                     <InputLabel
                       type={"text"}
-                      name={"Tujuan Peminjaman"}
-                      register={{
-                        ...register("purpose", {
-                          required: true,
-                        }),
-                      }}
-                      errors={errors.purpose}
-                    >
-                      Tujuan Peminjaman
-                    </InputLabel>
-                  </div>
-                  <div>
-                    <InputLabel
-                      type={"text"}
+                      placeholder={"Link produk anda"}
                       name={"Link Produk"}
                       register={{
                         ...register("productLink", {
@@ -214,7 +238,7 @@ const AjukanPinjaman = () => {
                       Link Produk
                     </InputLabel>
                   </div>
-                  <div className="">
+                  <div className="col-span-6">
                     <Label className={"!my-0 !mt-2"}>Skema Pembayaran</Label>
                     <div className="flex gap-3">
                       <div>
@@ -246,7 +270,7 @@ const AjukanPinjaman = () => {
                       </div>
                     </div>
                   </div>
-                  <div>
+                  <div className="col-span-6">
                     <Button
                       className={
                         "w-full mt-3 bg-blue-500 hover:bg-blue-700 px-4 py-2 text-white"
@@ -260,7 +284,19 @@ const AjukanPinjaman = () => {
               </form>
             </div>
           ) : (
-            "Kamu sudah melakukan pinjaman"
+            <div className="min-h-[15rem] flex flex-col bg-white  rounded-xl">
+              <div className="flex flex-auto flex-col justify-center items-center">
+                <img src={LoanImg} style={{ width: 150 }} alt="" />
+                <h3 className="text-lg font-bold my-4">
+                  Pinjaman anda sedang berlangsung
+                </h3>
+                <p className="mt-2 text-gray-600 text-justify">
+                  Silahkan menunggu beberapa saat sampai dengan pihak lender
+                  mendanai pinjaman anda. Lakukan pengecekan secara berkala pada
+                  aplikasi Amanah, untuk mengetahui pinjaman anda
+                </p>
+              </div>
+            </div>
           )}
         </div>
       </div>

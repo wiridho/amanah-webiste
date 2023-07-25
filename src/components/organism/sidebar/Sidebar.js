@@ -25,7 +25,9 @@ const Sidebar = () => {
 
   const logout = () => {
     Swal.fire({
-      title: "Apakah anda ingin keluar?",
+      title: "Logout",
+      icon: "warning",
+      text: "Apakah anda ingin keluar?",
       // showDenyButton: true,
       showCancelButton: true,
       cancelButtonText: "Tidak",

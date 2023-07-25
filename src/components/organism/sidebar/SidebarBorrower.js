@@ -23,10 +23,13 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { statusKYC } = useSelector((state) => state.auth);
+  const location = useLocation();
 
   const logout = () => {
     Swal.fire({
-      title: "Apakah anda ingin keluar?",
+      title: "Logout",
+      icon: "warning",
+      text: "Apakah anda ingin keluar?",
       showCancelButton: true,
       cancelButtonText: "Tidak",
       confirmButtonText: "Ya, Keluar",
@@ -40,8 +43,6 @@ const Sidebar = () => {
       }
     });
   };
-
-  const location = useLocation();
 
   useEffect(() => {
     dispatch(setMessage(null));

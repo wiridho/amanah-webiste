@@ -3,7 +3,15 @@ import Select from "react-select";
 import { Controller } from "react-hook-form";
 import { Label } from "../../atom";
 
-const SelectInput = ({ children, name, options, control, errors, rules }) => {
+const SelectInput = ({
+  children,
+  name,
+  options,
+  control,
+  errors,
+  rules,
+  placeholder,
+}) => {
   const [selectedValue, setSelectedValue] = useState(null);
   return (
     <div>
@@ -15,6 +23,7 @@ const SelectInput = ({ children, name, options, control, errors, rules }) => {
         render={({ field }) => (
           <>
             <Select
+              placeholder={placeholder}
               {...field}
               options={options}
               value={selectedValue?.find((c) => c?.value === field?.value)}

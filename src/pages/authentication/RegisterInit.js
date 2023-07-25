@@ -14,12 +14,12 @@ const RegisterInit = () => {
             <div className="flex justify-center items-center">
               <img
                 src={Logo_Amana}
-                className="w-20 h-20  p-2 rounded-full bg-primary"
+                className="w-20 h-20  p-2 rounded-full bg-darkBlue"
                 alt="LogoAmana"
               />
             </div>
             <div className="text-center pt-5">
-              <p className="text-3xl text-[#013c50]">
+              <p className="text-3xl text-blue-900">
                 Cara Syariah yang Aman.
                 <br />
                 Memberi Pendanaan dan Mendapatkan Pembiayaan.
@@ -29,10 +29,10 @@ const RegisterInit = () => {
 
             {/* Content */}
             <div className=" pt-6 text-center">
-              <h1 className="mb-2 mt-0 text-lg font-medium  text-[#013c50]">
+              <h1 className="mb-2 mt-0 text-lg font-medium  text-blue-900">
                 Pilih jenis akun kamu
               </h1>
-              <p className="text-sm text-[#47443c] mb-4">
+              <p className="text-sm text-blue-900 mb-4">
                 Pengguna hanya bisa memiliki satu jenis akun
               </p>
               <div className="flex items-center justify-center gap-2">
@@ -43,8 +43,8 @@ const RegisterInit = () => {
                     }}
                   >
                     <img src={Lender} className="" alt="Lender_img" />
-                    <h1 className="text-lg text-primary">Pemberi Dana</h1>
-                    <p className="text-slate-500 md:text-xs">
+                    <h1 className=" text-blue-900 font-medium">Pemberi Dana</h1>
+                    <p className="text-gray-400 md:text-xs">
                       Gabung sebagai <br /> pemberi Pembiayaan
                     </p>
                   </Link>
@@ -56,27 +56,29 @@ const RegisterInit = () => {
                     }}
                   >
                     <img src={Borrower} className="" alt="Lender_img" />
-                    <h1 className="text-lg text-primary ">Penerima Dana</h1>
-                    <p className="text-slate-500 md:text-xs">
+                    <h1 className=" text-blue-900 font-medium ">
+                      Penerima Dana
+                    </h1>
+                    <p className="text-gray-400 md:text-xs">
                       Gabung sebagai <br /> pemerima Pembiayaan
                     </p>
                   </Link>
                 </div>
               </div>
               <div>
-                <p className="text-secondary text-base mt-3">
+                <p className="text-blue-900 text-base mt-3">
                   Sudah memiliki akun?{" "}
                   <Link to="/login">
-                    <span className="text-primary hover:text-[#155596cc]">
+                    <span className="text-blue-700 hover:text-[#155596cc]">
                       Masuk
                     </span>
                   </Link>
                 </p>
               </div>
               <div className="pt-3">
-                <p className="text-[#47443c] text-sm">
+                <p className="text-blue-800 text-sm">
                   Amanah telah
-                  <span className="font-bold text-[#47443c]">
+                  <span className="font-bold text-blue-900">
                     {" "}
                     Berizin dan Diawasi{" "}
                   </span>
@@ -88,8 +90,8 @@ const RegisterInit = () => {
 
             {/* Footer */}
             <footer className="pt-24">
-              <div className="w-full mx-auto max-w-screen-lg p-4 md:flex md:items-center md:justify-between text-[#113D52]">
-                <span className="text-sm  sm:text-center">
+              <div className="w-full mx-auto max-w-screen-lg p-4 md:flex md:items-center md:justify-between text-darkBlue">
+                <span className="text-sm  sm:text-center ">
                   © AMANAH Fintech Syariah 2023 . All Rights Reserved.
                 </span>
                 <ul className="flex flex-wrap items-center mt-3 text-sm font-medium sm:mt-0">

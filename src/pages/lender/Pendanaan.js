@@ -47,13 +47,13 @@ const Pendanaan = () => {
   } = useForm();
 
   const filterDefault = async () => {
-    let tenor = { tenor_min: 1, tenor_max: 11 };
+    let tenor = { tenor_min: 1, tenor_max: 12 };
     const response = await getAvailableLoan({
       params: tenor,
       accessToken,
     });
     setListLoan(response?.data);
-    setValue([1, 11]);
+    setValue([1, 12]);
   };
 
   const getAutoLend = async () => {

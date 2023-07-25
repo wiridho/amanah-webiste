@@ -58,6 +58,11 @@ const InputCurrency = ({
                 {errors?.[name]?.["message"]}
               </span>
             )}
+            {errors?.[name]?.["type"] === "validasiLimit" && (
+              <span className="text-red-500 text-xs">
+                {errors?.[name]?.["message"]}
+              </span>
+            )}
           </div>
         )}
       />

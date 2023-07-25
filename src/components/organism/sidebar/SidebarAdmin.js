@@ -2,19 +2,12 @@ import React, { useState } from "react";
 import Logo from "../../../assets/img/logo/LogoAmana2.svg";
 import { ButtonIcon, CustomLink } from "../../molekul";
 // Import Icon
-import {
-  HiChartPie,
-  HiOutlinePlus,
-  HiOutlineCurrencyDollar,
-  HiOutlineUser,
-  HiOutlineUserGroup,
-} from "react-icons/hi";
-import { BiLogOut, BiHome, BiUser, BiMoneyWithdraw } from "react-icons/bi";
+import { HiOutlineUserGroup } from "react-icons/hi";
+import { BiLogOut, BiHome } from "react-icons/bi";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { MdHistory, MdPayment, MdVerified } from "react-icons/md";
-import { GiReceiveMoney } from "react-icons/gi";
+import { MdHistory, MdVerified } from "react-icons/md";
 // End Icon
 
 const Sidebar = () => {
@@ -53,7 +46,7 @@ const Sidebar = () => {
               </div>
             </li>
             <li>
-              <CustomLink to="/" icon={<BiHome className="text-xl" />}>
+              <CustomLink to="/admin" icon={<BiHome className="text-xl" />}>
                 Beranda
               </CustomLink>
             </li>
