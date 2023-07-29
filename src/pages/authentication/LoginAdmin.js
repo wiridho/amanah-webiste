@@ -38,13 +38,13 @@ const LoginAdmin = () => {
 
   return (
     <>
-      <div className="h-screen grid grid-cols-1 sm:grid-cols-2 overflow-hidden">
+      <div className="h-screen grid grid-cols-1 sm:grid-cols-2 overflow-hidden font-nunito-sans">
         {/* Left Wrapper */}
         <div className="hidden bg-primary md:flex sm:block items-center relative">
           <div className="absolute bg-blue-600 opacity-100 h-screen w-full z-20 "></div>
-          <span className="px-16 leading-[70px] text-white text-5xl z-50">
-            <span className="font-bold font-inter">Admin</span>{" "}
-          </span>
+          <div className="px-16 leading-[70px] text-white text-center w-full text-5xl z-50">
+            <span className="font-bold font-inter">Admin</span>
+          </div>
         </div>
         {/* Right Wrapper */}
         <div className="flex flex-col bg-slate-100  justify-between p-2 ">
@@ -60,8 +60,8 @@ const LoginAdmin = () => {
           {/* Form */}
           <div className="max-w-[400px] w-full mx-auto bg-zinc-50 p-4 sm:p-6 sm:px-8 shadow-md rounded-md">
             <div>
-              <h1 className="text-xl font-sans font-semibold pb-4">
-                Welcome back !
+              <h1 className="text-xl font-semibold pb-4">
+                Selamat Datang di Halaman Admin
               </h1>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>

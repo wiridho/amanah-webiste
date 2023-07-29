@@ -68,10 +68,11 @@ const ForgotPasswordChange = () => {
 
           {/* Form */}
           <div className="max-w-[400px] w-full mx-auto bg-zinc-50 p-4 sm:p-6 sm:px-8 shadow-md rounded-md">
-            <div>
-              <h1 className="text-xl font-sans font-semibold pb-4">
-                Lupa Password
-              </h1>
+            <div className="mb-4">
+              <h1 className="text-xl font-sans font-semibold">Lupa Password</h1>
+              <span className="text-gray-500 text-sm">
+                Silahkan masukkan password baru anda
+              </span>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Message

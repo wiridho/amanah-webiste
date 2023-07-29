@@ -256,9 +256,9 @@ const Beranda = () => {
                 ) : (
                   <div
                     onClick={showModalPembayaran}
-                    className="cursor-pointer bg-blue-100 hover:bg-blue-200 flex items-center gap-1 font-medium  rounded-full p-3"
+                    className="cursor-pointer bg-blue-100 hover:bg-blue-200 flex items-center gap-2 font-medium  rounded-full p-3"
                   >
-                    <span className="text-blue-500">Bayar</span>
+                    <span className="text-blue-500 font-medium">Bayar</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"

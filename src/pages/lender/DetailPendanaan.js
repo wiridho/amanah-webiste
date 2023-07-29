@@ -35,6 +35,8 @@ const DetailPendanaan = () => {
   const [detailData, setDetailData] = useState(null);
   let progress = (detailData?.totalFunding / detailData?.amount) * 100;
 
+  console.log(detailData);
+
   const [openModalVerified, setOpenModalVerified] = useState(false);
   const [openModalPending, setOpenModalPending] = useState(false);
   const [openModalNotVerified, setOpenModalNotVerified] = useState(false);
@@ -74,6 +76,8 @@ const DetailPendanaan = () => {
     dispatch(getLenderFunding({ accessToken }));
   }, [dispatch, accessToken]);
 
+  console.log(state);
+
   return (
     <div className="font-nunito-sans">
       {detailData === null ? (
@@ -111,7 +115,23 @@ const DetailPendanaan = () => {
                               )}
                             </span>
                           </div>
-                          {state && (
+                          {/* <div className="bg-gray-200 hover:bg-gray-300 m-2 p-3 rounded-md">
+                            <div className="flex items-center gap-2">
+                              <BsFiletypePdf
+                                size={20}
+                                className="text-gray-800"
+                              />
+                              <a
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={detailData?.contract}
+                                className=" font-semibold text-gray-800"
+                              >
+                                Kontrak
+                              </a>
+                            </div>
+                          </div> */}
+                          {state ? (
                             <div className="bg-gray-200 hover:bg-gray-300 m-2 p-3 rounded-md">
                               <div className="flex items-center gap-2">
                                 <BsFiletypePdf
@@ -121,7 +141,24 @@ const DetailPendanaan = () => {
                                 <a
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  href={state}
+                                  href={state?.contract}
+                                  className=" font-semibold text-gray-800"
+                                >
+                                  Kontrak
+                                </a>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="bg-gray-200 hover:bg-gray-300 m-2 p-3 rounded-md">
+                              <div className="flex items-center gap-2">
+                                <BsFiletypePdf
+                                  size={20}
+                                  className="text-gray-800"
+                                />
+                                <a
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  href={detailData?.contract}
                                   className=" font-semibold text-gray-800"
                                 >
                                   Kontrak

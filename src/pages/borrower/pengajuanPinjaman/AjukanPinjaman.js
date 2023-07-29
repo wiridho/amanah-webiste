@@ -47,7 +47,6 @@ const AjukanPinjaman = () => {
   }, [statusKYC]);
 
   const onSubmit = (data) => {
-    console.log(data);
     navigate("/borrower/konfirmasi-pinjaman", {
       state: data,
     });

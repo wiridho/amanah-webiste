@@ -30,12 +30,12 @@ const Lending = () => {
 
   const logout = () => {
     Swal.fire({
-      title: "Apakah anda ingin keluar?",
-      // showDenyButton: true,
+      icon: "warning",
+      title: "Logout",
+      text: "Apakah anda ingin keluar?",
       showCancelButton: true,
       cancelButtonText: "Tidak",
       confirmButtonText: "Ya, Keluar",
-      // denyButtonText: `Tidak`,
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
@@ -215,12 +215,21 @@ const Lending = () => {
               bertransaksi dengan aman dan nyaman.{" "}
             </p>
             <div className="space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
-              <a
-                href="register-init"
-                className="inline-flex items-center justify-center w-full px-5 py-3 text-sm font-bold text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100"
-              >
-                Daftar Akun Sekarang
-              </a>
+              {roles ? (
+                <Link
+                  to={roles === "lender" ? "/funder" : "/borrower"}
+                  className="inline-flex items-center justify-center w-full px-5 py-3 text-sm font-bold text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100"
+                >
+                  Dashboard Saya
+                </Link>
+              ) : (
+                <a
+                  href="register-init"
+                  className="inline-flex items-center justify-center w-full px-5 py-3 text-sm font-bold text-center text-gray-900 border border-gray-200 rounded-lg sm:w-auto hover:bg-gray-100 focus:ring-4 focus:ring-gray-100"
+                >
+                  Daftar Akun Sekarang
+                </a>
+              )}
             </div>
           </div>
           <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
@@ -711,7 +720,7 @@ const Lending = () => {
         <div className="relative mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 lg:pt-24">
           <div className="absolute end-4 top-4 sm:end-6 sm:top-6 lg:end-8 lg:top-8">
             <a
-              className="inline-block rounded-full bg-teal-600 p-2 text-white shadow transition hover:bg-teal-500 sm:p-3 lg:p-4"
+              className="inline-block rounded-full bg-darkBlue   p-2 text-white shadow transition hover:bg-teal-500 sm:p-3 lg:p-4"
               href="#home"
             >
               <span className="sr-only">Back to top</span>
@@ -735,11 +744,11 @@ const Lending = () => {
             <div>
               <div className="flex items-center gap-4 justify-center lg:justify-start">
                 <img
-                  className="p-2  w-11 h-11  bg-blue-600 rounded-full flex justify-center items-end"
+                  className="p-2  w-11 h-11  bg-darkBlue rounded-full flex justify-center items-end"
                   src={LogoAmana}
                   alt="Rounded avatar"
                 />
-                <span className="text-blue-500 text-2xl font-nunito-sans font-semibold">
+                <span className="text-darkBlue text-2xl font-nunito-sans font-semibold">
                   Amanah
                 </span>
               </div>
