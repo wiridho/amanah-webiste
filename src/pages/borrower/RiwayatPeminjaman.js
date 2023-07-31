@@ -4,7 +4,6 @@ import { FormatMataUang } from "../../utils/FormatMataUang";
 import moment from "moment";
 import CardPinjamanBerjalan from "../../components/organism/cardPinjamanBerjalan/CardPinjamanBerjalan";
 import ErrorImg from "../../assets/img/error/error.png";
-import { checkStatusLoan } from "../../utils/Borrower/Borrower";
 
 const RiwayatPeminjaman = () => {
   const { loanHistory } = useSelector((state) => state.borrower);
@@ -12,45 +11,6 @@ const RiwayatPeminjaman = () => {
   const activeLoan = loanHistory?.active;
   const historyLoan = loanHistory?.history;
   let progress = (activeLoan?.totalFund / activeLoan?.amount) * 100;
-
-  // const statusLoanAcitve = (params) => {
-  //   let status = "";
-  //   const statusWaiting = ["on request", "on process"];
-  //   const statusSelesai = ["Repayment", "late repayment"];
-
-  //   if (statusWaiting.includes(params)) {
-  //     status = (
-  //       <span className="text-yellow-400 bg-yellow-50 px-2 rounded">
-  //         Menunggu Pendanaan
-  //       </span>
-  //     );
-  //   }
-  //   if (params === "disbursement") {
-  //     status = (
-  //       <span className="text-indigo-400 bg-indigo-50 px-2 rounded">
-  //         Sudah Dicairkan
-  //       </span>
-  //     );
-  //   }
-  //   if (params === "in borrowing") {
-  //     status = (
-  //       <span className="text-indigo-400 bg-indigo-50 px-2 rounded">
-  //         Pinjaman Terkumpul
-  //       </span>
-  //     );
-  //   }
-  //   if (statusSelesai.includes(params)) {
-  //     status = (
-  //       <span className="text-green-400 bg-green-50 px-2 rounded">
-  //         Pinjaman Sudah Lunas
-  //       </span>
-  //     );
-  //   }
-
-  //   return status;
-  // };
-
-  console.log(activeLoan);
 
   return (
     <div className="font-nunito-sans">
@@ -149,7 +109,7 @@ const RiwayatPeminjaman = () => {
                             {FormatMataUang(item?.amount)}
                           </td>
                           <td className="px-6 py-2.5  text-gray-900 whitespace-nowrap ">
-                            {item?.yieldReturn}
+                            {FormatMataUang(item?.yieldReturn)}
                           </td>
                           <td className="px-6 py-2.5  text-gray-900 whitespace-nowrap ">
                             {item?.tenor}

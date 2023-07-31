@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { HiOutlineSearch } from "react-icons/hi";
 import DataTable from "react-data-table-component";
 import _ from "lodash";
+import { FormatMataUang } from "../../utils/FormatMataUang";
 
 const ListAutoLending = () => {
   const [data, setData] = useState([]);
@@ -47,7 +48,7 @@ const ListAutoLending = () => {
     },
     {
       name: "Nominal Pendanaan",
-      selector: (row) => row?.amountToLend,
+      selector: (row) => FormatMataUang(row?.amountToLend),
       sortable: true,
       width: "15%",
     },

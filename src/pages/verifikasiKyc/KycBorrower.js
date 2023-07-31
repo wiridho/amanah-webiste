@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { setMessage } from "../../store/reducer/AuthReducer";
 import InputCurrency from "../../components/molekul/InputCurrency/InputCurrency";
+import { digitKTP, validate16Digits } from "../../utils/Borrower/Borrower";
 
 const KycBorrower = () => {
   const [imageUrlSelfie, setImageUrlSelfie] = useState(false);
@@ -100,7 +101,6 @@ const KycBorrower = () => {
     );
     formData.append("idCardImage", gambarKTP);
     formData.append("faceImage", gambarSelfie);
-
     dispatch(
       verificationBorrowerKYC({
         accessToken,
@@ -131,8 +131,6 @@ const KycBorrower = () => {
     { value: "Own", label: "Own" },
   ];
 
-  console.log(errors);
-
   return (
     <div className="font-nunito-sans">
       <div className="">
@@ -156,6 +154,7 @@ const KycBorrower = () => {
                   register={{
                     ...register("idCardNumber", {
                       required: true,
+                      validate: digitKTP,
                     }),
                   }}
                   errors={errors.idCardNumber}

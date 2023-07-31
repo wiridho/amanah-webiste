@@ -127,7 +127,9 @@ const TransaksiPendanaan = ({ totalPinjaman, totalImbalHasil, setModal }) => {
             <div className="flex justify-between">
               <span>Estimasi total dana kembali</span>
               <span>
-                {FormatMataUang(parseInt(balance) + parseInt(totalImbalHasil))}
+                {FormatMataUang(
+                  parseInt(totalPinjaman) + parseInt(totalImbalHasil)
+                )}
               </span>
             </div>
           </div>

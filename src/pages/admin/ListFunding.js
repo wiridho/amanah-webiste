@@ -5,6 +5,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import { getAllFunding } from "../../service/admin/adminService";
 import { useEffect } from "react";
+import { FormatMataUang } from "../../utils/FormatMataUang";
 
 const ListFunding = () => {
   const [data, setData] = useState([]);
@@ -43,13 +44,13 @@ const ListFunding = () => {
     },
     {
       name: "Pendanaan",
-      selector: (row) => row?.amount,
+      selector: (row) => FormatMataUang(row?.amount),
       sortable: true,
       width: "10%",
     },
     {
       name: "Imbal hasil",
-      selector: (row) => row?.yield,
+      selector: (row) => FormatMataUang(row?.yield),
       width: "15%",
     },
   ];

@@ -112,3 +112,8 @@ export const sisaPembayaran = (collection) => {
   }
   return sisa;
 };
+
+export const digitKTP = (value) => {
+  const regex = /^\d{16}$/;
+  return regex.test(value) || "Please enter a valid 16-digit number";
+};
