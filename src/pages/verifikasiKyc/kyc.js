@@ -28,6 +28,7 @@ import {
 import CamImg from "../../assets/img/people/cam.png";
 import KTPimg from "../../assets/img/ktp/KTP.png";
 import InputCurrency from "../../components/molekul/InputCurrency/InputCurrency";
+import { digitKTP, validate16Digits } from "../../utils/Borrower/Borrower";
 
 const Kyc = () => {
   const [visible, setVisible] = useState(false);
@@ -147,12 +148,16 @@ const Kyc = () => {
                   register={{
                     ...register("idCardNumber", {
                       required: true,
+                      validate: {
+                        digitKTP,
+                      },
                     }),
                   }}
                   errors={errors.idCardNumber}
                 >
                   No.KTP
                 </InputLabel>
+                {console.log(errors)}
               </div>
               <div className="col-span-2">
                 <InputLabel
@@ -231,18 +236,6 @@ const Kyc = () => {
                 </InputLabel>
               </div>
               <div className="col-span-2">
-                {/* <InputLabel
-              type={"number"}
-              name={"Pendapatan"}
-              register={{
-                ...register("salary", {
-                  required: true,
-                }),
-              }}
-              errors={errors.salary}
-            >
-              Pendapatan
-            </InputLabel> */}
                 <InputCurrency
                   name={"salary"}
                   control={control}

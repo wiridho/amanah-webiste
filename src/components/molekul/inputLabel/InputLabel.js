@@ -37,6 +37,10 @@ const InputLabel = ({
       {errors?.type === "pattern" && (
         <span className="text-xs text-red-500 block">{errors.message}</span>
       )}
+
+      {errors?.type === "digitKTP" && (
+        <span className="text-xs text-red-500 block">KTP Wajib 16 digit</span>
+      )}
     </div>
   );
 };

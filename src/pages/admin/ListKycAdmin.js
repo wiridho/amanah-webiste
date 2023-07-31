@@ -20,6 +20,8 @@ import { Button } from "../../components/atom";
 import { useForm } from "react-hook-form";
 import { AiOutlineStop } from "react-icons/ai";
 import { InputLabel } from "../../components/molekul";
+import { FormatMataUang } from "../../utils/FormatMataUang";
+import InputCurrency from "../../components/molekul/InputCurrency/InputCurrency";
 
 const ListKycAdmin = () => {
   const [data, setData] = useState([]);
@@ -71,7 +73,7 @@ const ListKycAdmin = () => {
     },
     {
       name: "Salary",
-      selector: (row) => row?.work?.salary,
+      selector: (row) => FormatMataUang(row?.work?.salary),
     },
     {
       name: "Action",
@@ -123,6 +125,7 @@ const ListKycAdmin = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -130,11 +133,14 @@ const ListKycAdmin = () => {
 
   const onSubmitReject = (data) => {
     data["userId"] = dataSelected?.userId;
-    data["status"] = "reject";
+    data["status"] = "rejected";
     data["loanLimit"] = 0;
     const response = postKycRequest({ data, accessToken });
   };
   const onSubmitAccept = (data) => {
+    if (dataSelected?.roles === "lender") {
+      data["loanLimit"] = "0";
+    }
     data["userId"] = dataSelected?.userId;
     data["status"] = "approved";
 
@@ -192,20 +198,38 @@ const ListKycAdmin = () => {
                 <div className="flex flex-col">
                   <div className="">
                     <form onSubmit={handleSubmit(onSubmitAccept)}>
-                      <InputLabel
-                        placeholder={"Masukkan Loan Limit"}
-                        type={"number"}
-                        name={"message"}
-                        register={{
-                          ...register("loanLimit", {
-                            required: true,
-                          }),
-                        }}
-                        errors={errors.loanLimit}
-                      >
-                        Limit Loan
-                      </InputLabel>
-                      <button className="mt-2 px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded-md">
+                      {dataSelected?.roles === "borrower" ? (
+                        <InputCurrency
+                          name={"loanLimit"}
+                          control={control}
+                          placeholder={"Rp1.000.000"}
+                          rules={{
+                            required: "Pendapatan Perbulan wajib diisi",
+                          }}
+                          errors={errors}
+                        >
+                          Limit Pinjaman
+                        </InputCurrency>
+                      ) : (
+                        // <InputLabel
+                        //   placeholder={"Masukkan Loan Limit"}
+                        //   type={"number"}
+                        //   name={"message"}
+                        //   register={{
+                        //     ...register("loanLimit", {
+                        //       required: true,
+                        //     }),
+                        //   }}
+                        //   errors={errors.loanLimit}
+                        // >
+                        //   Limit Loan Pinjaman
+                        // </InputLabel>
+                        <span className="flex justify-center">
+                          Apakah anda yakin ingin menerima verifikasi kyc ini?
+                        </span>
+                      )}
+
+                      <button className="mt-12 px-4 py-2 w-full bg-blue-500 hover:bg-blue-700 text-white rounded-md">
                         Submit
                       </button>
                     </form>

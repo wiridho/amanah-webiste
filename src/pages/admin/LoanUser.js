@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { getAllLoan } from "../../service/admin/adminService";
 import { HiOutlineSearch } from "react-icons/hi";
 import DataTable from "react-data-table-component";
+import { FormatMataUang } from "../../utils/FormatMataUang";
 
 const LoanUser = () => {
   const [data, setData] = useState([]);
@@ -22,7 +23,7 @@ const LoanUser = () => {
     },
     {
       name: "Nominal Pinjaman",
-      selector: (row) => row?.amount,
+      selector: (row) => FormatMataUang(row?.amount),
       sortable: true,
       width: "15%",
     },
@@ -40,7 +41,7 @@ const LoanUser = () => {
     },
     {
       name: "Imbal Hasil",
-      selector: (row) => row?.yieldReturn,
+      selector: (row) => FormatMataUang(row?.yieldReturn),
       sortable: true,
       width: "10%",
     },
@@ -51,7 +52,7 @@ const LoanUser = () => {
     },
     {
       name: "Total Funding",
-      selector: (row) => row?.totalFunding,
+      selector: (row) => FormatMataUang(row?.totalFunding),
       width: "10%",
     },
     {
