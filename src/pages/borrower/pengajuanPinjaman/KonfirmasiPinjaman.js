@@ -20,13 +20,9 @@ const KonfirmasiPinjaman = () => {
   } = state;
 
   const onClick = () => {
-    dispatch(
-      postBorrowersLoan({
-        accessToken,
-        data: state,
-        navigate: () => navigate("/borrower"),
-      })
-    );
+    navigate("/borrower/preview-kontrak", {
+      state: state,
+    });
   };
 
   return (
@@ -69,7 +65,7 @@ const KonfirmasiPinjaman = () => {
                 className={`px-4 py-2 bg-blue-500 hover:bg-blue-700 w-full text-white
               `}
               >
-                Ajukan Pinjaman
+                Konfirmasi Pinjaman
               </Button>
             </div>
           </div>

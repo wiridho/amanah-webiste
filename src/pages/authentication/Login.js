@@ -39,7 +39,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="h-screen grid grid-cols-1 sm:grid-cols-2 overflow-hidden">
+      <div className="h-screen grid grid-cols-1 sm:grid-cols-2 overflow-hidden font-nunito-sans">
         {/* Left Wrapper */}
         <div className="hidden bg-primary md:flex sm:block items-center relative">
           <div className="absolute bg-blue-600 opacity-100 h-screen w-full z-20 "></div>

@@ -64,7 +64,7 @@ const authSlice = createSlice({
         state.load = true;
       })
       .addCase(resendRegisterVerify.fulfilled, (state) => {
-        state.load = true;
+        state.load = false;
         state.error = false;
       })
       .addCase(resendRegisterVerify.rejected, (state) => {

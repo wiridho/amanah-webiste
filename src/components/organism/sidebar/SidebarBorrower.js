@@ -23,10 +23,13 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { statusKYC } = useSelector((state) => state.auth);
+  const location = useLocation();
 
   const logout = () => {
     Swal.fire({
-      title: "Apakah anda ingin keluar?",
+      title: "Logout",
+      icon: "warning",
+      text: "Apakah anda ingin keluar?",
       showCancelButton: true,
       cancelButtonText: "Tidak",
       confirmButtonText: "Ya, Keluar",
@@ -40,8 +43,6 @@ const Sidebar = () => {
       }
     });
   };
-
-  const location = useLocation();
 
   useEffect(() => {
     dispatch(setMessage(null));
@@ -117,21 +118,21 @@ const Sidebar = () => {
                 Profile
               </CustomLink>
             </li>
-            <li>
-              <div className=" bg-red-50  hover:bg-red-100 hover:text-red-50">
-                <ButtonIcon
-                  type={"button"}
-                  className={
-                    "rounded-none flex items-center text-red-700 font-medium  w-full "
-                  }
-                  onClick={logout}
-                >
-                  <BiLogOut className="text-xl" />
-                  Logout
-                </ButtonIcon>
-              </div>
-            </li>
           </ul>
+          <div>
+            <div className="bg-red-50  hover:bg-red-100 hover:text-red-50">
+              <ButtonIcon
+                type={"button"}
+                className={
+                  "rounded-none flex items-center text-red-700 w-full "
+                }
+                onClick={logout}
+              >
+                <BiLogOut className="text-xl" />
+                Logout
+              </ButtonIcon>
+            </div>
+          </div>
         </div>
       </aside>
     </div>

@@ -22,17 +22,17 @@ const RegisterVerifySucess = () => {
 
   return (
     <>
-      <div className="container mx-auto ">
+      <div className="container mx-auto font-nunito-sans ">
         <div className="flex justify-center items-center h-screen">
           <div className="max-w-[35rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
             {/* Grid */}
             {/* Card */}
-            <div className="group flex flex-col h-full bg-white border border-gray-200 shadow-sm rounded-xl ">
+            <div className="group flex flex-col h-full bg-white border border-gray-200 shadow-md rounded-xl ">
               <div className="h-52 flex flex-col justify-center items-center bg-green-400 rounded-t-xl">
                 <BsFillCheckCircleFill size={100} className="text-white" />
               </div>
               <div className="flex flex-col gap-5 p-6">
-                <h3 className="text-xl font-semibold text-gray-800">
+                <h3 className="text-xl font-bold text-gray-800">
                   Registrasi Berhasil
                 </h3>
                 <p className=" text-gray-500 ">

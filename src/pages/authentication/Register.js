@@ -38,15 +38,15 @@ const Register = () => {
 
   return (
     <>
-      <div className="h-screen grid grid-cols-1 sm:grid-cols-2 font-inter">
+      <div className="h-screen grid grid-cols-1 sm:grid-cols-2 font-nunito-sans">
         {/* Background */}
         {/* {/* Left Wrapper */}
         <div className="hidden md:flex sm:block items-center relative">
-          <div className="absolute bg-blue-600 opacity-100 h-screen w-full z-20 "></div>
+          <div className="absolute bg-blue-600 opacity-100 h-full w-full z-20 "></div>
           <span className="px-16 leading-[70px] text-white text-5xl z-50">
             Berkah Finansial melalui{" "}
-            <span className="font-bold font-inter"> P2P Lending Syariah</span>{" "}
-            Investasi yang Menginspirasi.
+            <span className="font-bold"> P2P Lending Syariah</span> Investasi
+            yang Menginspirasi.
           </span>
         </div>
         {/* Form */}
@@ -62,9 +62,12 @@ const Register = () => {
             className="max-w-[400px] w-full mx-auto bg-gray-50 p-6 px-8 shadow-md rounded-md "
             onSubmit={handleSubmit(onSubmit)}
           >
-            <div>
-              <p className="font-sans text-2xl font-medium pb-3 text-slate-900 ">
-                Daftar sebagai {roles}
+            <div className="my-4">
+              <p className="text-xl font-sans font-semibold pb-2  text-center">
+                Registrasi sebagai {roles}
+              </p>
+              <p className="text-sm text-gray-400 text-center">
+                Silahkan lengkapi data diri kamu
               </p>
             </div>
             <div>
@@ -114,14 +117,14 @@ const Register = () => {
                   placeholder={"628123456789"}
                   type={"number"}
                   name={"Nomor telepon"}
-                  defaultValue={"62"}
+                  defaultValue={"628"}
                   register={{
                     ...register("phoneNumber", {
                       required: true,
                       pattern: {
-                        value: /^(?:\+62|62)[1-9][0-9]{8,11}$/,
+                        value: /^(?:\+628|628)[1-9][0-9]{8,11}$/,
                         message:
-                          "Nomor Handphone harus berformat 62 dan memiliki 9-13 digit",
+                          "Nomor Handphone harus berformat 628 dan memiliki 9-13 digit",
                       },
                     }),
                   }}

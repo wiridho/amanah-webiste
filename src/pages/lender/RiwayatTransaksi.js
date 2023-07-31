@@ -68,7 +68,7 @@ const RiwayatTransaksi = () => {
       <div>
         {load ? (
           <div className="h-screen flex justify-center items-center gap-4">
-            <Loading className={" text-blue-600 w-8 h-8"} />
+            <Loading className={" text-blue-600 w-6 h-6"} />
             <span className="font-semibold">Loading</span>
           </div>
         ) : (

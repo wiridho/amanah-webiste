@@ -6,21 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMessage } from "../../store/reducer/Borrower/BorrowerReducer";
 import PdfKontrakPinjaman from "../../components/organism/pdfKontrakPinjaman/PdfKontrakPinjaman";
 import { getProfileBorrower } from "../../service/Borrower/profile";
+import { postBorrowersLoan } from "../../service/Borrower/borrower";
 
 const PreviewKontrakPeminjaman = () => {
   const { state } = useLocation();
   const { accessToken } = useSelector((state) => state.auth);
   const { success, message } = useSelector((state) => state.borrower);
   const { profile } = useSelector((state) => state.borrower);
-
-  const {
-    amount,
-    borrowingCategory,
-    paymentSchema,
-    purpose,
-    tenor,
-    yieldReturn,
-  } = state;
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,10 +22,16 @@ const PreviewKontrakPeminjaman = () => {
   }, []);
 
   const handleOnClick = () => {
-    navigate("/borrower/konfirmasi-pinjaman", {
-      state: state,
-    });
+    dispatch(
+      postBorrowersLoan({
+        accessToken,
+        data: state,
+        navigate: () => navigate("/borrower"),
+      })
+    );
   };
+
+  console.log(success);
 
   const handleCancel = () => {
     navigate("/borrower/pengajuan-pinjaman");
@@ -55,7 +53,7 @@ const PreviewKontrakPeminjaman = () => {
           className={`w-1/5 mt-3 px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white
       `}
         >
-          Konfirmasi Pinjaman
+          Ajukan Pinjaman
         </Button>
         <Button
           onClick={handleCancel}

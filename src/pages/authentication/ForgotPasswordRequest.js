@@ -60,10 +60,13 @@ const ForgotPasswordRequest = () => {
 
           {/* Form */}
           <div className="max-w-[400px] w-full mx-auto bg-zinc-50 p-4 sm:p-6 sm:px-8 shadow-md rounded-md">
-            <div>
-              <h1 className="text-xl font-sans font-semibold pb-4">
+            <div className="mb-4">
+              <h1 className="text-xl font-sans font-semibold ">
                 Lupa Password
               </h1>
+              <span className="text-gray-500 text-sm">
+                Silahkan masukkan email yang terdaftar
+              </span>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Message
@@ -75,7 +78,6 @@ const ForgotPasswordRequest = () => {
                 }}
               />
               <div>
-                <span>Silahkan masukkan email yang terdaftar</span>
                 <InputLabel
                   placeholder={"name@example.com"}
                   type={"text"}
@@ -106,13 +108,13 @@ const ForgotPasswordRequest = () => {
               <div className="flex justify-between text-primary mt-1">
                 <div className="flex items-center">
                   <p className="pr-1 text-xs text-right text-gray-500">
-                    Belum punya akun?
+                    Sudah punya akun?
                   </p>
                   <Link
                     className="text-xs text-blue-600 font-semibold  hover:text-blue-700"
-                    to="/register-init"
+                    to="/login"
                   >
-                    Daftar Disini!
+                    Login
                   </Link>
                 </div>
               </div>

@@ -17,11 +17,13 @@ const CardPortofolio = ({
   contract,
 }) => {
   const navigate = useNavigate();
+  const dataContract = { contract };
+
   return (
     <div className="bg-white shadow-md rounded-md border border-gray-100  p-4 sm:p-6 lg:p-6 relative block overflow-hidden ">
       <div
         onClick={() =>
-          navigate(`/funder/pendanaan/${loanId}`, { state: contract })
+          navigate(`/funder/pendanaan/${loanId}`, { state: dataContract })
         }
         className=" cursor-pointer"
       >
