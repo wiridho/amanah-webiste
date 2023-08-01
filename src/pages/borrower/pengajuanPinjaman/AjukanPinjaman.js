@@ -141,9 +141,15 @@ const AjukanPinjaman = () => {
         <div className="p-8">
           {loanHistory?.active?.loanId === undefined ? (
             <div>
-              <span className="text-lg mb-2 text-center font-semibold">
-                Ajukan Pinjaman
-              </span>
+              <div className="flex flex-col mb-5 ">
+                <span className="text-xl mb-3 text-center font-semibold">
+                  Pengajuan Pinjaman
+                </span>
+                <span className="text-gray-500 text-sm">
+                  Mohon mengisi lengkap formulir pegajuan pinjaman ini dibawah
+                  untuk mengajukan pinjaman
+                </span>
+              </div>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid grid-cols-6 gap-2">
                   <div className="col-span-6">

@@ -349,7 +349,12 @@ const Pendanaan = () => {
 
         {/* Card Pendanaan */}
         {load ? (
-          <Loading className={"w-4 h-4 text-blue-500"} />
+          <span className="h-screen flex justify-center items-center">
+            <div className="flex items-center gap-3">
+              <Loading className={"w-5 h-5 text-blue-500"} />
+              <span className="text-base">Loading</span>
+            </div>
+          </span>
         ) : (
           <>
             {loanList?.length > 0 ? (
