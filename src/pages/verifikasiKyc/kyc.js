@@ -115,15 +115,17 @@ const Kyc = () => {
     return isFormFilled && isStateFilled;
   };
   return (
-    <div className="bg-white px-4 py-2 font-nunito-sans">
+    <div className=" px-4 py-2 font-nunito-sans">
       {load ? (
-        <span>
-          <Loading className={"w-4 h-4 text-blue-500"} />
-          Loading
-        </span>
+        <div className="h-screen flex justify-center items-center">
+          <span className="flex gap-3 items-center">
+            <Loading className={"w-6 h-6 text-blue-500"} />
+            <span className="text-md">Loading</span>
+          </span>
+        </div>
       ) : (
         <>
-          <div className="my-2">
+          <div className="my-2 ">
             {response && (
               <ErrorMessage
                 message={response}

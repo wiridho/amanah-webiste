@@ -29,7 +29,7 @@ const LoanUser = () => {
     },
     {
       name: "Tenor",
-      selector: (row) => row?.tenor,
+      selector: (row) => `${row?.tenor} Bulan`,
       sortable: true,
       width: "10%",
     },
