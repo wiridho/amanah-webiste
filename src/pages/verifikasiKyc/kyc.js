@@ -28,7 +28,7 @@ import {
 import CamImg from "../../assets/img/people/cam.png";
 import KTPimg from "../../assets/img/ktp/KTP.png";
 import InputCurrency from "../../components/molekul/InputCurrency/InputCurrency";
-import { digitKTP, validate16Digits } from "../../utils/Borrower/Borrower";
+import { digitKTP } from "../../utils/Borrower/Borrower";
 
 const Kyc = () => {
   const [visible, setVisible] = useState(false);
