@@ -19,3 +19,9 @@ export const opsiKategori = [
   { value: "Kesehatan", label: "Kesehatan" },
   { value: "Kendaraan", label: "Kendaraan" },
 ];
+
+export const ownerShipType = [
+  { value: "Mortgage", label: "Rumah Kredit" },
+  { value: "Rent", label: "Rumah Kontrak" },
+  { value: "Own", label: "Rumah Pribadi" },
+];
