@@ -16,6 +16,7 @@ import Webcam from "./Webcam";
 import {
   BsCheckCircleFill,
   BsFillPersonVcardFill,
+  BsInfoCircle,
   BsPerson,
 } from "react-icons/bs";
 import { verificationBorrowerKYC } from "../../service/Borrower/borrowerVerificationKYC";
@@ -25,6 +26,7 @@ import { useEffect } from "react";
 import { setMessage } from "../../store/reducer/AuthReducer";
 import InputCurrency from "../../components/molekul/InputCurrency/InputCurrency";
 import { digitKTP, validate16Digits } from "../../utils/Borrower/Borrower";
+import { ownerShipType } from "../../utils/optionValues";
 
 const KycBorrower = () => {
   const [imageUrlSelfie, setImageUrlSelfie] = useState(false);
@@ -59,7 +61,7 @@ const KycBorrower = () => {
     { value: "ayah kandung", label: "Ayah Kandung" },
     { value: "kakak kandung", label: "Kakak Kandung" },
     { value: "sahabat", label: "Sahabat" },
-    { value: "other", label: "other" },
+    { value: "other", label: "Lainnya" },
   ];
 
   const onSubmit = (data) => {
@@ -125,11 +127,11 @@ const KycBorrower = () => {
     return isFormFilled && isStateFilled;
   };
 
-  const ownerShipType = [
-    { value: "Mortgage", label: "Mortgage" },
-    { value: "Rent", label: "Rent" },
-    { value: "Own", label: "Own" },
-  ];
+  // const ownerShipType = [
+  //   { value: "Mortgage", label: "Mortgage" },
+  //   { value: "Rent", label: "Rent" },
+  //   { value: "Own", label: "Own" },
+  // ];
 
   return (
     <div className="font-nunito-sans">
@@ -265,14 +267,20 @@ const KycBorrower = () => {
                 <InputCurrency
                   name={"annualIncome"}
                   control={control}
-                  placeholder={"Pendapatan Pertahun"}
+                  placeholder={"Masukkan Pendapatan Tahunan"}
                   rules={{
-                    required: "Pendapatan Pertahun wajib diisi",
+                    required: "Pendapatan Tahunan wajib diisi",
                   }}
                   errors={errors}
                 >
-                  Pendapat Pertahun
+                  Pendapat Tahunan
                 </InputCurrency>
+                <div className="flex items-center gap-2 mt-2">
+                  <BsInfoCircle className="text-sm text-cyan-900" />
+                  <p className="text-sm text-cyan-900">
+                    Total pendapatan anda dalam setahun
+                  </p>
+                </div>
               </div>
               <div className="col-span-2">
                 <InputCurrency
@@ -280,12 +288,18 @@ const KycBorrower = () => {
                   control={control}
                   placeholder={"Masukkan Total Hutang Bulanan"}
                   rules={{
-                    required: "Perdapatan Pertahun wajib diisi",
+                    required: "Perdapatan Bulanan wajib diisi",
                   }}
                   errors={errors}
                 >
                   Total Hutang Bulanan
                 </InputCurrency>
+                <div className="flex items-center gap-2 mt-2">
+                  <BsInfoCircle className="text-sm text-cyan-900" />
+                  <p className="text-sm text-cyan-900">
+                    Total hutang diluar aplikasi Amanah
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -295,7 +309,6 @@ const KycBorrower = () => {
             </h2>
             <div>
               <h1 className="text-gray-600 text-sm font-medium">
-                {" "}
                 Kerabat Pertama
               </h1>
               <div className="grid grid-cols-6 gap-5">
